@@ -9,18 +9,18 @@ services:
     networks:
       - php_app
 
-  mysql:
-    image: mysql:8.4
-    container_name: mysql
+  mariadb:
+    image: mariadb:11
+    container_name: mariadb
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "${DB_PORT}:3306"  # ports expose database - remove in production
+      - "${DB_PORT}:3306" # remove in production
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./mariadb:/var/lib/mysql
     networks:
       - php_app
 
@@ -28,13 +28,13 @@ services:
     image: phpmyadmin:latest
     container_name: phpmyadmin
     environment:
-      PMA_HOST: mysql
+      PMA_HOST: mariadb
       PMA_PORT: 3306
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     ports:
       - "8080:80"
     depends_on:
-      - mysql
+      - mariadb
     networks:
       - php_app
 
