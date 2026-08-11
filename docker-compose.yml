@@ -1,6 +1,8 @@
 services:
   php:
-    image: php:8.3-apache
+    build:
+      context: .
+      dockerfile: dockerfile
     container_name: php
     ports:
       - "80:80"
