@@ -4,6 +4,8 @@ services:
       context: .
       dockerfile: dockerfile
     container_name: php
+    env_file:
+      - .env
     ports:
       - "80:80"
     volumes:
@@ -15,12 +17,12 @@ services:
     image: mariadb:11
     container_name: mariadb
     environment:
+      MARIADB_DATABASE: library
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MARIADB_DATABASE: ${DB_DATABASE}
       MARIADB_USER: ${DB_USER}
       MARIADB_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "${DB_PORT}:3306" # remove in production
+      - "${DB_PORT}:3306"
     volumes:
       - ./mariadb:/var/lib/mysql
     networks:
