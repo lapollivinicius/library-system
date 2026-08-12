@@ -1,25 +1,33 @@
-<?php 
+<?php
+
+    namespace models\admin;
+
+    use PDO;
 
     class Admin {
 
-        protected $username = NULL;
-        protected $password = NULL;
-        protected $last_login = '';
+        protected PDO $database;
 
-        public function __construct($username, $password) {
-            $this->username = $username;
-            $this->password = $password;
+        public function __construct(PDO $database){
+            $this->database = $database;
         }
 
-        public function get() {
-            return Array('username' => $this->username, 'password' => $this->password, 'last_login' => $this->last_login);
+        public function getUser($username) {
+
+            $query = '
+                SELECT *
+                FROM admin
+                WHERE username = :username
+            ';
+
+            $statement = $this->database->prepare($query);
+
+            $statement->execute([
+                'username' => $username
+            ]);
+
+            return $statement->fetch(PDO::FETCH_ASSOC);
         }
-
-    };
-
-    $a = new Admin('JOHN', '123');
-    echo '<pre>';
-    print_r($a->get());
-    echo '</pre>';
+    }
 
 ?>
