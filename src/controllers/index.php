@@ -11,12 +11,20 @@
         }
 
         public function home() { 
-            $this->view->data = "hello";
+            $this->view->data = 'hello';
             $this->render('home');
         }
 
         public function dashboard() {
             $this->render('dashboard');
+        }
+
+        public function login() {
+            $this->render('login');
+        }
+
+        public function register() {
+            $this->render('register');
         }
 
         public function render($view, $layout = 'layout') {
