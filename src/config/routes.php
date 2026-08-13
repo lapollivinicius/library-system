@@ -2,7 +2,7 @@
 
     namespace config;
 
-    class Routes {
+    class routes {
 
         private $routes;
 
@@ -26,10 +26,17 @@
                 'controller' => 'index',
                 'action' => 'home'
             );
+
             $routes['dashboard'] = Array(
                 'route' => '/dashboard',
                 'controller' => 'index',
                 'action' => 'dashboard'
+            );
+
+            $routes['register'] = Array(
+                'route' => '/register',
+                'controller' => 'auth',
+                'action' => 'register'
             );
 
             $this->setRoutes($routes);
@@ -40,7 +47,6 @@
         }
 
         public function run($path) {
-
             foreach($this->getRoutes() as $key => $route) {
                 if($route['route'] === $path) {
                     require_once __DIR__ . '/../controllers/' . $route['controller'] . '.php';
@@ -51,7 +57,6 @@
                 }
             }
         }
-
 
     }
 

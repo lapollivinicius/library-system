@@ -11,6 +11,7 @@
         }
 
         public function home() { 
+            $this->view->data = "hello";
             $this->render('home');
         }
 
