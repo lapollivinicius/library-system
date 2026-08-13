@@ -3,13 +3,10 @@
     require_once '../config/database.php';
     require_once '../config/routes.php';
 
-    use config\database;
-    use config\routes;
-
     try {
-        $db = database::connect();
-        $setup = database::setup($db);
-        $routes = new routes();
+        $db = config\database::connect();
+        $setup = config\database::setup($db);
+        $routes = new config\routes();
     } catch(\Throwable $error) {
         echo $error->getMessage();
     }
