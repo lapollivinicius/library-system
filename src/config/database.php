@@ -17,19 +17,60 @@
 
     public static function setup(PDO $database) {
       $database->exec('
-        CREATE TABLE IF NOT EXISTS users (
-          id VARCHAR(36) PRIMARY KEY DEFAULT (UUID()),
-          name VARCHAR(64) NOT NULL,
-          username VARCHAR(64) UNIQUE NOT NULL,
-          password VARCHAR(64) NOT NULL,
-          role ENUM("admin", "user") NOT NULL DEFAULT "user",
-          email VARCHAR(64) UNIQUE NOT NULL,
-          phone VARCHAR(64) NOT NULL,
-          document VARCHAR(64) NOT NULL,
-          is_active BOOLEAN NOT NULL DEFAULT FALSE
-        );
-    ');
-    }
+          CREATE TABLE IF NOT EXISTS library (
+              library_id VARCHAR(36) PRIMARY KEY NOT NULL,
+              name VARCHAR(64) NOT NULL,
+              is_active BOOLEAN NOT NULL DEFAULT TRUE
+          );
+          CREATE TABLE IF NOT EXISTS users (
+              user_id VARCHAR(36) PRIMARY KEY NOT NULL,
+              library_id VARCHAR(36) NOT NULL,
+              name VARCHAR(64) NOT NULL,
+              email VARCHAR(64) NOT NULL,
+              password VARCHAR(255) NOT NULL,
+              is_active BOOLEAN NOT NULL DEFAULT TRUE,
 
+              UNIQUE (library_id, email),
+              FOREIGN KEY (library_id) REFERENCES library(library_id)
+          );
+          CREATE TABLE IF NOT EXISTS clients (
+              client_id VARCHAR(36) PRIMARY KEY NOT NULL,
+              library_id VARCHAR(36) NOT NULL,
+              name VARCHAR(64) NOT NULL,
+              email VARCHAR(64),
+              phone VARCHAR(64),
+              is_active BOOLEAN NOT NULL DEFAULT TRUE,
+
+              UNIQUE (library_id, email),
+              FOREIGN KEY (library_id) REFERENCES library(library_id)
+          );
+          CREATE TABLE IF NOT EXISTS books (
+              book_id VARCHAR(36) PRIMARY KEY NOT NULL,
+              library_id VARCHAR(36) NOT NULL,
+              title VARCHAR(64) NOT NULL,
+              author VARCHAR(64) NOT NULL,
+              isbn VARCHAR(64),
+              quantity INT NOT NULL DEFAULT 0,
+              is_active BOOLEAN NOT NULL DEFAULT TRUE,
+
+              UNIQUE (library_id, isbn),
+              FOREIGN KEY (library_id) REFERENCES library(library_id)
+          );
+          CREATE TABLE IF NOT EXISTS loans (
+              loan_id VARCHAR(36) PRIMARY KEY NOT NULL,
+              library_id VARCHAR(36) NOT NULL,
+              client_id VARCHAR(36) NOT NULL,
+              book_id VARCHAR(36) NOT NULL,
+
+              loaned_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              due_at DATETIME NOT NULL,
+              returned_at DATETIME NULL,
+
+              FOREIGN KEY (library_id) REFERENCES library(library_id),
+              FOREIGN KEY (client_id) REFERENCES clients(client_id),
+              FOREIGN KEY (book_id) REFERENCES books(book_id)
+          );
+      ') !== false;
+    }
   }
 ?>
