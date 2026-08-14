@@ -4,7 +4,7 @@ RUN docker-php-ext-install pdo_mysql
 
 RUN a2enmod rewrite
 
-WORKDIR /var/www/html.
+WORKDIR /var/www/html
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
