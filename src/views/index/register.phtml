@@ -1,11 +1,16 @@
 <h1>REGISTER</h1>
-<form class="form" action="/auth/register" method="POST">
-    <input class="input-control" type="text" name="name" placeholder="name">
-    <input class="input-control" type="text" name="username" placeholder="username">
-    <input class="input-control" type="password" name="password" placeholder="password">
-    <input class="input-control" type="email" name="email" placeholder="email">
-    <input class="input-control" type="text" name="phone" placeholder="phone">
+<form class="form-group" action="/auth/register" method="POST" style="width: 200px;">
+
+    <label for="name" class="form-label">Name</label>
+    <input class="form-control" type="text" name="name" placeholder="name">
+
+    <label for="email" class="form-label">Email</label>
+    <input class="form-control" type="email" name="email" placeholder="email">
+
+    <label for="password" class="form-label">Password</label>
+    <input class="form-control" type="password" name="password" placeholder="password">
+    
     <button class="btn btn-dark" type="submit">LOGIN</button>
 </form>
 
-<!-- :name, :username, :password, :email, :phone, :documen -->
+<!-- :name, :password, :email,  -->

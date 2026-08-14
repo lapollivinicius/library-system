@@ -80,8 +80,7 @@
         public function run($path) {
             foreach($this->getRoutes() as $key => $route) {
                 if($route['route'] === $path) {
-
-
+                  
                     # run route with path
                     require_once __DIR__ . '/../controllers/' . $route['controller'] . '.php';
                     $class = 'controllers\\' . $route['controller'];

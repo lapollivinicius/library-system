@@ -4,8 +4,14 @@
 
     class auth {
 
-        public function register() { 
-            echo 'register';
+        public function register() {
+            echo '<pre>'; 
+            print_r($_POST);
+            echo '</pre>'; 
+
+            # validator
+            # create library and save
+            # create user and save
         }
 
         public function login() { 
