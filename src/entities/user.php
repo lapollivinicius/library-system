@@ -5,7 +5,7 @@
     # '../config/utils.php'
     require_once '../../config/utils.php';
 
-    class users {
+    class user {
 
         private $user_id;
         private $library_id;
