@@ -25,15 +25,13 @@
             $routes['home'] = Array(
                 'route' => '/',
                 'controller' => 'index',
-                'action' => 'home',
-                'middleware' => ['auth'],
+                'action' => 'home'
             );
 
             $routes['dashboard'] = Array(
                 'route' => '/dashboard',
                 'controller' => 'index',
-                'action' => 'dashboard',
-                'middleware' => ['auth'],
+                'action' => 'dashboard'
             );
 
             $routes['login'] = Array(
@@ -52,22 +50,19 @@
             $routes['auth_register'] = Array(
                 'route' => '/auth/register',
                 'controller' => 'auth',
-                'action' => 'register',
-                'middleware' => ['crsf']
+                'action' => 'register'
             );
 
             $routes['auth_login'] = Array(
                 'route' => '/auth/login',
                 'controller' => 'auth',
-                'action' => 'login',
-                'middleware' => ['crsf']
+                'action' => 'login'
             );
 
             $routes['auth_logout'] = Array(
                 'route' => '/auth/logout',
                 'controller' => 'auth',
-                'action' => 'logout',
-                'middleware' => ['crsf']
+                'action' => 'logout'
             );
 
             $this->setRoutes($routes);

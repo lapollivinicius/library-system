@@ -2,39 +2,18 @@
 
 namespace config;
 
+session_start();
+
 class middleware {
 
-    public function run($middlewares) {
-        foreach ($middlewares as $middleware) {
-            switch ($middleware) {
-                case 'auth':
-                    $this->auth();
-                    break;
-                case 'guest':
-                    $this->guest();
-                    break;
-                case 'csrf':
-                    $this->csrf();
-                    break;
-            }
-        }
-    }
-
-    private function auth() {
+    public function auth() {
         if (empty($_SESSION['user_id']) && empty($_SESSION['role'])) {
             header('Location: /login');
             exit;
         }
     }
 
-    private function guest() {
-        if (!empty($_SESSION['user_id']) && !empty($_SESSION['role'])) {
-            header('Location: /');
-            exit;
-        }
-    }
-
-    private static function guest() {
+    public static function guest() {
         if (!empty($_SESSION['user_id'])) {
             header('Location: /');
             exit;
@@ -48,7 +27,7 @@ class middleware {
         return $_SESSION['csrf_token'];
     }
 
-    private static function csrf() {
+    public static function csrf() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             return;
         }
@@ -58,7 +37,6 @@ class middleware {
             empty($token) ||
             !hash_equals($_SESSION['csrf_token'], $token)
         ) {
-            http_response_code(403);
             exit('Invalid Token');
         }
     }
