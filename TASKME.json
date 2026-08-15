@@ -1,19 +1,19 @@
 {
-  "tasks": [
+  "tasks": [],
+  "history": [
     {
       "id": "5aad4c47",
       "content": "add login routes with auth controller and validatores",
       "time": 0,
-      "checked": false,
+      "checked": true,
       "createdAt": 1786589875725
     },
     {
       "id": "8eb76b6c",
       "content": "add login view with register option",
       "time": 0,
-      "checked": false,
+      "checked": true,
       "createdAt": 1786589890807
     }
-  ],
-  "history": []
+  ]
 }
