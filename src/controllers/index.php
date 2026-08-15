@@ -24,6 +24,8 @@
         }
 
         public function register() {
+            $csrf = \config\middleware::csrfToken();
+            $this->view->csrf_token = $csrf;
             $this->render('register');
         }
 

@@ -1,5 +1,6 @@
 <?php 
 
+    require_once '../config/middleware.php';
     require_once '../config/database.php';
     require_once '../config/routes.php';
 
