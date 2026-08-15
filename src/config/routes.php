@@ -2,9 +2,11 @@
 
     namespace config;
 
+use ArrayIterator;
+
     class routes {
 
-        private $routes;
+        private Array $routes;
 
         public function __construct() {
             $this->initRoutes();
@@ -72,7 +74,7 @@
             return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         }
 
-        public function run($path) {
+        public function run(string $path) {
             foreach($this->getRoutes() as $key => $route) {
                 if($route['route'] === $path) {
                   

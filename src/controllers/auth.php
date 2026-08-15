@@ -1,50 +1,86 @@
-<?php 
+<?php
 
-    namespace controllers;
+namespace controllers;
 
-    require_once '../validators/validators.php';
-    require_once '../validators/register.php';
-   
-    class auth {
+require_once '../validators/validators.php';
+require_once '../validators/auth.php';
+require_once '../config/utils.php';
+require_once '../config/database.php';
+require_once '../entities/user.php';
+require_once '../entities/library.php';
+require_once '../models/library.php';
+require_once '../models/user.php';
 
-        public function register() {
-            
-            \config\middleware::csrf();
+class auth
+{
+  public function register()
+  {
 
-            $data = $_POST;
+    \config\middleware::csrf();
 
-            $validate = new \validators\auth();
+    $data = $_POST;
 
-            $check = $validate->register($data);
-            
-            if(!$check) {
-              $_SESSION['data'] = $data;
-              $_SESSION['message'] = $validate->getError();
-              header('location: /register');
-              exit;
-            }
+    $validate = new \validators\auth();
 
-            # user and library UUID
-            $name = $data['name']; # to lower case
-            $email = $data['email']; # to lower case
-            $password = $data['password']; # hash to save
-            $library_name = $data['library_name']; # to lower case
-
-            echo '<pre>'; 
-            print_r($data);
-            echo '</pre>'; 
-
-            # validator (check)
-            # create library and save
-            # create user and save
-        }
-
-        public function login() { 
-            echo 'login';
-        }
-
-        public function logout() { 
-            echo 'logout';
-        }
+    if (!$validate->register($data)) {
+      $_SESSION['data'] = $data;
+      $_SESSION['message'] = $validate->getError();
+      header('location: /register');
+      exit;
     }
-?>
+
+    $library_id   = \config\utils::UUID();
+    $user_id      = \config\utils::UUID();
+    $library_name = strtolower($data['library_name']);
+    $name         = strtolower($data['name']);
+    $email        = strtolower($data['email']);
+    $password     = password_hash($data['password'], PASSWORD_DEFAULT);
+
+    $database     = \config\database::connect();
+    $libary_model = new \models\library($database);
+    $user_model   = new \models\user($database);
+
+    if ($user_model->read($email)) {
+      $_SESSION['message'] = 'email already registed';
+      header('location: /login');
+      exit;
+    }
+
+    $library = new \entities\library(
+      $library_id,
+      $library_name,
+      true
+    );
+
+    $user = new \entities\user(
+      $user_id,
+      $library_id,
+      $name,
+      $email,
+      $password,
+      true
+    );
+
+    try {
+      $libary_model->create($library);
+      $user_model->create($user);
+
+      header('location: /login');
+      exit;
+    } catch (\PDOException $error) {
+      $_SESSION['message'] = 'DATABASE ERROR - SORRY :(';
+      header('location: /register');
+      exit;
+    }
+  }
+
+  public function login()
+  {
+    echo 'login';
+  }
+
+  public function logout()
+  {
+    echo 'logout';
+  }
+}

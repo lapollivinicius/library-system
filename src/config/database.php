@@ -24,36 +24,33 @@
           );
           CREATE TABLE IF NOT EXISTS users (
               user_id VARCHAR(36) PRIMARY KEY NOT NULL,
-              library_id VARCHAR(36) NOT NULL,
+              library_id VARCHAR(36) UNIQUE NOT NULL,
               name VARCHAR(64) NOT NULL,
-              email VARCHAR(64) NOT NULL,
+              email VARCHAR(64) UNIQUE NOT NULL,
               password VARCHAR(255) NOT NULL,
               is_active BOOLEAN NOT NULL DEFAULT TRUE,
 
-              UNIQUE (library_id, email),
               FOREIGN KEY (library_id) REFERENCES library(library_id)
           );
           CREATE TABLE IF NOT EXISTS clients (
               client_id VARCHAR(36) PRIMARY KEY NOT NULL,
               library_id VARCHAR(36) NOT NULL,
               name VARCHAR(64) NOT NULL,
-              email VARCHAR(64),
-              phone VARCHAR(64),
+              email VARCHAR(64) UNIQUE NOT NULL,
+              phone VARCHAR(64) UNIQUE NOT NULL,
               is_active BOOLEAN NOT NULL DEFAULT TRUE,
 
-              UNIQUE (library_id, email),
               FOREIGN KEY (library_id) REFERENCES library(library_id)
           );
           CREATE TABLE IF NOT EXISTS books (
               book_id VARCHAR(36) PRIMARY KEY NOT NULL,
               library_id VARCHAR(36) NOT NULL,
-              title VARCHAR(64) NOT NULL,
+              title VARCHAR(64) UNIQUE NOT NULL,
               author VARCHAR(64) NOT NULL,
-              isbn VARCHAR(64),
+              isbn VARCHAR(64) UNIQUE NOT NULL,
               quantity INT NOT NULL DEFAULT 0,
               is_active BOOLEAN NOT NULL DEFAULT TRUE,
 
-              UNIQUE (library_id, isbn),
               FOREIGN KEY (library_id) REFERENCES library(library_id)
           );
           CREATE TABLE IF NOT EXISTS loans (

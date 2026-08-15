@@ -2,16 +2,17 @@
 
     namespace controllers;
 
+use ArrayIterator;
+
     class index {
 
-        protected $view;
-        
+        protected \stdClass $view;
+
         public function __construct() {
             $this->view = new \stdClass();
         }
 
         public function home() { 
-            $this->view->data = 'hello';
             $this->render('home');
         }
 
@@ -29,7 +30,7 @@
             $this->render('register');
         }
 
-        public function render($view, $layout = 'layout') {
+        public function render(string $view, string $layout = 'layout') {
             $this->view->page = $view;
             require_once '../views/' . $layout . '.phtml';
         }

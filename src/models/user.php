@@ -12,7 +12,7 @@
       $this->database = $database;
     }
 
-    public function create($user) {
+    public function create(\entities\user $user) {
 
       $user_id = $user->__get('user_id');
       $library_id = $user->__get('library_id');
