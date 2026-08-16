@@ -1,1 +1,37 @@
+<?php
+if (isset($_SESSION['data'])) {
+  $data = $_SESSION['data'];
+}
+?>
+
 <h1>LOGIN</h1>
+<form class="form-group" action="/auth/login" method="POST" style="width: 200px;">
+
+  <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($this->view->csrf_token) ?>">
+
+  <label for="email" class="form-label">Email</label>
+  <input class="form-control" type="email" name="email" placeholder="email" value=<?= $data['email'] ?? '' ?>>
+
+  <label for="password" class="form-label">Password</label>
+  <input class="form-control" type="text" name="password" placeholder="password" value=<?= $data['password'] ?? '' ?>>
+
+  <div class="form-check my-3">
+    <input class="form-check-input" type="checkbox" name="terms" id="terms" value="1" required>
+    <label class="form-check-label" for="terms">
+      Terms & Politics
+    </label>
+  </div>
+
+  <?php if (isset($_SESSION['message'])) { ?>
+    <div class="alert alert-danger" role="alert">
+      <?php echo $_SESSION['message']; ?>
+    </div>
+  <?php } ?>
+
+  <button class="btn btn-dark" type="submit">LOGIN</button>
+</form>
+
+<?php
+unset($_SESSION['data']);
+unset($_SESSION['message']);
+?>

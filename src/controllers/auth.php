@@ -76,7 +76,49 @@ class auth
 
   public function login()
   {
-    echo 'login';
+
+    \config\middleware::csrf();
+
+    $data = $_POST;
+
+    $validate = new \validators\auth();
+
+    if (!$validate->login($data)) {
+      $_SESSION['data'] = $data;
+      $_SESSION['message'] = $validate->getError();
+      header('location: /login');
+      exit;
+    };
+
+    $email    = strtolower($data['email']);
+    $password = $data['password'];
+
+    $database = \config\database::connect();
+
+    $user_model = new \models\user($database);
+
+    $user = $user_model->read($email);
+
+    if (!$user) {
+      $_SESSION['data'] = $data;
+      $_SESSION['message'] = 'email or password incorrect';
+      header('location: /login');
+      exit;
+    };
+
+    if (!password_verify($password, $user->__get('password'))) {
+      $_SESSION['data'] = $data;
+      $_SESSION['message'] = 'email or password incorrect';
+      header('location: /login');
+      exit;
+    };
+
+    $_SESSION['library_id'] = $user->__get('library_id');
+    $_SESSION['user_id'] = $user->__get('user_id');
+    $_SESSION['name'] = $user->__get('name');
+
+    header('location: /');
+    exit;
   }
 
   public function logout()

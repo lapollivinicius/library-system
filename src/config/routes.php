@@ -1,94 +1,97 @@
-<?php 
+<?php
 
-    namespace config;
+namespace config;
 
 use ArrayIterator;
 
-    class routes {
+class routes
+{
 
-        private Array $routes;
+  private array $routes;
 
-        public function __construct() {
-            $this->initRoutes();
-            $this->run($this->getPath());
-        }
+  public function __construct()
+  {
+    $this->initRoutes();
+    $this->run($this->getPath());
+  }
 
-        public function getRoutes() {
-            return $this->routes;
-        }
+  public function getRoutes()
+  {
+    return $this->routes;
+  }
 
-        public function setRoutes(Array $routes) {
-            return $this->routes = $routes;
-        }
+  public function setRoutes(array $routes)
+  {
+    return $this->routes = $routes;
+  }
 
-        public function initRoutes() {
+  public function initRoutes()
+  {
 
-            // views
-            $routes['home'] = Array(
-                'route' => '/',
-                'controller' => 'index',
-                'action' => 'home'
-            );
+    // views
+    $routes['home'] = array(
+      'route' => '/',
+      'controller' => 'index',
+      'action' => 'home'
+    );
 
-            $routes['dashboard'] = Array(
-                'route' => '/dashboard',
-                'controller' => 'index',
-                'action' => 'dashboard'
-            );
+    $routes['dashboard'] = array(
+      'route' => '/dashboard',
+      'controller' => 'index',
+      'action' => 'dashboard'
+    );
 
-            $routes['login'] = Array(
-                'route' => '/login',
-                'controller' => 'index',
-                'action' => 'login',
-            );
+    $routes['login'] = array(
+      'route' => '/login',
+      'controller' => 'index',
+      'action' => 'login',
+    );
 
-            $routes['register'] = Array(
-                'route' => '/register',
-                'controller' => 'index',
-                'action' => 'register'
-            );
+    $routes['register'] = array(
+      'route' => '/register',
+      'controller' => 'index',
+      'action' => 'register'
+    );
 
-            // auth
-            $routes['auth_register'] = Array(
-                'route' => '/auth/register',
-                'controller' => 'auth',
-                'action' => 'register'
-            );
+    // auth
+    $routes['auth_register'] = array(
+      'route' => '/auth/register',
+      'controller' => 'auth',
+      'action' => 'register'
+    );
 
-            $routes['auth_login'] = Array(
-                'route' => '/auth/login',
-                'controller' => 'auth',
-                'action' => 'login'
-            );
+    $routes['auth_login'] = array(
+      'route' => '/auth/login',
+      'controller' => 'auth',
+      'action' => 'login'
+    );
 
-            $routes['auth_logout'] = Array(
-                'route' => '/auth/logout',
-                'controller' => 'auth',
-                'action' => 'logout'
-            );
+    $routes['auth_logout'] = array(
+      'route' => '/auth/logout',
+      'controller' => 'auth',
+      'action' => 'logout'
+    );
 
-            $this->setRoutes($routes);
-        }
+    $this->setRoutes($routes);
+  }
 
-        public function getPath() {
-            return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        }
+  public function getPath()
+  {
+    return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+  }
 
-        public function run(string $path) {
-            foreach($this->getRoutes() as $key => $route) {
-                if($route['route'] === $path) {
-                  
-                    # run route with path
-                    require_once __DIR__ . '/../controllers/' . $route['controller'] . '.php';
-                    $class = 'controllers\\' . $route['controller'];
-                    $action = $route['action'];
-                    $controller = new $class();
-                    $controller->$action();
-                }
-            }
-        }
+  public function run(string $path)
+  {
+    foreach ($this->getRoutes() as $key => $route) {
+      if ($route['route'] === $path) {
 
+        # run route with path
+        require_once __DIR__ . '/../controllers/' . $route['controller'] . '.php';
+        $class = 'controllers\\' . $route['controller'];
+        $action = $route['action'];
+        $controller = new $class();
+        $controller->$action();
+      }
     }
-
-
-?>
+  }
+}
