@@ -12,7 +12,10 @@ class routes
   public function __construct()
   {
     $this->initRoutes();
-    $this->run($this->getPath());
+    $this->run(
+      $this->getPath(),
+      $this->getMethod()
+    );
   }
 
   public function getRoutes()
@@ -31,24 +34,28 @@ class routes
     // views
     $routes['home'] = array(
       'route' => '/',
+      'method' => 'GET',
       'controller' => 'index',
       'action' => 'home'
     );
 
     $routes['dashboard'] = array(
       'route' => '/dashboard',
+      'method' => 'GET',
       'controller' => 'index',
       'action' => 'dashboard'
     );
 
     $routes['login'] = array(
       'route' => '/login',
+      'method' => 'GET',
       'controller' => 'index',
       'action' => 'login',
     );
 
     $routes['register'] = array(
       'route' => '/register',
+      'method' => 'GET',
       'controller' => 'index',
       'action' => 'register'
     );
@@ -56,18 +63,21 @@ class routes
     // auth
     $routes['auth_register'] = array(
       'route' => '/auth/register',
+      'method' => 'POST',
       'controller' => 'auth',
       'action' => 'register'
     );
 
     $routes['auth_login'] = array(
       'route' => '/auth/login',
+      'method' => 'POST',
       'controller' => 'auth',
       'action' => 'login'
     );
 
     $routes['auth_logout'] = array(
       'route' => '/auth/logout',
+      'method' => 'POST',
       'controller' => 'auth',
       'action' => 'logout'
     );
@@ -80,18 +90,38 @@ class routes
     return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
   }
 
-  public function run(string $path)
+  public function getMethod()
   {
-    foreach ($this->getRoutes() as $key => $route) {
-      if ($route['route'] === $path) {
+    return $_SERVER['REQUEST_METHOD'];
+  }
 
-        # run route with path
-        require_once __DIR__ . '/../controllers/' . $route['controller'] . '.php';
-        $class = 'controllers\\' . $route['controller'];
-        $action = $route['action'];
-        $controller = new $class();
-        $controller->$action();
+  public function run(string $path, string $method)
+  {
+    $route_found = false;
+
+    foreach ($this->getRoutes() as $key => $route) {
+
+      if ($route['route'] !== $path) {
+        continue;
       }
+
+      $routeFound = true;
+
+      if ($route['method'] !== $method) {
+        exit('Method Not Allowed');
+      }
+
+      require_once __DIR__ . '/../controllers/' . $route['controller'] . '.php';
+      $class = 'controllers\\' . $route['controller'];
+      $action = $route['action'];
+      $controller = new $class();
+      $controller->$action();
+
+      return;
+    }
+
+    if (!$route_found) {
+      exit('Not Found');
     }
   }
 }
