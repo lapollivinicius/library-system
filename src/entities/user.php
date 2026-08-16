@@ -6,16 +6,16 @@ class user
 {
 
   private string $user_id;
-  private string $library_id;
+  private string $library_name;
   private string $name;
   private string $email;
   private string $password;
   private bool $is_active;
 
-  public function __construct(string $user_id, string $library_id, string $name, string $email, string $password, bool $is_active = true)
+  public function __construct(string $user_id, string $library_name, string $name, string $email, string $password, bool $is_active = true)
   {
     $this->user_id = $user_id;
-    $this->library_id = $library_id;
+    $this->library_name = $library_name;
     $this->name = $name;
     $this->email = $email;
     $this->password = $password;

@@ -7,8 +7,6 @@ require_once '../validators/auth.php';
 require_once '../config/utils.php';
 require_once '../config/database.php';
 require_once '../entities/user.php';
-require_once '../entities/library.php';
-require_once '../models/library.php';
 require_once '../models/user.php';
 
 class auth
@@ -29,7 +27,6 @@ class auth
       exit;
     }
 
-    $library_id   = \config\utils::UUID();
     $user_id      = \config\utils::UUID();
     $library_name = strtolower($data['library_name']);
     $name         = strtolower($data['name']);
@@ -37,7 +34,6 @@ class auth
     $password     = password_hash($data['password'], PASSWORD_DEFAULT);
 
     $database     = \config\database::connect();
-    $libary_model = new \models\library($database);
     $user_model   = new \models\user($database);
 
     if ($user_model->read($email)) {
@@ -46,15 +42,9 @@ class auth
       exit;
     }
 
-    $library = new \entities\library(
-      $library_id,
-      $library_name,
-      true
-    );
-
     $user = new \entities\user(
       $user_id,
-      $library_id,
+      $library_name,
       $name,
       $email,
       $password,
@@ -62,13 +52,12 @@ class auth
     );
 
     try {
-      $libary_model->create($library);
       $user_model->create($user);
 
       header('location: /login');
       exit;
     } catch (\PDOException $error) {
-      $_SESSION['message'] = 'DATABASE ERROR - SORRY :(';
+      $_SESSION['message'] = 'DATABASE ERROR - SORRY :( <br> ERROR: ' . $error->getMessage();
       header('location: /register');
       exit;
     }
@@ -113,7 +102,7 @@ class auth
       exit;
     };
 
-    $_SESSION['library_id'] = $user->__get('library_id');
+    $_SESSION['library_name'] = $user->__get('library_name');
     $_SESSION['user_id'] = $user->__get('user_id');
     $_SESSION['name'] = $user->__get('name');
 
