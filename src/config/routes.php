@@ -59,6 +59,18 @@ class routes
       'controller' => 'index',
       'action' => 'register'
     );
+    $routes['terms'] = array(
+      'route' => '/terms',
+      'method' => 'GET',
+      'controller' => 'index',
+      'action' => 'terms'
+    );
+    $routes['privacy'] = array(
+      'route' => '/privacy',
+      'method' => 'GET',
+      'controller' => 'index',
+      'action' => 'privacy'
+    );
 
     // auth
     $routes['auth_register'] = array(
