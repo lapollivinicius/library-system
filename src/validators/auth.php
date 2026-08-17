@@ -10,8 +10,12 @@ class auth extends validators
 
     # validate based on the defined fields (!!!)
     # name, email, password, library_name, terms
-
+    
     foreach ($data as $key => $value) {
+
+      if(!$this->terms($data)) {
+        return $this->setError('Please, check the terms!');
+      }
 
       if (!is_string($value)) {
         return $this->setError('invalid form');
@@ -72,7 +76,13 @@ class auth extends validators
 
     # email, password, terms
 
+    
+
     foreach ($data as $key => $value) {
+
+      if(!$this->terms($data)) {
+        return $this->setError('Please, check the terms!');
+      }
 
       if (!is_string($value)) {
         return $this->setError('invalid form');

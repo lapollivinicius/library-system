@@ -43,6 +43,11 @@ class validators
     ) === 1;
   }
 
+  protected function terms(Array $data): bool
+  {
+    return ($data['terms'] ?? null) === '1';
+  }
+
   protected function setError(string $value)
   {
     $this->error = $value;
