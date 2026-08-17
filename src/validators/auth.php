@@ -46,9 +46,6 @@ class auth extends validators
 
       if ($key == 'password') {
         # is a password strong?
-        if (!$this->password($value)) {
-          return $this->setError('The Password field can only contain letters, numbers and @, #, $, !, _ or -.');
-        }
         if (!$this->minLength($value, 8) || !$this->maxLength($value, 64)) {
           return $this->setError('The Password field must be between 8 and 64 characters long.');
         }
@@ -75,8 +72,6 @@ class auth extends validators
   {
 
     # email, password, terms
-
-    
 
     foreach ($data as $key => $value) {
 
