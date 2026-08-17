@@ -22,7 +22,7 @@ class auth
 
     if (!$validate->register($data)) {
       $_SESSION['data'] = $data;
-      $_SESSION['message'] = $validate->getError();
+      $_SESSION['error'] = $validate->getError();
       header('location: /register');
       exit;
     }
@@ -37,7 +37,7 @@ class auth
     $user_model   = new \models\user($database);
 
     if ($user_model->read($email)) {
-      $_SESSION['message'] = 'email already registed';
+      $_SESSION['success'] = 'email already registed';
       header('location: /login');
       exit;
     }
@@ -53,11 +53,11 @@ class auth
 
     try {
       $user_model->create($user);
-
+      $_SESSION['success'] = 'Welcome, enter your email and password to log in.';
       header('location: /login');
       exit;
     } catch (\PDOException $error) {
-      $_SESSION['message'] = 'DATABASE ERROR - SORRY :( <br> ERROR: ' . $error->getMessage();
+      $_SESSION['error'] = 'DATABASE ERROR - SORRY :( <br> ERROR: ' . $error->getMessage();
       header('location: /register');
       exit;
     }
@@ -74,7 +74,7 @@ class auth
 
     if (!$validate->login($data)) {
       $_SESSION['data'] = $data;
-      $_SESSION['message'] = $validate->getError();
+      $_SESSION['error'] = $validate->getError();
       header('location: /login');
       exit;
     };
@@ -90,14 +90,14 @@ class auth
 
     if (!$user) {
       $_SESSION['data'] = $data;
-      $_SESSION['message'] = 'email or password incorrect';
+      $_SESSION['error'] = 'email or password incorrect';
       header('location: /login');
       exit;
     };
 
     if (!password_verify($password, $user->__get('password'))) {
       $_SESSION['data'] = $data;
-      $_SESSION['message'] = 'email or password incorrect';
+      $_SESSION['error'] = 'email or password incorrect';
       header('location: /login');
       exit;
     };
@@ -132,7 +132,7 @@ class auth
     }
 
     session_destroy();
-
+    $_SESSION['success'] = 'See you later :)';
     header('Location: /login');
     exit;
   }

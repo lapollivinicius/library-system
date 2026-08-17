@@ -19,6 +19,15 @@ class index
     $this->render('404');
   }
 
+  public function terms()
+  {
+    $this->render('terms');
+  }
+  public function privacy()
+  {
+    $this->render('privacy');
+  }
+
   public function home()
   {
     $this->render('home');
@@ -32,11 +41,13 @@ class index
 
   public function login()
   {
+    # check if already logged in
     $this->render('login');
   }
 
   public function register()
   {
+    # check if already logged in
     $this->render('register');
   }
 
