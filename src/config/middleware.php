@@ -2,8 +2,6 @@
 
 namespace config;
 
-session_start();
-
 class middleware
 {
 
