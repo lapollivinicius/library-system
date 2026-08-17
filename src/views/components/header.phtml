@@ -1,0 +1,157 @@
+<?php
+    $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+?>
+<header
+  class="d-flex justify-content-center align-items-center border-bottom border-secondary"
+>
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center py-3">
+      <a id="logo" href="/" class="d-flex justify-content-center align-items-start flex-column">
+        <h1 class="fw-bold fs-3 fs-md-1">
+          <i class="bi bi-book-half siz"></i> Library System
+        </h1>
+        <p class="fs-6 text-secondary mt-n3 mb-0">v1.2.0 (Demo)</p>
+      </a>
+      <nav class="d-flex align-items-center">
+        <ul class="nav nav-pills d-none d-md-flex flex-nowrap">
+          <li class="nav-item">
+            <a
+              class="nav-link <?= $currentPath === '/' ? 'active' : '' ?>"
+              href="/"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link <?= $currentPath === '/features' ? 'active' : '' ?>"
+              href="/features"
+              >Features</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link <?= $currentPath === '/prices' ? 'active' : '' ?>"
+              href="/prices"
+              >Prices</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link <?= $currentPath === '/how-to-use' ? 'active' : '' ?>"
+              href="/how-to-use"
+              >How to use?</a
+            >
+          </li>
+          <li class="nav-item ms-3">
+            <a class="btn btn-outline-primary" href="/login">
+              <i class="bi bi-person-circle"></i>
+              <p class="d-none d-lg-inline">Login</p>
+            </a>
+          </li>
+          <li class="nav-item ms-3">
+            <a
+              class="btn btn-outline-primary"
+              href="https://github.com/lapollivinicius/library-system"
+              target="__blank"
+            >
+              <i class="bi bi-github"></i>
+            </a>
+          </li>
+        </ul>
+        <a class="d-flex d-md-none btn btn-outline-primary" href=""
+          ><i class="bi bi-person-circle"></i
+        ></a>
+        <button
+          class="d-flex d-md-none btn btn-outline-primary ms-2"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#menuMobile"
+          aria-controls="menuMobile"
+        >
+          <i class="bi bi-list"></i>
+        </button>
+        <div
+          class="offcanvas offcanvas-start p-4 align-items-start text-bg-dark"
+          tabindex="-1"
+          id="menuMobile"
+        >
+          <div class="offcanvas-title d-flex justify-content-between w">
+            <h5 id="menuMobileLabel">Menu</h5>
+            <button
+              type="button"
+              class="btn btn-outline-primary position-absolute top-0 end-0 m-3"
+              data-bs-dismiss="offcanvas"
+              aria-label="Fechar"
+            >
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+          <ul
+            class="offcanvas-body d-flex d-md-none nav nav-pills flex-column p-0 mt-3"
+          >
+            <li class="nav-item">
+              <a
+                class="nav-link <?= $currentPath === '/' ? 'active' : '' ?>"
+                href="/"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link <?= $currentPath === '/features' ? 'active' : '' ?>"
+                href="/features"
+                >Features</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link <?= $currentPath === '/prices' ? 'active' : '' ?>"
+                href="/prices"
+                >Prices</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link <?= $currentPath === '/how-to-use' ? 'active' : '' ?>"
+                href="/how-to-use"
+                >How to use?</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/report">Report a problem</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link <?= $currentPath === '/terms' ? 'active' : '' ?>"
+                href="/terms"
+                >Terms of Use</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link <?= $currentPath === '/privacy' ? 'active' : '' ?>"
+                href="/privacy"
+                >Privacy</a
+              >
+            </li>
+            <li>
+              <hr />
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="https://github.com/lapollivinicius/library-system"
+                target="__blank"
+                ><i class="bi bi-github"></i> GitHub</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://linkedin.com/in/lapollivinicius"
+                ><i class="bi bi-linkedin"></i> Linkdin</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
