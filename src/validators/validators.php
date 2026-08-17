@@ -24,7 +24,7 @@ class validators
 
   protected function name(string $value): bool
   {
-    return preg_match('/^[a-zA-Z_]+$/', $value) === 1;
+    return preg_match('/^[a-zA-Z_ ]+$/', $value) === 1;
   }
 
   protected function email(string $value): bool
