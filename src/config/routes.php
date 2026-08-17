@@ -121,7 +121,9 @@ class routes
     }
 
     if (!$route_found) {
-      exit('Not Found');
+      require_once __DIR__ . '/../controllers/index.php';
+      $controller = new \controllers\index();
+      $controller->notFound();
     }
   }
 }

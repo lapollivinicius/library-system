@@ -14,6 +14,11 @@ class index
     $this->view = new \stdClass();
   }
 
+  public function notFound()
+  {
+    $this->render('404');
+  }
+
   public function home()
   {
     $this->render('home');
