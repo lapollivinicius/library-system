@@ -14,6 +14,7 @@ class index
     $this->view = new \stdClass();
   }
 
+  # public
   public function notFound()
   {
     $this->render('404');
@@ -33,12 +34,6 @@ class index
     $this->render('home');
   }
 
-  public function dashboard()
-  {
-    \config\middleware::auth();
-    $this->render('dashboard');
-  }
-
   public function login()
   {
     # check if already logged in
@@ -49,6 +44,33 @@ class index
   {
     # check if already logged in
     $this->render('register');
+  }
+
+  # app
+  public function dashboard()
+  {
+    \config\middleware::auth();
+    $this->render('dashboard');
+  }
+
+  public function books() {
+    \config\middleware::auth();
+    $this->render('books');
+  }
+
+  public function clients() {
+    \config\middleware::auth();
+    $this->render('clients');
+  }
+
+  public function loans() {
+    \config\middleware::auth();
+    $this->render('loans');
+  }
+
+  public function profile() {
+    \config\middleware::auth();
+    $this->render('profile');
   }
 
   public function render(string $view, string $layout = 'layout')

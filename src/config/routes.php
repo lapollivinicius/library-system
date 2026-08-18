@@ -31,28 +31,19 @@ class routes
   public function initRoutes()
   {
 
-    // views
+    // public views
     $routes['home'] = array(
       'route' => '/',
       'method' => 'GET',
       'controller' => 'index',
       'action' => 'home'
     );
-
-    $routes['dashboard'] = array(
-      'route' => '/dashboard',
-      'method' => 'GET',
-      'controller' => 'index',
-      'action' => 'dashboard'
-    );
-
     $routes['login'] = array(
       'route' => '/login',
       'method' => 'GET',
       'controller' => 'index',
       'action' => 'login',
     );
-
     $routes['register'] = array(
       'route' => '/register',
       'method' => 'GET',
@@ -72,6 +63,38 @@ class routes
       'action' => 'privacy'
     );
 
+    // app view
+    $routes['dashboard'] = array(
+      'route' => '/dashboard',
+      'method' => 'GET',
+      'controller' => 'index',
+      'action' => 'dashboard'
+    );
+    $routes['books'] = array(
+      'route' => '/books',
+      'method' => 'GET',
+      'controller' => 'index',
+      'action' => 'books'
+    );
+    $routes['clients'] = array(
+      'route' => '/clients',
+      'method' => 'GET',
+      'controller' => 'index',
+      'action' => 'clients'
+    );
+    $routes['loans'] = array(
+      'route' => '/loans',
+      'method' => 'GET',
+      'controller' => 'index',
+      'action' => 'loans'
+    );
+    $routes['profile'] = array(
+      'route' => '/profile',
+      'method' => 'GET',
+      'controller' => 'index',
+      'action' => 'profile'
+    );
+
     // auth
     $routes['auth_register'] = array(
       'route' => '/auth/register',
@@ -79,14 +102,12 @@ class routes
       'controller' => 'auth',
       'action' => 'register'
     );
-
     $routes['auth_login'] = array(
       'route' => '/auth/login',
       'method' => 'POST',
       'controller' => 'auth',
       'action' => 'login'
     );
-
     $routes['auth_logout'] = array(
       'route' => '/auth/logout',
       'method' => 'POST',
