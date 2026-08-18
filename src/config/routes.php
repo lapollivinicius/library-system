@@ -18,17 +18,17 @@ class routes
     );
   }
 
-  public function getRoutes()
+  private function getRoutes()
   {
     return $this->routes;
   }
 
-  public function setRoutes(array $routes)
+  private function setRoutes(array $routes)
   {
     return $this->routes = $routes;
   }
 
-  public function initRoutes()
+  private function initRoutes()
   {
 
     // public views
@@ -42,24 +42,28 @@ class routes
       'route' => '/login',
       'method' => 'GET',
       'controller' => 'index',
+      'middleware' => ['guest'],
       'action' => 'login',
     );
     $routes['register'] = array(
       'route' => '/register',
       'method' => 'GET',
       'controller' => 'index',
+      'middleware' => ['guest'],
       'action' => 'register'
     );
     $routes['terms'] = array(
       'route' => '/terms',
       'method' => 'GET',
       'controller' => 'index',
+      'middleware' => [],
       'action' => 'terms'
     );
     $routes['privacy'] = array(
       'route' => '/privacy',
       'method' => 'GET',
       'controller' => 'index',
+      'middleware' => [],
       'action' => 'privacy'
     );
 
@@ -68,30 +72,35 @@ class routes
       'route' => '/dashboard',
       'method' => 'GET',
       'controller' => 'index',
+      'middleware' => ['auth'],
       'action' => 'dashboard'
     );
     $routes['books'] = array(
       'route' => '/books',
       'method' => 'GET',
       'controller' => 'index',
+      'middleware' => ['auth'],
       'action' => 'books'
     );
     $routes['clients'] = array(
       'route' => '/clients',
       'method' => 'GET',
       'controller' => 'index',
+      'middleware' => ['auth'],
       'action' => 'clients'
     );
     $routes['loans'] = array(
       'route' => '/loans',
       'method' => 'GET',
       'controller' => 'index',
+      'middleware' => ['auth'],
       'action' => 'loans'
     );
     $routes['profile'] = array(
       'route' => '/profile',
       'method' => 'GET',
       'controller' => 'index',
+      'middleware' => ['auth'],
       'action' => 'profile'
     );
 
@@ -100,42 +109,88 @@ class routes
       'route' => '/auth/register',
       'method' => 'POST',
       'controller' => 'auth',
+      'middleware' => ['csrf'],
       'action' => 'register'
     );
     $routes['auth_login'] = array(
       'route' => '/auth/login',
       'method' => 'POST',
       'controller' => 'auth',
+      'middleware' => ['csrf'],
       'action' => 'login'
     );
     $routes['auth_logout'] = array(
       'route' => '/auth/logout',
       'method' => 'POST',
       'controller' => 'auth',
+      'middleware' => ['csrf'],
       'action' => 'logout'
     );
 
     $this->setRoutes($routes);
   }
 
-  public function getPath()
+  private function getPath()
   {
     return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
   }
 
-  public function getMethod()
+  private function getMethod()
   {
     return $_SERVER['REQUEST_METHOD'];
   }
 
-  public function run(string $path, string $method)
+  private function matchRoute(string $route, string $path): array|false
+  {
+    $routeParts = explode('/', trim($route, '/'));
+    $pathParts  = explode('/', trim($path, '/'));
+    if (count($routeParts) !== count($pathParts)) {
+      return false;
+    }
+    $params = [];
+    foreach ($routeParts as $index => $routePart) {
+      if (str_starts_with($routePart, ':')) {
+        $paramName = substr($routePart, 1);
+        $params[$paramName] = $pathParts[$index];
+        continue;
+      }
+      if ($routePart !== $pathParts[$index]) {
+        return false;
+      }
+    }
+    return $params;
+  }
+
+  private function runMiddleware(array $middlewares)
+  {
+      foreach ($middlewares as $middleware) {
+
+          if (!method_exists(
+              \config\middleware::class,
+              $middleware
+          )) {
+              throw new \Exception(
+                  "Middleware [$middleware] not found"
+              );
+          }
+
+          \config\middleware::$middleware();
+      }
+  }
+
+  private function run(string $path, string $method)
   {
     $route_found = false;
 
-    foreach ($this->getRoutes() as $key => $route) {
+    foreach ($this->getRoutes() as $route) {
 
-      if ($route['route'] !== $path) {
-        continue;
+      $params = $this->matchRoute(
+            $route['route'],
+            $path
+        );
+
+      if ($params === false) {
+          continue;
       }
 
       $routeFound = true;
@@ -144,11 +199,21 @@ class routes
         exit('Method Not Allowed');
       }
 
+      if (isset($route['middleware'])) {
+          $this->runMiddleware(
+              $route['middleware']
+          );
+      }
+      
       require_once __DIR__ . '/../controllers/' . $route['controller'] . '.php';
       $class = 'controllers\\' . $route['controller'];
       $action = $route['action'];
       $controller = new $class();
-      $controller->$action();
+
+      call_user_func_array(
+          [$controller, $action],
+          array_values([$params])
+      );
 
       return;
     }

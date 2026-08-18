@@ -49,27 +49,22 @@ class index
   # app
   public function dashboard()
   {
-    \config\middleware::auth();
     $this->render('dashboard');
   }
 
   public function books() {
-    \config\middleware::auth();
     $this->render('books');
   }
 
   public function clients() {
-    \config\middleware::auth();
     $this->render('clients');
   }
 
   public function loans() {
-    \config\middleware::auth();
     $this->render('loans');
   }
 
   public function profile() {
-    \config\middleware::auth();
     $this->render('profile');
   }
 

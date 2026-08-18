@@ -14,10 +14,7 @@ class auth
   public function register()
   {
 
-    \config\middleware::csrf();
-
     $data = $_POST;
-
     $validate = new \validators\auth();
 
     if (!$validate->register($data)) {
@@ -66,10 +63,7 @@ class auth
   public function login()
   {
 
-    \config\middleware::csrf();
-
     $data = $_POST;
-
     $validate = new \validators\auth();
 
     if (!$validate->login($data)) {
@@ -83,9 +77,7 @@ class auth
     $password = $data['password'];
 
     $database = \config\database::connect();
-
     $user_model = new \models\user($database);
-
     $user = $user_model->read($email);
 
     if (!$user) {
@@ -112,9 +104,6 @@ class auth
 
   public function logout()
   {
-
-    \config\middleware::csrf();
-
     $_SESSION = [];
 
     if (ini_get('session.use_cookies')) {

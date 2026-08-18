@@ -16,7 +16,7 @@ class middleware
   public static function guest()
   {
     if (!empty($_SESSION['user_id'])) {
-      header('Location: /');
+      header('Location: /dashboard');
       exit;
     }
   }
