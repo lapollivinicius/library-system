@@ -163,61 +163,49 @@ class routes
 
   private function runMiddleware(array $middlewares)
   {
-      foreach ($middlewares as $middleware) {
-
-          if (!method_exists(
-              \config\middleware::class,
-              $middleware
-          )) {
-              throw new \Exception(
-                  "Middleware [$middleware] not found"
-              );
-          }
-
-          \config\middleware::$middleware();
+    foreach ($middlewares as $middleware) {
+      if (!method_exists(
+        \config\middleware::class,
+        $middleware
+      )) {
+        throw new \Exception(
+          "Middleware [$middleware] not found"
+        );
       }
+      \config\middleware::$middleware();
+    }
   }
 
   private function run(string $path, string $method)
   {
     $route_found = false;
-
     foreach ($this->getRoutes() as $route) {
-
       $params = $this->matchRoute(
-            $route['route'],
-            $path
-        );
-
+        $route['route'],
+        $path
+      );
       if ($params === false) {
-          continue;
+        continue;
       }
-
       $routeFound = true;
-
       if ($route['method'] !== $method) {
         exit('Method Not Allowed');
       }
-
       if (isset($route['middleware'])) {
-          $this->runMiddleware(
-              $route['middleware']
-          );
+        $this->runMiddleware(
+          $route['middleware']
+        );
       }
-      
       require_once __DIR__ . '/../controllers/' . $route['controller'] . '.php';
       $class = 'controllers\\' . $route['controller'];
       $action = $route['action'];
       $controller = new $class();
-
       call_user_func_array(
-          [$controller, $action],
-          array_values([$params])
+        [$controller, $action],
+        array_values([$params])
       );
-
       return;
     }
-
     if (!$route_found) {
       require_once __DIR__ . '/../controllers/index.php';
       $controller = new \controllers\index();

@@ -1,0 +1,210 @@
+<div class="container-fluid mb-3">
+  <div class="row mb-4">
+    <div class="col">
+      <p class="fw-bold fs-4 m-0">LOANS</p>
+      <small class="text-secondary m-0">
+        Loan registration and active loans
+      </small>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="accordion shadow-sm" id="loanAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#loanForm"
+              aria-expanded="true"
+              aria-controls="loanForm"
+            >
+              <i class="bi bi-plus-circle-fill me-2"></i>
+              Register Loan
+            </button>
+          </h2>
+          <div
+            id="loanForm"
+            class="accordion-collapse collapse show"
+            data-bs-parent="#loanAccordion"
+          >
+            <div class="accordion-body">
+              <form action="/loans" method="POST">
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label for="bookTitle" class="form-label">
+                      Book Title
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="bookTitle"
+                      name="book_title"
+                      placeholder="Book title"
+                      required
+                    />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label for="client" class="form-label"> Client </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="client"
+                      name="client"
+                      placeholder="Client name"
+                      required
+                    />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label for="loanDate" class="form-label"> Loan Date </label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="loanDate"
+                      name="loan_date"
+                      required
+                    />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label for="returnDate" class="form-label">
+                      Return Date
+                    </label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="returnDate"
+                      name="return_date"
+                      required
+                    />
+                  </div>
+                  <div class="col-12 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="bi bi-check-lg me-1"></i>
+                      Register Loan
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-body">
+          <h5 class="mb-0">Search Active Loans</h5>
+          <small class="text-body-secondary">
+            Find currently active loans
+          </small>
+        </div>
+        <div class="card-body">
+          <form action="/loans" method="GET">
+            <div class="row g-3">
+              <div class="col-12 col-md-4">
+                <label for="searchField" class="form-label"> Search by </label>
+                <select class="form-select" id="searchField" name="field">
+                  <option value="book_title">Book Title</option>
+                  <option value="code">Code</option>
+                  <option value="client">Client</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="search" class="form-label"> Search </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="search"
+                  name="search"
+                  placeholder="Enter your search..."
+                />
+              </div>
+              <div class="col-12 col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                  <i class="bi bi-search me-1"></i>
+                  Search
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div
+          class="card-header bg-body d-flex justify-content-between align-items-center"
+        >
+          <div>
+            <h5 class="mb-0">Active Loans</h5>
+            <small class="text-body-secondary">
+              Currently borrowed books
+            </small>
+          </div>
+          <span class="badge text-bg-secondary"> 00 loans </span>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Client</th>
+                <th>Return Date</th>
+                <th class="text-end">Options</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr
+                role="button"
+                data-bs-toggle="modal"
+                data-bs-target="#loanDetailsModal"
+              >
+                <td>BOOK TITLE</td>
+                <td>CLIENT NAME</td>
+                <td>20/08/2026</td>
+                <td class="text-end">
+                  <div class="dropdown">
+                    <button
+                      class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      onclick="event.stopPropagation()"
+                    >
+                      Options
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="/loans/1/edit"
+                          onclick="event.stopPropagation()"
+                        >
+                          <i class="bi bi-pencil me-2"></i>
+                          Edit
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4" class="text-center text-body-secondary py-4">
+                  No active loans found.
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
