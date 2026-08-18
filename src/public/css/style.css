@@ -12,3 +12,20 @@ body {
   color: white;
   text-decoration: none;
 }
+
+#bookDetailsModal.editing .book-field {
+    border-color: var(--bs-primary) !important;
+    background: transparent !important;
+}
+
+#bookDetailsModal.editing .book-field:focus {
+    border-color: var(--bs-primary) !important;
+}
+
+#confirmModal {
+  z-index: 1060;
+}
+
+.modal-backdrop {
+  z-index: 1050;
+}
