@@ -13,3 +13,6 @@ RUN sed -ri \
     /etc/apache2/sites-available/*.conf \
     /etc/apache2/apache2.conf \
     /etc/apache2/conf-available/*.conf
+
+RUN echo "EnableSendfile Off" >> /etc/apache2/apache2.conf \
+    && echo "EnableMMAP Off" >> /etc/apache2/apache2.conf
