@@ -14,7 +14,8 @@ class book
     $this->database = $database;
   }
 
-  public function create(\entities\book $book) {
+  public function create(\entities\book $book)
+  {
     $book_id = $book->__get('book_id');
     $user_id = $book->__get('user_id');
     $title = $book->__get('title');
@@ -23,12 +24,12 @@ class book
     $year = $book->__get('year');
     $quantity = $book->__get('quantity');
     $is_active = $book->__get('is_active');
-    
+
     $query = '
         INSERT INTO books (book_id, user_id, title, author, isbn, year, quantity, is_active)
         VALUES (:book_id, :user_id, :title, :author, :isbn, :year, :quantity, :is_active);
       ';
-    
+
     $stmt = $this->database->prepare($query);
     $stmt->bindValue(':book_id', $book_id, PDO::PARAM_STR);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
@@ -41,6 +42,4 @@ class book
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
-
-  
 }

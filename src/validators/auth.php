@@ -10,10 +10,10 @@ class auth extends validators
 
     # validate based on the defined fields (!!!)
     # name, email, password, library_name, terms
-    
+
     foreach ($data as $key => $value) {
 
-      if(!$this->terms($data)) {
+      if (!$this->terms($data)) {
         return $this->setError('Please, check the terms!');
       }
 
@@ -75,7 +75,7 @@ class auth extends validators
 
     foreach ($data as $key => $value) {
 
-      if(!$this->terms($data)) {
+      if (!$this->terms($data)) {
         return $this->setError('Please, check the terms!');
       }
 
@@ -108,7 +108,6 @@ class auth extends validators
       if ($key == 'terms' && $value !== '1') {
         return $this->setError('The terms field is required');
       }
-
     }
     return true;
   }

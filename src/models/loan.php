@@ -15,5 +15,5 @@ class loan
   }
 
   # crud 
-  
+
 }

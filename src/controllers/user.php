@@ -2,9 +2,10 @@
 
 namespace controllers;
 
-class user extends controller {
+class user extends controller
+{
 
-    public function dashboard()
+  public function dashboard()
   {
     $this->render('app/dashboard');
   }
@@ -13,5 +14,4 @@ class user extends controller {
   {
     $this->render('app/profile');
   }
-
 }

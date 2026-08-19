@@ -208,7 +208,7 @@ $(document).on("click", "[data-autocomplete-option]", function () {
 // theme
 $(document).ready(function () {
     const $html = $('html');
-    const $button = $('#theme-toggle');
+    const $button = $('.theme-toggle');
     const savedTheme = localStorage.getItem('theme');
 
     if (savedTheme) {

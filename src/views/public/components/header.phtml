@@ -63,11 +63,10 @@
           </li>
           <li class="nav-item ms-3">
             <button
-                type="button"
-                id="theme-toggle"
-                class="btn btn-outline-secondary"
+              type="button"
+              class="theme-toggle btn btn-outline-secondary"
             >
-                <i class="bi bi-moon"></i>
+              <i class="bi bi-moon"></i>
             </button>
           </li>
         </ul>
@@ -89,14 +88,23 @@
         >
           <div class="offcanvas-title d-flex justify-content-between w">
             <h5 id="menuMobileLabel">Menu</h5>
-            <button
-              type="button"
-              class="btn btn-outline-primary position-absolute top-0 end-0 m-3"
-              data-bs-dismiss="offcanvas"
-              aria-label="Fechar"
-            >
-              <i class="bi bi-x-lg"></i>
-            </button>
+            <div class="position-absolute top-0 end-0 m-3 d-flex gap-2">
+              <button
+                type="button"
+                class="theme-toggle btn btn-outline-secondary w-100 d-flex align-items-start"
+              >
+                <i class="bi bi-moon"></i>
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline-primary"
+                data-bs-dismiss="offcanvas"
+                aria-label="Fechar"
+              >
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
           </div>
           <ul
             class="offcanvas-body d-flex d-md-none nav nav-pills flex-column p-0 mt-3"

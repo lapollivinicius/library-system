@@ -34,5 +34,4 @@ class index extends controller
   {
     $this->render('public/register');
   }
-
 }

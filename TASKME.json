@@ -1,20 +1,6 @@
 {
   "tasks": [
     {
-      "id": "e0fc0e65",
-      "content": "Modify controller responsibility and create an abstract class for the list view",
-      "time": 0,
-      "checked": false,
-      "createdAt": 1787107303450
-    },
-    {
-      "id": "26341a84",
-      "content": "Modify the view structure and find a way to separate the routes",
-      "time": 0,
-      "checked": false,
-      "createdAt": 1787107401015
-    },
-    {
       "id": "941749ca",
       "content": "Finalize controllers, the model, and entities",
       "time": 0,
@@ -43,6 +29,20 @@
       "time": 0,
       "checked": true,
       "createdAt": 1786589890807
+    },
+    {
+      "id": "e0fc0e65",
+      "content": "Modify controller responsibility and create an abstract class for the list view",
+      "time": 0,
+      "checked": true,
+      "createdAt": 1787107303450
+    },
+    {
+      "id": "26341a84",
+      "content": "Modify the view structure and find a way to separate the routes",
+      "time": 0,
+      "checked": true,
+      "createdAt": 1787107401015
     }
   ]
 }

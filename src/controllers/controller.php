@@ -25,6 +25,6 @@ abstract class controller
 
   public function content()
   {
-   require_once '../views/' . $this->view->content . '.phtml'; 
+    require_once '../views/' . $this->view->content . '.phtml';
   }
 }

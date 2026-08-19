@@ -9,16 +9,27 @@
       </div>
       <nav>
         <ul class="nav nav-pills flex-column">
-          <li class="nav-items"><a class="nav-link " href="/dashboard">Dashboard</a></li>
+          <li class="nav-items">
+            <a class="nav-link" href="/dashboard">Dashboard</a>
+          </li>
           <li class="nav-items"><a class="nav-link" href="/loans">Loans</a></li>
-          <li class="nav-items"><a class="nav-link active" href="/books">Books</a></li>
-          <li class="nav-items"><a class="nav-link" href="/clients">Clients</a></li>
-          <li class="nav-items"><a class="nav-link disabled text-secondary" disabled>Extra</a></li>
+          <li class="nav-items">
+            <a class="nav-link active" href="/books">Books</a>
+          </li>
+          <li class="nav-items">
+            <a class="nav-link" href="/clients">Clients</a>
+          </li>
+          <li class="nav-items">
+            <a class="nav-link disabled text-secondary" disabled>Extra</a>
+          </li>
         </ul>
       </nav>
     </aside>
-    <div class="d-none d-md-flex col-1 p-0 mx-1 bg-secondary" style="width: 1px;"></div>
-    <hr class="d-flex d-md-none">
+    <div
+      class="d-none d-md-flex col-1 p-0 mx-1 bg-secondary"
+      style="width: 1px"
+    ></div>
+    <hr class="d-flex d-md-none" />
     <div class="col p-2">
       <?php include __DIR__ . '/components/books.phtml'; ?>
     </div>
