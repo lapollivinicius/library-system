@@ -55,10 +55,11 @@ cd library-system
 #### Configure environment variables
 
 ```env
-MYSQL_ROOT_PASSWORD=root
-MYSQL_DATABASE=app
-MYSQL_USER=app
-MYSQL_PASSWORD=app
+DB_ROOT_PASSWORD=root 
+DB_DATABASE=database 
+DB_USER=app 
+DB_PASSWORD=app 
+DB_PORT=3306
 ```
 
 #### Start the containers
