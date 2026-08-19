@@ -75,13 +75,14 @@ class routes
       'middleware' => ['auth'],
       'action' => 'dashboard'
     );
-    $routes['books'] = array(
-      'route' => '/books',
+    $routes['profile'] = array(
+      'route' => '/profile',
       'method' => 'GET',
       'controller' => 'index',
       'middleware' => ['auth'],
-      'action' => 'books'
+      'action' => 'profile'
     );
+    
     $routes['clients'] = array(
       'route' => '/clients',
       'method' => 'GET',
@@ -96,13 +97,23 @@ class routes
       'middleware' => ['auth'],
       'action' => 'loans'
     );
-    $routes['profile'] = array(
-      'route' => '/profile',
+
+    // books 
+    $routes['books'] = array(
+      'route' => '/books',
       'method' => 'GET',
       'controller' => 'index',
       'middleware' => ['auth'],
-      'action' => 'profile'
+      'action' => 'books'
     );
+    $routes['create_books'] = array(
+      'route' => '/api/books/create',
+      'method' => 'POST',
+      'controller' => 'book',
+      'middleware' => ['auth'],
+      'action' => 'createBook'
+    );
+
 
     // auth
     $routes['auth_register'] = array(

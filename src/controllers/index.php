@@ -17,66 +17,74 @@ class index
   # public
   public function notFound()
   {
-    $this->render('404');
+    $this->render('index/404');
   }
 
   public function terms()
   {
-    $this->render('terms');
+    $this->render('index/terms');
   }
   public function privacy()
   {
-    $this->render('privacy');
+    $this->render('index/privacy');
   }
 
   public function home()
   {
-    $this->render('home');
+    $this->render('index/home');
   }
 
   public function login()
   {
     # check if already logged in
-    $this->render('login');
+    $this->render('index/login');
   }
 
   public function register()
   {
     # check if already logged in
-    $this->render('register');
+    $this->render('index/register');
   }
 
   # app
   public function dashboard()
   {
-    $this->render('dashboard');
+    $this->render('index/dashboard');
   }
 
-  public function books() {
-    $this->render('books');
-  }
-
-  public function clients() {
-    $this->render('clients');
-  }
-
-  public function loans() {
-    $this->render('loans');
-  }
-
-  public function profile() {
-    $this->render('profile');
-  }
-
-  public function render(string $view, string $layout = 'layout')
+  public function books()
   {
-    $this->view->page = $view;
+    $this->render('index/books');
+  }
+
+  public function clients()
+  {
+    $this->render('index/clients');
+  }
+
+  public function loans()
+  {
+    $this->render('index/loans');
+  }
+
+  public function profile()
+  {
+    $this->render('index/profile');
+  }
+
+  protected function render(
+    string $view,
+    string $layout = 'layout'
+  ) {
     $this->view->csrf_token = \config\middleware::csrfToken();
+    $this->view->title = ucfirst(basename($view));
+    $this->view->content = $view;
+
     require_once '../views/' . $layout . '.phtml';
   }
 
   public function content()
   {
-    require_once '../views/index/' . $this->view->page . '.phtml';
+   require_once '../views/' . $this->view->content . '.phtml'; 
   }
 }
