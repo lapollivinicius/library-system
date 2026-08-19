@@ -31,6 +31,7 @@ class database
           CREATE TABLE IF NOT EXISTS clients (
               client_id VARCHAR(36) PRIMARY KEY NOT NULL,
               user_id VARCHAR(36) NOT NULL,
+              code INT AUTO_INCREMENT UNIQUE,
               name VARCHAR(64) NOT NULL,
               email VARCHAR(64) UNIQUE NOT NULL,
               phone VARCHAR(64) UNIQUE NOT NULL,
@@ -41,9 +42,11 @@ class database
           CREATE TABLE IF NOT EXISTS books (
               book_id VARCHAR(36) PRIMARY KEY NOT NULL,
               user_id VARCHAR(36) NOT NULL,
+              code INT AUTO_INCREMENT UNIQUE,
               title VARCHAR(64) UNIQUE NOT NULL,
               author VARCHAR(64) NOT NULL,
               isbn VARCHAR(64) UNIQUE NOT NULL,
+              year VARCHAR(4) NOT NULL,
               quantity INT NOT NULL DEFAULT 0,
               is_active BOOLEAN NOT NULL DEFAULT TRUE,
 
@@ -54,6 +57,7 @@ class database
               user_id VARCHAR(36) NOT NULL,
               client_id VARCHAR(36) NOT NULL,
               book_id VARCHAR(36) NOT NULL,
+              code INT AUTO_INCREMENT UNIQUE,
 
               loaned_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
               due_at DATETIME NOT NULL,
