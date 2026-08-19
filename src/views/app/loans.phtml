@@ -1,27 +1,26 @@
-<?php include __DIR__ . '/../components/app-header.phtml'; ?>
-<?php include __DIR__ . '/../components/modal-book.phtml'; ?>
+<?php include __DIR__ . '/components/header.phtml'; ?>
+<?php include __DIR__ . '/../modals/modal-loans.phtml'; ?>
 <main class="container">
   <section class="row">
     <aside class="col-12 col-md-3 p-2">
       <div class="row m-0 mb-4">
-        <p class="fw-bold fs-4 m-0">BOOKS</p>
+        <p class="fw-bold fs-4 m-0">LOANS</p>
         <small class="text-secondary m-0">Check your stats</small>
       </div>
       <nav>
         <ul class="nav nav-pills flex-column">
           <li class="nav-items"><a class="nav-link " href="/dashboard">Dashboard</a></li>
-          <li class="nav-items"><a class="nav-link" href="/loans">Loans</a></li>
-          <li class="nav-items"><a class="nav-link active" href="/books">Books</a></li>
-          <li class="nav-items"><a class="nav-link" href="/clients">Clients</a></li>
+          <li class="nav-items"><a class="nav-link active" href="/loans">Loans</a></li>
+          <li class="nav-items"><a class="nav-link " href="/books">Books</a></li>
+          <li class="nav-items"><a class="nav-link " href="/clients">Clients</a></li>
           <li class="nav-items"><a class="nav-link disabled text-secondary" disabled>Extra</a></li>
         </ul>
       </nav>
     </aside>
     <div class="d-none d-md-flex col-1 p-0 mx-1 bg-secondary" style="width: 1px;"></div>
-    <hr class="d-flex d-md-none">
     <div class="col p-2">
-      <?php include __DIR__ . '/../components/books.phtml'; ?>
+      <?php include __DIR__ . '/components/loans.phtml'; ?>
     </div>
   </section>
 </main>
-<?php include __DIR__ . '/../components/footer.phtml'; ?>
+<?php include __DIR__ . '/components/footer.phtml'; ?>

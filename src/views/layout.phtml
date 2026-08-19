@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="light">
 
 <head>
   <meta charset="UTF-8">
@@ -14,10 +14,10 @@
   <script src="/js/script.js" defer></script>
 </head>
 
-<body class="text-bg-dark">
-  <?php include __DIR__ . '/components/modal-confirm.phtml'; ?>
-  <?php include __DIR__ . '/components/banner.phtml'; ?>
+<body class="">
+  <?php include __DIR__ . '/modals/modal-confirm.phtml'; ?>
+  <?php include __DIR__ . '/public/components/banner.phtml'; ?>
   <?= $this->content(); ?>
-  <?php include __DIR__ . '/components/cookie.phtml'; ?>
+  <?php include __DIR__ . '/public/components/cookie.phtml'; ?>
 </body>
 </html>

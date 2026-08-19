@@ -2,6 +2,11 @@
 
 namespace controllers;
 
-class client {
+class client extends controller {
+
+  public function index()
+  {
+    $this->render('app/clients');
+  }
 
 }

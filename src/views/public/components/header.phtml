@@ -6,7 +6,11 @@
 >
   <div class="container">
     <div class="d-flex justify-content-between align-items-center py-3">
-      <a id="logo" href="/" class="d-flex justify-content-center align-items-start flex-column">
+      <a
+        href="/"
+        class="d-flex justify-content-center align-items-start flex-column"
+        style="text-decoration: none"
+      >
         <h1 class="fw-bold fs-3 fs-md-1">
           <i class="bi bi-book-half siz"></i> Library System
         </h1>
@@ -35,7 +39,7 @@
               >Prices</a
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item d-none d-lg-flex">
             <a
               class="nav-link <?= $currentPath === '/how-to-use' ? 'active' : '' ?>"
               href="/how-to-use"
@@ -56,6 +60,15 @@
             >
               <i class="bi bi-github"></i>
             </a>
+          </li>
+          <li class="nav-item ms-3">
+            <button
+                type="button"
+                id="theme-toggle"
+                class="btn btn-outline-secondary"
+            >
+                <i class="bi bi-moon"></i>
+            </button>
           </li>
         </ul>
         <a class="d-flex d-md-none btn btn-outline-primary" href=""

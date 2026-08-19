@@ -204,3 +204,33 @@ $(document).on("click", "[data-autocomplete-option]", function () {
   $input.attr("aria-expanded", "false");
   $results.prop("hidden", true);
 });
+
+// theme
+$(document).ready(function () {
+    const $html = $('html');
+    const $button = $('#theme-toggle');
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme) {
+        $html.attr('data-bs-theme', savedTheme);
+    }
+    updateIcon();
+    $button.on('click', function () {
+        const currentTheme = $html.attr('data-bs-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        $html.attr('data-bs-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateIcon();
+    });
+
+    function updateIcon() {
+        const theme = $html.attr('data-bs-theme');
+        
+        if (theme === 'dark') {
+            $button.html('<i class="bi bi-sun"></i>');
+        } else {
+            $button.html('<i class="bi bi-moon"></i>');
+        }
+    }
+
+});

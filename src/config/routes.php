@@ -67,45 +67,49 @@ class routes
       'action' => 'privacy'
     );
 
-    // app view
+    // user 
     $routes['dashboard'] = array(
       'route' => '/dashboard',
       'method' => 'GET',
-      'controller' => 'index',
+      'controller' => 'user',
       'middleware' => ['auth'],
       'action' => 'dashboard'
     );
     $routes['profile'] = array(
       'route' => '/profile',
       'method' => 'GET',
-      'controller' => 'index',
+      'controller' => 'user',
       'middleware' => ['auth'],
       'action' => 'profile'
     );
-    
+
+    // clients
     $routes['clients'] = array(
       'route' => '/clients',
       'method' => 'GET',
-      'controller' => 'index',
+      'controller' => 'client',
       'middleware' => ['auth'],
-      'action' => 'clients'
+      'action' => 'index'
     );
+
+    // loans
     $routes['loans'] = array(
       'route' => '/loans',
       'method' => 'GET',
-      'controller' => 'index',
+      'controller' => 'loan',
       'middleware' => ['auth'],
-      'action' => 'loans'
+      'action' => 'index'
     );
 
     // books 
     $routes['books'] = array(
       'route' => '/books',
       'method' => 'GET',
-      'controller' => 'index',
+      'controller' => 'book',
       'middleware' => ['auth'],
-      'action' => 'books'
+      'action' => 'index'
     );
+
     $routes['create_books'] = array(
       'route' => '/api/books/create',
       'method' => 'POST',
@@ -189,6 +193,7 @@ class routes
 
   private function run(string $path, string $method)
   {
+    require_once __DIR__ . '/../controllers/controller.php';
     $route_found = false;
     foreach ($this->getRoutes() as $route) {
       $params = $this->matchRoute(
@@ -198,7 +203,7 @@ class routes
       if ($params === false) {
         continue;
       }
-      $routeFound = true;
+      $route_found = true;
       if ($route['method'] !== $method) {
         exit('Method Not Allowed');
       }

@@ -2,7 +2,12 @@
 
 namespace controllers;
 
-class book {
+class book extends controller {
+
+  public function index()
+  {
+    $this->render('app/books');
+  }
 
   # add
   public function createBook() {

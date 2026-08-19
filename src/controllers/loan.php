@@ -2,6 +2,11 @@
 
 namespace controllers;
 
-class loan {
+class loan extends controller {
+
+    public function index()
+  {
+    $this->render('app/loans');
+  }
 
 }
