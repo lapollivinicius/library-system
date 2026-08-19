@@ -68,6 +68,10 @@ function closeConfirmModal() {
   const confirmModalElement = document.getElementById("confirmModal");
   const confirmModal = bootstrap.Modal.getInstance(confirmModalElement);
 
+  if (document.activeElement && confirmModalElement.contains(document.activeElement)) {
+    document.activeElement.blur();
+  }
+
   if (confirmModal) {
     confirmModal.hide();
   }
@@ -85,7 +89,7 @@ $(document).on("click", "#confirmModalOk", function () {
   HTMLFormElement.prototype.submit.call(form);
 });
 
-$(document).on("click", "#confirmModalCancel", function () {
+$(document).on("click", "#confirmModalCancel, #confirmModalClose", function () {
   closeConfirmModal();
 
   if (previousModal) {
