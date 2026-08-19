@@ -66,6 +66,13 @@ class routes
       'middleware' => [],
       'action' => 'privacy'
     );
+    $routes['demo'] = array(
+      'route' => '/demo',
+      'method' => 'GET',
+      'controller' => 'index',
+      'middleware' => [],
+      'action' => 'demo'
+    );
 
     // user 
     $routes['dashboard'] = array(

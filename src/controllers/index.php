@@ -25,6 +25,11 @@ class index extends controller
     $this->render('public/home');
   }
 
+  public function demo()
+  {
+    $this->render('public/demo');
+  }
+
   public function login()
   {
     $this->render('public/login');
@@ -34,4 +39,5 @@ class index extends controller
   {
     $this->render('public/register');
   }
+
 }
