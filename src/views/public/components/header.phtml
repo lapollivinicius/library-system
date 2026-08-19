@@ -1,6 +1,7 @@
 <?php
     $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 ?>
+<?php include __DIR__ . '/banner.phtml'; ?> 
 <header
   class="d-flex justify-content-center align-items-center border-bottom border-secondary"
 >
@@ -20,29 +21,29 @@
         <ul class="nav nav-pills d-none d-md-flex flex-nowrap">
           <li class="nav-item">
             <a
-              class="nav-link <?= $currentPath === '/' ? 'active' : '' ?>"
+              class="nav-link"
               href="/"
               >Home</a
             >
           </li>
           <li class="nav-item">
             <a
-              class="nav-link <?= $currentPath === '/features' ? 'active' : '' ?>"
-              href="/features"
+              class="nav-link"
+              href="/#features"
               >Features</a
             >
           </li>
           <li class="nav-item">
             <a
-              class="nav-link <?= $currentPath === '/prices' ? 'active' : '' ?>"
-              href="/prices"
-              >Prices</a
+              class="nav-link"
+              href="/#pricing"
+              >Pricing</a
             >
           </li>
           <li class="nav-item d-none d-lg-flex">
             <a
-              class="nav-link <?= $currentPath === '/how-to-use' ? 'active' : '' ?>"
-              href="/how-to-use"
+              class="nav-link"
+              href="/#how-to-use"
               >How to use?</a
             >
           </li>
@@ -111,29 +112,29 @@
           >
             <li class="nav-item">
               <a
-                class="nav-link <?= $currentPath === '/' ? 'active' : '' ?>"
+                class="nav-link"
                 href="/"
                 >Home</a
               >
             </li>
             <li class="nav-item">
               <a
-                class="nav-link <?= $currentPath === '/features' ? 'active' : '' ?>"
-                href="/features"
+                class="nav-link"
+                href="/#features"
                 >Features</a
               >
             </li>
             <li class="nav-item">
               <a
-                class="nav-link <?= $currentPath === '/prices' ? 'active' : '' ?>"
-                href="/prices"
-                >Prices</a
+                class="nav-link"
+                href="/#pricing"
+                >Pricing</a
               >
             </li>
             <li class="nav-item">
               <a
-                class="nav-link <?= $currentPath === '/how-to-use' ? 'active' : '' ?>"
-                href="/how-to-use"
+                class="nav-link"
+                href="/#how-to-use"
                 >How to use?</a
               >
             </li>
@@ -142,14 +143,14 @@
             </li>
             <li class="nav-item">
               <a
-                class="nav-link <?= $currentPath === '/terms' ? 'active' : '' ?>"
+                class="nav-link"
                 href="/terms"
                 >Terms of Use</a
               >
             </li>
             <li class="nav-item">
               <a
-                class="nav-link <?= $currentPath === '/privacy' ? 'active' : '' ?>"
+                class="nav-link"
                 href="/privacy"
                 >Privacy</a
               >
