@@ -7,8 +7,8 @@
   try {
 
     $db = config\database::connect();
-    $users = new repository\users($db);
-    $user = new models\users();
+    $users = new \repository\users($db);
+    $user = new \models\users();
 
     $user->createUser(
       'john',

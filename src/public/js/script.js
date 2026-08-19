@@ -1,6 +1,6 @@
 // sign
-console.log('created by lapollivinicius')
-console.log('https://github.com/lapollivinicius')
+console.log("created by lapollivinicius");
+console.log("https://github.com/lapollivinicius");
 // cookie banner
 $(document).ready(function () {
   const $banner = $("#cookieBanner");
@@ -68,7 +68,10 @@ function closeConfirmModal() {
   const confirmModalElement = document.getElementById("confirmModal");
   const confirmModal = bootstrap.Modal.getInstance(confirmModalElement);
 
-  if (document.activeElement && confirmModalElement.contains(document.activeElement)) {
+  if (
+    document.activeElement &&
+    confirmModalElement.contains(document.activeElement)
+  ) {
     document.activeElement.blur();
   }
 
@@ -103,4 +106,101 @@ $(document).on("click", "#confirmModalCancel, #confirmModalClose", function () {
   }
 
   confirmForm = null;
+});
+
+// autocomplete
+$(document).on("focus", "[data-autocomplete-target]", function () {
+  const targetId = $(this).data("autocomplete-target");
+  const $results = $("#" + targetId);
+
+  if ($results.children().length > 0) {
+    $results.prop("hidden", false);
+    $(this).attr("aria-expanded", "true");
+  }
+});
+
+$(document).on("input", "[data-autocomplete-target]", function () {
+  const $input = $(this);
+  const value = $input.val().trim();
+  const url = $input.data("autocomplete-url");
+  const searchParam = $input.data("autocomplete-search-param") || "search";
+  const targetId = $input.data("autocomplete-target");
+  const min = Number($input.data("autocomplete-min")) || 2;
+  const $results = $("#" + targetId);
+
+  if (value.length < min) {
+    $results.empty().prop("hidden", true);
+    $input.attr("aria-expanded", "false");
+    return;
+  }
+
+  if (!url) return;
+
+  const params = new URLSearchParams({
+    [searchParam]: value,
+  });
+
+  fetch(`${url}?${params}`)
+    .then((response) => response.json())
+    .then((data) => {
+      $results.empty();
+
+      if (Array.isArray(data) && data.length > 0) {
+        data.forEach((item) => {
+          const label = item.label || item.title || item.name || "";
+          const subtitle = item.subtitle || item.author || item.email || "";
+          const val = item.value || label;
+
+          const $option = $(`
+            <button
+              type="button"
+              class="dropdown-item p-3 border-bottom"
+              data-autocomplete-option="${val}"
+              data-label="${label}">
+              <div class="fw-semibold">${label}</div>
+              ${subtitle ? `<small class="text-body-secondary">${subtitle}</small>` : ""}
+            </button>
+          `);
+          $results.append($option);
+        });
+
+        $results.prop("hidden", false);
+        $input.attr("aria-expanded", "true");
+      } else {
+        $results.prop("hidden", true);
+        $input.attr("aria-expanded", "false");
+      }
+    })
+    .catch((err) => {
+      console.error("Autocomplete fetch error:", err);
+      $results.prop("hidden", true);
+      $input.attr("aria-expanded", "false");
+    });
+});
+
+$(document).on("click", function (event) {
+  $("[data-autocomplete-target]").each(function () {
+    const $input = $(this);
+    const targetId = $input.data("autocomplete-target");
+    const $results = $("#" + targetId);
+
+    if (
+      !$(event.target).closest($input).length &&
+      !$(event.target).closest($results).length
+    ) {
+      $results.prop("hidden", true);
+      $input.attr("aria-expanded", "false");
+    }
+  });
+});
+
+$(document).on("click", "[data-autocomplete-option]", function () {
+  const value = $(this).data("autocomplete-option");
+  const $results = $(this).closest("[role='listbox']");
+  const targetId = $results.attr("id");
+  const $input = $(`[data-autocomplete-target="${targetId}"]`);
+
+  $input.val(value);
+  $input.attr("aria-expanded", "false");
+  $results.prop("hidden", true);
 });

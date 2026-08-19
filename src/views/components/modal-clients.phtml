@@ -23,91 +23,143 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
-        <div class="row g-4">
-          <div class="col-12">
-            <small class="text-body-secondary"> Name </small>
-            <h4 class="mb-0">CLIENT NAME</h4>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class="border rounded p-3 h-100">
-              <small class="text-body-secondary d-block"> Email </small>
-              <span class="fw-semibold"> client@email.com </span>
+      <form
+        action="/api/clients/update"
+        method="POST"
+        data-confirm="The data will be modified when you click Save. Are you sure?"
+      >
+        <div class="modal-body">
+          <input type="hidden" name="id" value="1" />
+          <div class="row g-4">
+            <div class="col-12">
+              <label for="clientName" class="form-label text-body-secondary">
+                Name
+              </label>
+              <input
+                type="text"
+                class="form-control client-field"
+                id="clientName"
+                name="name"
+                value="CLIENT NAME"
+                style="border: 1px solid transparent"
+                required
+              />
             </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class="border rounded p-3 h-100">
-              <small class="text-body-secondary d-block"> Phone </small>
-              <span class="fw-semibold"> (48) 99999-9999 </span>
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class="border rounded p-3 h-100">
-              <small class="text-body-secondary d-block"> Document </small>
-              <span class="fw-semibold"> 000.000.000-00 </span>
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div
-              class="d-flex justify-content-between align-items-center border rounded p-3 h-100"
-            >
-              <div>
-                <small class="text-body-secondary d-block"> Loan Status </small>
-                <span class="fw-semibold"> Current status </span>
+            <div class="col-12 col-md-6">
+              <div class="border rounded p-3 h-100">
+                <label for="clientEmail" class="form-label text-body-secondary">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  class="form-control client-field"
+                  id="clientEmail"
+                  name="email"
+                  value="client@email.com"
+                  style="border: 1px solid transparent"
+                  required
+                />
               </div>
-              <span class="badge text-bg-warning"> With Loan </span>
             </div>
-          </div>
-          <div class="col-12">
-            <div class="border rounded p-3">
+            <div class="col-12 col-md-6">
+              <div class="border rounded p-3 h-100">
+                <label for="clientPhone" class="form-label text-body-secondary">
+                  Phone
+                </label>
+                <input
+                  type="text"
+                  class="form-control client-field"
+                  id="clientPhone"
+                  name="phone"
+                  value="(48) 99999-9999"
+                  style="border: 1px solid transparent"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="border rounded p-3 h-100">
+                <label for="clientDocument" class="form-label text-body-secondary">
+                  Document
+                </label>
+                <input
+                  type="text"
+                  class="form-control client-field"
+                  id="clientDocument"
+                  name="document"
+                  value="000.000.000-00"
+                  style="border: 1px solid transparent"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
               <div
-                class="d-flex justify-content-between align-items-center mb-3"
+                class="d-flex justify-content-between align-items-center border rounded p-3 h-100"
               >
                 <div>
-                  <h6 class="mb-0">Active Loans</h6>
-                  <small class="text-body-secondary">
-                    Books currently borrowed
-                  </small>
+                  <small class="text-body-secondary d-block"> Loan Status </small>
+                  <span class="fw-semibold"> Current status </span>
                 </div>
-                <span class="badge text-bg-secondary"> 02 loans </span>
+                <span class="badge text-bg-warning"> With Loan </span>
               </div>
-              <div
-                class="d-flex justify-content-between align-items-center border-top py-3"
-              >
-                <div>
-                  <span class="fw-semibold d-block"> BOOK TITLE </span>
-                  <small class="text-body-secondary"> Loan: 15/08/2026 </small>
+            </div>
+            <div class="col-12">
+              <div class="border rounded p-3">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <div>
+                    <h6 class="mb-0">Active Loans</h6>
+                    <small class="text-body-secondary">
+                      Books currently borrowed
+                    </small>
+                  </div>
+                  <span class="badge text-bg-secondary"> 02 loans </span>
                 </div>
-                <div class="text-end">
-                  <small class="text-body-secondary d-block"> Return </small>
-                  <span class="fw-semibold"> 20/08/2026 </span>
+                <div
+                  class="d-flex justify-content-between align-items-center border-top py-3"
+                >
+                  <div>
+                    <span class="fw-semibold d-block"> BOOK TITLE </span>
+                    <small class="text-body-secondary"> Loan: 15/08/2026 </small>
+                  </div>
+                  <div class="text-end">
+                    <small class="text-body-secondary d-block"> Return </small>
+                    <span class="fw-semibold"> 20/08/2026 </span>
+                  </div>
                 </div>
-              </div>
-              <div
-                class="d-flex justify-content-between align-items-center border-top py-3"
-              >
-                <div>
-                  <span class="fw-semibold d-block"> ANOTHER BOOK </span>
-                  <small class="text-body-secondary"> Loan: 16/08/2026 </small>
-                </div>
-                <div class="text-end">
-                  <small class="text-body-secondary d-block"> Return </small>
-                  <span class="fw-semibold"> 25/08/2026 </span>
+                <div
+                  class="d-flex justify-content-between align-items-center border-top py-3"
+                >
+                  <div>
+                    <span class="fw-semibold d-block"> ANOTHER BOOK </span>
+                    <small class="text-body-secondary"> Loan: 16/08/2026 </small>
+                  </div>
+                  <div class="text-end">
+                    <small class="text-body-secondary d-block"> Return </small>
+                    <span class="fw-semibold"> 25/08/2026 </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-        <a href="/clients/1/edit" class="btn btn-primary">
-          <i class="bi bi-pencil me-1"></i>
-          Edit
-        </a>
-      </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            id="cancelClientButton"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-success" id="saveClientButton">
+            <i class="bi bi-check-lg me-1"></i>
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

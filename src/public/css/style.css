@@ -13,12 +13,14 @@ body {
   text-decoration: none;
 }
 
-#bookDetailsModal.editing .book-field {
+#bookDetailsModal.editing .book-field,
+#clientDetailsModal.editing .client-field {
     border-color: var(--bs-primary) !important;
     background: transparent !important;
 }
 
-#bookDetailsModal.editing .book-field:focus {
+#bookDetailsModal.editing .book-field:focus,
+#clientDetailsModal.editing .client-field:focus {
     border-color: var(--bs-primary) !important;
 }
 
