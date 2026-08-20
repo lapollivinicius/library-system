@@ -90,11 +90,11 @@ class routes
       'action' => 'profile'
     );
 
-    // clients
-    $routes['clients'] = array(
-      'route' => '/clients',
+    // members
+    $routes['members'] = array(
+      'route' => '/members',
       'method' => 'GET',
-      'controller' => 'client',
+      'controller' => 'member',
       'middleware' => ['auth'],
       'action' => 'index'
     );

@@ -1,34 +1,34 @@
 <div class="container-fluid mb-3">
   <div class="row mb-4">
     <div class="col">
-      <p class="fw-bold fs-4 m-0">CLIENTS</p>
-      <small class="text-secondary m-0"> Client registration and search </small>
+      <p class="fw-bold fs-4 m-0">MEMBERS</p>
+      <small class="text-secondary m-0"> Member registration and search </small>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-12">
-      <div class="accordion shadow-sm" id="clientAccordion">
+      <div class="accordion shadow-sm" id="memberAccordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button
               class="accordion-button collapsed"
               type="button"
               data-bs-toggle="collapse"
-              data-bs-target="#clientForm"
+              data-bs-target="#memberForm"
               aria-expanded="true"
-              aria-controls="clientForm"
+              aria-controls="memberForm"
             >
               <i class="bi bi-person-plus-fill me-2"></i>
-              Register Client
+              Register Member
             </button>
           </h2>
           <div
-            id="clientForm"
+            id="memberForm"
             class="accordion-collapse collapse"
-            data-bs-parent="#clientAccordion"
+            data-bs-parent="#memberAccordion"
           >
             <div class="accordion-body">
-              <form action="/clients" method="POST">
+              <form action="/members" method="POST">
                 <div class="row g-3">
                   <!-- NAME -->
                   <div class="col-12 col-md-6">
@@ -39,7 +39,7 @@
                       class="form-control"
                       id="name"
                       name="name"
-                      placeholder="Client name"
+                      placeholder="Member name"
                       required
                     />
                   </div>
@@ -51,7 +51,7 @@
                       class="form-control"
                       id="email"
                       name="email"
-                      placeholder="client@email.com"
+                      placeholder="member@email.com"
                       required
                     />
                   </div>
@@ -82,7 +82,7 @@
                   <div class="col-12 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">
                       <i class="bi bi-check-lg me-1"></i>
-                      Register Client
+                      Register Member
                     </button>
                   </div>
                 </div>
@@ -97,11 +97,11 @@
     <div class="col-12">
       <div class="card shadow-sm">
         <div class="card-header bg-body">
-          <h5 class="mb-0">Search Clients</h5>
-          <small class="text-body-secondary"> Find registered clients </small>
+          <h5 class="mb-0">Search Members</h5>
+          <small class="text-body-secondary"> Find registered members </small>
         </div>
         <div class="card-body">
-          <form action="/clients" method="GET">
+          <form action="/members" method="GET">
             <div class="row g-3">
               <div class="col-12 col-md-4">
                 <label for="searchField" class="form-label"> Search by </label>
@@ -141,10 +141,10 @@
           class="card-header bg-body d-flex justify-content-between align-items-center"
         >
           <div>
-            <h5 class="mb-0">Clients</h5>
-            <small class="text-body-secondary"> Registered clients </small>
+            <h5 class="mb-0">Members</h5>
+            <small class="text-body-secondary"> Registered members </small>
           </div>
-          <span class="badge text-bg-secondary"> 00 clients </span>
+          <span class="badge text-bg-secondary"> 00 members </span>
         </div>
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
@@ -161,10 +161,10 @@
               <tr
                 role="button"
                 data-bs-toggle="modal"
-                data-bs-target="#clientDetailsModal"
+                data-bs-target="#memberDetailsModal"
               >
-                <td>CLIENT NAME</td>
-                <td>client@email.com</td>
+                <td>MEMBER NAME</td>
+                <td>member@email.com</td>
                 <td>(48) 99999-9999</td>
                 <td>000.000.000-00</td>
                 <td>
@@ -174,7 +174,7 @@
 
               <tr>
                 <td colspan="5" class="text-center text-body-secondary py-4">
-                  No clients found.
+                  No members found.
                 </td>
               </tr>
             </tbody>

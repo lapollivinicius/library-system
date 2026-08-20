@@ -27,8 +27,8 @@ class database
               library_name VARCHAR(64) NOT NULL,
               is_active BOOLEAN NOT NULL DEFAULT TRUE
           );
-          CREATE TABLE IF NOT EXISTS clients (
-              client_id VARCHAR(36) PRIMARY KEY NOT NULL,
+          CREATE TABLE IF NOT EXISTS members (
+              member_id VARCHAR(36) PRIMARY KEY NOT NULL,
               user_id VARCHAR(36) NOT NULL,
               code INT AUTO_INCREMENT UNIQUE,
               name VARCHAR(64) NOT NULL,
@@ -54,7 +54,7 @@ class database
           CREATE TABLE IF NOT EXISTS loans (
               loan_id VARCHAR(36) PRIMARY KEY NOT NULL,
               user_id VARCHAR(36) NOT NULL,
-              client_id VARCHAR(36) NOT NULL,
+              member_id VARCHAR(36) NOT NULL,
               book_id VARCHAR(36) NOT NULL,
               code INT AUTO_INCREMENT UNIQUE,
 
@@ -63,7 +63,7 @@ class database
               returned_at DATETIME NULL,
 
               FOREIGN KEY (user_id) REFERENCES users(user_id),
-              FOREIGN KEY (client_id) REFERENCES clients(client_id),
+              FOREIGN KEY (member_id) REFERENCES members(member_id),
               FOREIGN KEY (book_id) REFERENCES books(book_id)
           );
       ') !== false;

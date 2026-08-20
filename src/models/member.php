@@ -4,7 +4,7 @@ namespace models;
 
 use PDO;
 
-class user
+class member
 {
 
   protected PDO $database;

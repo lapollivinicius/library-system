@@ -2,10 +2,10 @@
 
 namespace entities;
 
-class client
+class member
 {
 
-  private string $client_id;
+  private string $member_id;
   private string $library_id;
   private string $name;
   private string $email;
@@ -13,14 +13,14 @@ class client
   private bool $is_active;
 
   public function __construct(
-    string $client_id,
+    string $member_id,
     string $user_id,
     string $name,
     string $email,
     string $phone,
     bool $is_active = true
   ) {
-    $this->client_id = $client_id;
+    $this->member_id = $member_id;
     $this->user_id = $user_id;
     $this->name = $name;
     $this->email = $email;

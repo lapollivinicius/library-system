@@ -3,6 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Library System" />
+    <meta
+      name="description"
+      content="Manage your library, track loans, and monitor book reservations with ease."
+    />
+    <!-- META OG
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Library System" />
+    <meta
+      property="og:title"
+      content="Library System | A library mananger"
+    />
+    <meta
+      property="og:description"
+      content="Manage your library, track loans, and monitor book reservations with ease."
+    />
+    <meta property="og:url" content="https://librarysystem.live" />
+    <meta property="og:image" content="https://librarysystem.live/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Library System | A library mananger"
+    />
+    <meta
+      name="twitter:description"
+      content="Manage your library, track loans, and monitor book reservations with ease."
+    />
+    <meta name="twitter:image" content="https://librarysystem.live/og.png" />
+    -->
     <title>
       Library System<?php echo (' | ' . ucfirst($this->view->title)) ?? '' ?>
     </title>
@@ -28,6 +57,7 @@
       integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao="
       crossorigin="anonymous"
     ></script>
+    <script src="/js/sign.js" defer></script>
     <script src="/js/script.js"></script>
     <script>
       const theme = localStorage.getItem("theme");
@@ -38,8 +68,8 @@
   </head>
 
   <body>
-    <?php include __DIR__ . '/modals/modal-confirm.phtml'; ?> 
-    <?= $this->content(); ?>
-    <?php include __DIR__ . '/public/components/cookie.phtml'; ?>
+    <?php include __DIR__ . '/modals/modal-confirm.phtml'; ?> <?=
+    $this->content(); ?> <?php include __DIR__ .
+    '/public/components/cookie.phtml'; ?>
   </body>
 </html>

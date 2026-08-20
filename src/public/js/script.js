@@ -1,6 +1,3 @@
-// sign
-console.log("created by lapollivinicius");
-console.log("https://github.com/lapollivinicius");
 // cookie banner
 $(document).ready(function () {
   const $banner = $("#cookieBanner");

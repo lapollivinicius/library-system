@@ -7,7 +7,7 @@ class loan
 
   private string $loan_id;
   private string $user_id;
-  private string $client_id;
+  private string $member_id;
   private string $book_id;
   private string $loaned_at;
   private string $due_at;
@@ -17,7 +17,7 @@ class loan
   public function __construct(
     string $loan_id,
     string $user_id,
-    string $client_id,
+    string $member_id,
     string $book_id,
     string $loaned_at,
     string $due_at,
@@ -26,7 +26,7 @@ class loan
   ) {
     $this->loan_id = $loan_id;
     $this->user_id = $user_id;
-    $this->client_id = $client_id;
+    $this->member_id = $member_id;
     $this->book_id = $book_id;
     $this->loaned_at = $loaned_at;
     $this->due_at = $due_at;
