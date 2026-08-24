@@ -99,6 +99,14 @@ class routes
       'action' => 'index'
     );
 
+    $routes['edit_member'] = array(
+      'route' => '/members/edit/:id',
+      'method' => 'GET',
+      'controller' => 'member',
+      'middleware' => ['auth'],
+      'action' => 'editMember'
+    );
+
     // loans
     $routes['loans'] = array(
       'route' => '/loans',
@@ -106,6 +114,14 @@ class routes
       'controller' => 'loan',
       'middleware' => ['auth'],
       'action' => 'index'
+    );
+
+    $routes['edit_loan'] = array(
+      'route' => '/loans/edit/:id',
+      'method' => 'GET',
+      'controller' => 'loan',
+      'middleware' => ['auth'],
+      'action' => 'editLoan'
     );
 
     // books 
@@ -117,14 +133,29 @@ class routes
       'action' => 'index'
     );
 
-    $routes['create_books'] = array(
-      'route' => '/api/books/create',
+    $routes['add_book'] = array(
+      'route' => '/books/create',
       'method' => 'POST',
       'controller' => 'book',
-      'middleware' => ['auth'],
-      'action' => 'createBook'
+      'middleware' => ['auth', 'csrf'],
+      'action' => 'addBook'
     );
 
+    $routes['delete_book'] = array(
+      'route' => '/books/delete/:code',
+      'method' => 'POST',
+      'controller' => 'book',
+      'middleware' => ['auth', 'csrf'],
+      'action' => 'deleteBook'
+    );
+
+    $routes['edit_book'] = array(
+      'route' => '/books/edit/:code',
+      'method' => 'GET',
+      'controller' => 'book',
+      'middleware' => ['auth'],
+      'action' => 'editBook'
+    );
 
     // auth
     $routes['auth_register'] = array(

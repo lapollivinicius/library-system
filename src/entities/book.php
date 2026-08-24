@@ -7,34 +7,37 @@ class book
 
   private string $book_id;
   private string $user_id;
-  private string $code;
+  private int $code;
   private string $title;
   private string $author;
   private string $isbn;
+  private string $genre;
   private string $year;
-  private int $quantity = 0;
+  private int $quantity;
   private bool $is_active;
 
   public function __construct(
     string $book_id,
     string $user_id,
-    string $code,
+    int $code,
     string $title,
     string $author,
     string $isbn,
+    string $genre,
     string $year,
     int $quantity = 0,
     bool $is_active = true
   ) {
     $this->book_id = $book_id;
     $this->user_id = $user_id;
-    $this->code = $code;
+    $this->code = (int) $code;
     $this->title = $title;
     $this->author = $author;
     $this->isbn = $isbn;
+    $this->genre = $genre;
     $this->year = $year;
-    $this->quantity = $quantity;
-    $this->is_active = $is_active;
+    $this->quantity = (int) $quantity;
+    $this->is_active = (bool) $is_active;
   }
 
   public function __get(string $item)
