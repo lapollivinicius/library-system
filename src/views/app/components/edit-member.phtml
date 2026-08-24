@@ -1,0 +1,177 @@
+<?php
+  if (isset($this->view->member)) {
+    $member = $this->view->member;
+  }
+?>
+
+<?php include __DIR__ . '/header.phtml'; ?>
+
+<main class="container py-4">
+
+  <div class="row mb-4">
+    <div class="col">
+      <a href="/members" class="btn btn-outline-secondary btn-sm mb-3">
+        <i class="bi bi-arrow-left me-1"></i>
+        Back to Members
+      </a>
+      <h5 class="mb-0">Member Details</h5>
+      <small class="text-body-secondary">Complete information about the Member</small>
+    </div>
+  </div>
+
+  <?php if (isset($_SESSION['success'])) { ?>
+    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-check-circle-fill"></i>
+      <p class="mb-0"><?php echo $_SESSION['success'] ?></p>
+    </div>
+  <?php } ?>
+
+  <?php if (isset($_SESSION['error'])) { ?>
+    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-exclamation-circle"></i>
+      <p class="mb-0"><?php echo $_SESSION['error'] ?></p>
+    </div>
+  <?php } ?>
+
+  <form
+    action="/members/update"
+    method="POST"
+    data-confirm="The data will be modified when you click Save. Are you sure?"
+  >
+    <input type="hidden" name="csrf_token" value="<?php echo $this->view->csrf_token; ?>" />
+    <input type="hidden" name="id" value="<?php echo $member?->__get('id') ?? '' ?>" />
+
+    <div class="row g-4">
+
+      <div class="col-12">
+        <label for="memberName" class="form-label text-body-secondary">
+          Name
+        </label>
+        <input
+          type="text"
+          class="form-control member-field"
+          id="memberName"
+          name="name"
+          value="<?php echo htmlspecialchars($member?->__get('name') ?? '') ?>"
+          style="border: 1px solid transparent"
+          required
+        />
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="border rounded p-3 h-100">
+          <label for="memberEmail" class="form-label text-body-secondary">
+            Email
+          </label>
+          <input
+            type="email"
+            class="form-control member-field"
+            id="memberEmail"
+            name="email"
+            value="<?php echo htmlspecialchars($member?->__get('email') ?? '') ?>"
+            style="border: 1px solid transparent"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="border rounded p-3 h-100">
+          <label for="memberPhone" class="form-label text-body-secondary">
+            Phone
+          </label>
+          <input
+            type="text"
+            class="form-control member-field"
+            id="memberPhone"
+            name="phone"
+            value="<?php echo htmlspecialchars($member?->__get('phone') ?? '') ?>"
+            style="border: 1px solid transparent"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="border rounded p-3 h-100">
+          <label for="memberDocument" class="form-label text-body-secondary">
+            Document
+          </label>
+          <input
+            type="text"
+            class="form-control member-field"
+            id="memberDocument"
+            name="document"
+            value="<?php echo htmlspecialchars($member?->__get('document') ?? '') ?>"
+            style="border: 1px solid transparent"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="d-flex justify-content-between align-items-center border rounded p-3 h-100">
+          <div>
+            <small class="text-body-secondary d-block">Loan Status</small>
+            <span class="fw-semibold">Current status</span>
+          </div>
+          <?php if ($member?->__get('has_loan')): ?>
+            <span class="badge text-bg-warning">With Loan</span>
+          <?php else: ?>
+            <span class="badge text-bg-success">No Loan</span>
+          <?php endif; ?>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="border rounded p-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h6 class="mb-0">Active Loans</h6>
+              <small class="text-body-secondary">Books currently borrowed</small>
+            </div>
+            <span class="badge text-bg-secondary">
+              <?php echo count($member?->__get('loans') ?? []) ?> loans
+            </span>
+          </div>
+
+          <?php if (!empty($member?->__get('loans'))): ?>
+            <?php foreach ($member->__get('loans') as $loan): ?>
+              <div class="d-flex justify-content-between align-items-center border-top py-3">
+                <div>
+                  <span class="fw-semibold d-block"><?= htmlspecialchars($loan['book_title'] ?? '—') ?></span>
+                  <small class="text-body-secondary">Loan: <?= htmlspecialchars($loan['loan_date'] ?? '—') ?></small>
+                </div>
+                <div class="text-end">
+                  <small class="text-body-secondary d-block">Return</small>
+                  <span class="fw-semibold"><?= htmlspecialchars($loan['return_date'] ?? '—') ?></span>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <p class="text-body-secondary mb-0 border-top pt-3">No active loans.</p>
+          <?php endif; ?>
+        </div>
+      </div>
+
+      <div class="col-12 d-flex justify-content-end gap-2">
+        <a href="/members" class="btn btn-outline-secondary" id="cancelMemberButton">
+          Cancel
+        </a>
+        <button type="submit" class="btn btn-success" id="saveMemberButton">
+          <i class="bi bi-check-lg me-1"></i>
+          Save
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+</main>
+
+<?php include __DIR__ . '/footer.phtml'; ?>
+
+<?php
+unset($_SESSION['error']);
+unset($_SESSION['success']);
+?>

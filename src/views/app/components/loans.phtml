@@ -92,16 +92,21 @@
       </div>
     </div>
   </div>
-  <div class="row mb-4">
+  <div class="row">
     <div class="col-12">
       <div class="card shadow-sm">
-        <div class="card-header bg-body">
-          <h5 class="mb-0">Search Active Loans</h5>
-          <small class="text-body-secondary">
-            Find currently active loans
-          </small>
+        <div
+          class="card-header bg-body d-flex justify-content-between align-items-center"
+        >
+          <div>
+            <h5 class="mb-0">Active Loans</h5>
+            <small class="text-body-secondary">
+              Currently borrowed books
+            </small>
+          </div>
+          <span class="badge text-bg-secondary"> 00 loans </span>
         </div>
-        <div class="card-body">
+        <div class="card-body border-bottom pb-3">
           <form action="/loans" method="GET">
             <div class="row g-3">
               <div class="col-12 col-md-4">
@@ -131,23 +136,6 @@
             </div>
           </form>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="card shadow-sm">
-        <div
-          class="card-header bg-body d-flex justify-content-between align-items-center"
-        >
-          <div>
-            <h5 class="mb-0">Active Loans</h5>
-            <small class="text-body-secondary">
-              Currently borrowed books
-            </small>
-          </div>
-          <span class="badge text-bg-secondary"> 00 loans </span>
-        </div>
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
             <thead>
@@ -159,41 +147,38 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                role="button"
-                data-bs-toggle="modal"
-                data-bs-target="#loanDetailsModal"
-              >
-                <td>BOOK TITLE</td>
-                <td>MEMBER NAME</td>
-                <td>20/08/2026</td>
-                <td class="text-end">
-                  <div class="dropdown">
-                    <button
-                      class="btn btn-sm btn-outline-secondary dropdown-toggle"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      onclick="event.stopPropagation()"
-                    >
-                      Options
-                    </button>
 
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      <li>
-                        <a
-                          class="dropdown-item"
-                          href="/loans/1/edit"
-                          onclick="event.stopPropagation()"
-                        >
-                          <i class="bi bi-pencil me-2"></i>
-                          Edit
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
+              <?php foreach ($loans as $loan): ?>
+                <tr>
+                  <td><?= htmlspecialchars($loan->__get('book_title') ?? '—') ?></td>
+                  <td><?= htmlspecialchars($loan->__get('member_name') ?? '—') ?></td>
+                  <td><?= htmlspecialchars($loan->__get('return_date') ?? '—') ?></td>
+                  <td class="text-end">
+                    <div class="dropdown">
+                      <button
+                        class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Options
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="/loans/edit/<?= htmlspecialchars($loan->__get('id')) ?>"
+                          >
+                            <i class="bi bi-pencil me-2"></i>
+                            Edit
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+
               <tr>
                 <td colspan="4" class="text-center text-body-secondary py-4">
                   No active loans found.

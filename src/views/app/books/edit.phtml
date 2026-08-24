@@ -1,0 +1,199 @@
+<?php
+  if (isset($this->view->book)) {
+    $book = $this->view->book;
+  }
+?>
+
+<?php include __DIR__ . '/../components/header.phtml'; ?>
+
+<main class="container py-4">
+
+  <div class="row mb-4">
+    <div class="col">
+      <a href="/books" class="btn btn-outline-secondary btn-sm mb-3">
+        <i class="bi bi-arrow-left me-1"></i>
+        Back to Books
+      </a>
+      <h5 class="mb-0">Book Details</h5>
+      <small class="text-body-secondary">View and edit book information</small>
+    </div>
+  </div>
+
+  <?php if (isset($_SESSION['success'])) { ?>
+    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-check-circle-fill"></i>
+      <p class="mb-0"><?php echo $_SESSION['success'] ?></p>
+    </div>
+  <?php } ?>
+
+  <?php if (isset($_SESSION['error'])) { ?>
+    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-exclamation-circle"></i>
+      <p class="mb-0"><?php echo $_SESSION['error'] ?></p>
+    </div>
+  <?php } ?>
+
+  <form
+    action="/books/update"
+    method="POST"
+    data-confirm="The data will be modified when you click Save. Are you sure?"
+  >
+    <input type="hidden" name="csrf_token" value="<?php echo $this->view->csrf_token; ?>" />
+    <input type="hidden" name="id" value="<?php echo $book?->__get('id') ?? '' ?>" />
+
+    <div class="row g-4">
+      <div class="col-12">
+        <label for="bookTitle" class="form-label text-body-secondary">
+          Title
+        </label>
+        <input
+          type="text"
+          class="form-control book-field"
+          id="bookTitle"
+          name="title"
+          value="<?php echo htmlspecialchars($book?->__get('title') ?? '') ?>"
+          style="border: 1px solid transparent"
+          required
+        />
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="border rounded p-3 h-100">
+          <label for="bookAuthor" class="form-label text-body-secondary">
+            Author
+          </label>
+          <input
+            type="text"
+            class="form-control book-field"
+            id="bookAuthor"
+            name="author"
+            value="<?php echo htmlspecialchars($book?->__get('author') ?? '') ?>"
+            style="border: 1px solid transparent"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="border rounded p-3 h-100">
+          <label for="bookYear" class="form-label text-body-secondary">
+            Publication Year
+          </label>
+          <input
+            type="number"
+            class="form-control book-field"
+            id="bookYear"
+            name="year"
+            value="<?php echo htmlspecialchars($book?->__get('year') ?? '') ?>"
+            style="border: 1px solid transparent"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="border rounded p-3 h-100">
+          <label for="bookGenre" class="form-label text-body-secondary">
+            Genre
+          </label>
+          <input
+            type="text"
+            class="form-control book-field"
+            id="bookGenre"
+            name="genre"
+            value="<?php echo htmlspecialchars($book?->__get('genre') ?? '') ?>"
+            style="border: 1px solid transparent"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="border rounded p-3 h-100">
+          <label for="bookIsbn" class="form-label text-body-secondary">
+            ISBN
+          </label>
+          <input
+            type="text"
+            class="form-control book-field"
+            id="bookIsbn"
+            name="isbn"
+            value="<?php echo htmlspecialchars($book?->__get('isbn') ?? '') ?>"
+            style="border: 1px solid transparent"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="border rounded p-3">
+          <label for="bookQuantity" class="form-label text-body-secondary">
+            Quantity
+          </label>
+          <input
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            class="form-control book-field fs-4"
+            id="bookQuantity"
+            name="quantity"
+            value="<?php echo htmlspecialchars($book?->__get('quantity') ?? '') ?>"
+            min="0"
+            style="border: 1px solid transparent"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="border rounded p-3 h-100">
+          <small class="text-body-secondary d-block"> Available </small>
+          <span class="fs-4 fw-semibold text-success">
+            <?php # echo htmlspecialchars($book?->__get('available') ?? '—') ?> Soon
+          </span>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="border rounded p-3 h-100">
+          <small class="text-body-secondary d-block"> Borrowed </small>
+          <span class="fs-4 fw-semibold text-danger">
+            <?php # echo htmlspecialchars($book?->__get('borrowed') ?? '—') ?> Soon
+          </span>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center border rounded p-3">
+          <div>
+            <small class="text-body-secondary d-block"> Status </small>
+            <span class="fw-semibold"> Book availability </span>
+          </div>
+          <?php if ($book?->__get('is_active')): ?>
+            <span class="badge text-bg-success"> Available </span>
+          <?php else: ?>
+            <span class="badge text-bg-danger"> Unavailable </span>
+          <?php endif; ?>
+        </div>
+      </div>
+
+      <div class="col-12 d-flex justify-content-end gap-2">
+        <a href="/books" class="btn btn-outline-secondary" id="cancelBookButton">
+          Cancel
+        </a>
+        <button type="submit" class="btn btn-success" id="saveBookButton">
+          <i class="bi bi-check-lg me-1"></i>
+          Save
+        </button>
+      </div>
+    </div>
+  </form>
+
+</main>
+
+<?php include __DIR__ . '/../components/footer.phtml'; ?>
+
+<?php
+unset($_SESSION['error']);
+unset($_SESSION['success']);
+?>

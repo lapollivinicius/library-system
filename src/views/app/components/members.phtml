@@ -93,14 +93,19 @@
       </div>
     </div>
   </div>
-  <div class="row mb-4">
+  <div class="row">
     <div class="col-12">
       <div class="card shadow-sm">
-        <div class="card-header bg-body">
-          <h5 class="mb-0">Search Members</h5>
-          <small class="text-body-secondary"> Find registered members </small>
+        <div
+          class="card-header bg-body d-flex justify-content-between align-items-center"
+        >
+          <div>
+            <h5 class="mb-0">Members</h5>
+            <small class="text-body-secondary"> Registered members </small>
+          </div>
+          <span class="badge text-bg-secondary"> 00 members </span>
         </div>
-        <div class="card-body">
+        <div class="card-body border-bottom pb-3">
           <form action="/members" method="GET">
             <div class="row g-3">
               <div class="col-12 col-md-4">
@@ -131,21 +136,6 @@
             </div>
           </form>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="card shadow-sm">
-        <div
-          class="card-header bg-body d-flex justify-content-between align-items-center"
-        >
-          <div>
-            <h5 class="mb-0">Members</h5>
-            <small class="text-body-secondary"> Registered members </small>
-          </div>
-          <span class="badge text-bg-secondary"> 00 members </span>
-        </div>
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
             <thead>
@@ -155,25 +145,52 @@
                 <th>Phone</th>
                 <th>Document</th>
                 <th>Status</th>
+                <th class="text-end">Options</th>
               </tr>
             </thead>
             <tbody>
-              <tr
-                role="button"
-                data-bs-toggle="modal"
-                data-bs-target="#memberDetailsModal"
-              >
-                <td>MEMBER NAME</td>
-                <td>member@email.com</td>
-                <td>(48) 99999-9999</td>
-                <td>000.000.000-00</td>
-                <td>
-                  <span class="badge text-bg-warning"> With Loan </span>
-                </td>
-              </tr>
+
+              <?php foreach ($members as $member): ?>
+                <tr>
+                  <td><?= htmlspecialchars($member->__get('name') ?? '—') ?></td>
+                  <td><?= htmlspecialchars($member->__get('email') ?? '—') ?></td>
+                  <td><?= htmlspecialchars($member->__get('phone') ?? '—') ?></td>
+                  <td><?= htmlspecialchars($member->__get('document') ?? '—') ?></td>
+                  <td>
+                    <?php if ($member->__get('has_loan')): ?>
+                      <span class="badge text-bg-warning">With Loan</span>
+                    <?php else: ?>
+                      <span class="badge text-bg-success">No Loan</span>
+                    <?php endif; ?>
+                  </td>
+                  <td class="text-end">
+                    <div class="dropdown">
+                      <button
+                        class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Options
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="/members/edit/<?= htmlspecialchars($member->__get('id')) ?>"
+                          >
+                            <i class="bi bi-pencil me-2"></i>
+                            Edit
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
 
               <tr>
-                <td colspan="5" class="text-center text-body-secondary py-4">
+                <td colspan="6" class="text-center text-body-secondary py-4">
                   No members found.
                 </td>
               </tr>
