@@ -231,3 +231,10 @@ $(document).ready(function () {
     }
 
 });
+
+// dropdown
+document.querySelectorAll('.dropdown').forEach(dropdown => {
+    dropdown.addEventListener('click', event => {
+        event.stopPropagation();
+    });
+});
