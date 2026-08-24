@@ -27,7 +27,7 @@ class auth extends validators
 
       if ($key == 'name') {
         if (!$this->name($value)) {
-          return $this->setError('The Name field can only contain letters and (_)');
+          return $this->setError('The Name field can only contain letters');
         }
 
         if (!$this->minLength($value, 3) || !$this->maxLength($value, 64)) {
@@ -53,7 +53,7 @@ class auth extends validators
 
       if ($key == 'library_name') {
         if (!$this->name($value)) {
-          return $this->setError('The Library field can only contain letters and (_)');
+          return $this->setError('The Library field can only contain letters');
         }
         if (!$this->minLength($value, 5) || !$this->maxLength($value, 64)) {
           return $this->setError('The Library field must be between 5 and 64 characters long.');
