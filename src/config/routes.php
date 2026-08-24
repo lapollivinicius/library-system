@@ -157,6 +157,22 @@ class routes
       'action' => 'editBook'
     );
 
+    $routes['update_book'] = array(
+      'route' => '/books/update/:code',
+      'method' => 'POST',
+      'controller' => 'book',
+      'middleware' => ['auth', 'csrf'],
+      'action' => 'updateBook'
+    );
+
+    $routes['json_books'] = array(
+      'route' => '/books/json',
+      'method' => 'GET',
+      'controller' => 'book',
+      'middleware' => [],
+      'action' => 'listbooks'
+    );
+
     // auth
     $routes['auth_register'] = array(
       'route' => '/auth/register',

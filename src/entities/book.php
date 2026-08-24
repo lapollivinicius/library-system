@@ -7,7 +7,7 @@ class book
 
   private string $book_id;
   private string $user_id;
-  private int $code;
+  private string $code;
   private string $title;
   private string $author;
   private string $isbn;
@@ -19,7 +19,7 @@ class book
   public function __construct(
     string $book_id,
     string $user_id,
-    int $code,
+    string $code,
     string $title,
     string $author,
     string $isbn,
@@ -30,7 +30,7 @@ class book
   ) {
     $this->book_id = $book_id;
     $this->user_id = $user_id;
-    $this->code = (int) $code;
+    $this->code = $code;
     $this->title = $title;
     $this->author = $author;
     $this->isbn = $isbn;
