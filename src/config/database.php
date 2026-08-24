@@ -41,8 +41,8 @@ class database
           CREATE TABLE IF NOT EXISTS books (
               book_id VARCHAR(36) PRIMARY KEY NOT NULL,
               user_id VARCHAR(36) NOT NULL,
-              code INT AUTO_INCREMENT UNIQUE,
-              title VARCHAR(64) UNIQUE NOT NULL,
+              code VARCHAR(16) NOT NULL,
+              title VARCHAR(64) NOT NULL,
               author VARCHAR(64) NOT NULL,
               isbn VARCHAR(64) NOT NULL,
               genre VARCHAR(64) NOT NULL,
@@ -50,7 +50,10 @@ class database
               quantity INT NOT NULL DEFAULT 0,
               is_active BOOLEAN NOT NULL DEFAULT TRUE,
 
-              FOREIGN KEY (user_id) REFERENCES users(user_id)
+              FOREIGN KEY (user_id) REFERENCES users(user_id),
+
+              UNIQUE KEY unique_user_title (user_id, title),
+              UNIQUE KEY unique_user_code (user_id, code)
           );
           CREATE TABLE IF NOT EXISTS loans (
               loan_id VARCHAR(36) PRIMARY KEY NOT NULL,
