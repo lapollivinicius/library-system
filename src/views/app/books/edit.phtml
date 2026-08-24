@@ -34,7 +34,7 @@
   <?php } ?>
 
   <form
-    action="/books/update"
+    action="<?php echo '/books/update/' . $book->__get('code') ?>"
     method="POST"
     data-confirm="The data will be modified when you click Save. Are you sure?"
   >
@@ -111,7 +111,7 @@
       <div class="col-12 col-md-6">
         <div class="border rounded p-3 h-100">
           <label for="bookIsbn" class="form-label text-body-secondary">
-            ISBN
+            ISBN (Optional)
           </label>
           <input
             type="text"
@@ -120,7 +120,6 @@
             name="isbn"
             value="<?php echo htmlspecialchars($book?->__get('isbn') ?? '') ?>"
             style="border: 1px solid transparent"
-            required
           />
         </div>
       </div>
