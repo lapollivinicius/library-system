@@ -2,10 +2,7 @@
 
 namespace controllers;
 
-require_once '../validators/validators.php';
 require_once '../validators/auth.php';
-require_once '../config/utils.php';
-require_once '../config/database.php';
 require_once '../entities/user.php';
 require_once '../models/user.php';
 

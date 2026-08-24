@@ -1,6 +1,9 @@
 <?php
 
 namespace controllers;
+require_once '../validators/validators.php';
+require_once '../config/database.php';
+require_once '../config/utils.php';
 
 abstract class controller
 {
