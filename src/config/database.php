@@ -44,7 +44,8 @@ class database
               code INT AUTO_INCREMENT UNIQUE,
               title VARCHAR(64) UNIQUE NOT NULL,
               author VARCHAR(64) NOT NULL,
-              isbn VARCHAR(64) UNIQUE NOT NULL,
+              isbn VARCHAR(64) NOT NULL,
+              genre VARCHAR(64) NOT NULL,
               year VARCHAR(4) NOT NULL,
               quantity INT NOT NULL DEFAULT 0,
               is_active BOOLEAN NOT NULL DEFAULT TRUE,
@@ -55,6 +56,7 @@ class database
               loan_id VARCHAR(36) PRIMARY KEY NOT NULL,
               user_id VARCHAR(36) NOT NULL,
               member_id VARCHAR(36) NOT NULL,
+              
               book_id VARCHAR(36) NOT NULL,
               code INT AUTO_INCREMENT UNIQUE,
 
