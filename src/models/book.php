@@ -97,6 +97,49 @@ class book
     );
   }
 
+  public function update(string $user_id, \entities\book $book): void
+  {
+    $query = '
+        UPDATE books SET
+            title = :title,
+            author = :author,
+            isbn = :isbn,
+            genre = :genre,
+            year = :year,
+            quantity = :quantity
+        WHERE user_id = :user_id AND code = :code
+    ';
+
+    $stmt = $this->database->prepare($query);
+
+    $stmt->execute([
+      'user_id'    => $user_id,
+      'title'    => $book->__get('title'),
+      'author'   => $book->__get('author'),
+      'isbn'     => $book->__get('isbn'),
+      'genre'    => $book->__get('genre'),
+      'year'     => $book->__get('year'),
+      'quantity' => $book->__get('quantity'),
+      'code'     => $book->__get('code'),
+    ]);
+  }
+
+  public function delete(string $user_id, string $code): void
+  {
+    $query = "
+        DELETE FROM books
+        WHERE code = :code
+          AND user_id = :user_id
+        LIMIT 1
+    ";
+
+    $stmt = $this->database->prepare($query);
+    $stmt->execute([
+      ':code' => $code,
+      ':user_id' => $user_id
+    ]);
+  }
+
   public function find(string $user_id, string $title): \entities\book|false
   {
 
@@ -168,22 +211,6 @@ class book
     );
   }
 
-  public function delete(string $user_id, string $code): void
-  {
-    $query = "
-        DELETE FROM books
-        WHERE code = :code
-          AND user_id = :user_id
-        LIMIT 1
-    ";
-
-    $stmt = $this->database->prepare($query);
-    $stmt->execute([
-      ':code' => $code,
-      ':user_id' => $user_id
-    ]);
-  }
-
   public function search(string $user_id, ?string $title = '', int $limit = 10, int $offset = 0, string $sort = 'asc'): array
   {
 
@@ -233,33 +260,6 @@ class book
       ),
       $data
     );
-  }
-
-  public function update(string $user_id, \entities\book $book): void
-  {
-    $query = '
-        UPDATE books SET
-            title = :title,
-            author = :author,
-            isbn = :isbn,
-            genre = :genre,
-            year = :year,
-            quantity = :quantity
-        WHERE user_id = :user_id AND code = :code
-    ';
-
-    $stmt = $this->database->prepare($query);
-
-    $stmt->execute([
-      'user_id'    => $user_id,
-      'title'    => $book->__get('title'),
-      'author'   => $book->__get('author'),
-      'isbn'     => $book->__get('isbn'),
-      'genre'    => $book->__get('genre'),
-      'year'     => $book->__get('year'),
-      'quantity' => $book->__get('quantity'),
-      'code'     => $book->__get('code'),
-    ]);
   }
 
   public function count(string $user_id, ?string $title = ''): int

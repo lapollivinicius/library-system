@@ -13,22 +13,45 @@ class book extends controller
 
   public function index()
   {
-
     $this->view->search = $this->searchBook();
     $this->render('app/books/books');
+  }
+  
+  public function edit(array $params = [])
+  {
+    $code = $params['code'] ?? null;
+
+    if (!$code) {
+      header('location: /books');
+      exit;
+    }
+
+    $database = \config\database::connect();
+    $model    = new \models\book($database);
+    $book     = $model->read($this->user_id, $code);
+
+    if (!$book) {
+      header('location: /books');
+      exit;
+    }
+
+    $this->view->book = $book;
+    $this->render('app/books/edit');
   }
 
   public function searchBook()
   {
     # title
+    $title  = $_GET['title'] ?? '';
     $limit  = max(1, (int) ($_GET['limit'] ?? 7));
     $page   = max(1, (int) ($_GET['page']  ?? 1));
     $offset = ($page - 1) * $limit;
-    $title  = $_GET['title'] ?? '';
     $sort   = $_GET['sort'] ?? 'asc';
     $sort   = in_array(strtolower($sort), ['asc', 'desc'])
       ? strtolower($sort)
       : 'asc';
+
+    # validate title ?
 
     $database = \config\database::connect();
     $model    = new \models\book($database);
@@ -117,31 +140,9 @@ class book extends controller
     }
   }
 
-  public function editBook(array $params = [])
-  {
-    $code = $params['code'] ?? null;
-
-    if (!$code) {
-      header('location: /books');
-      exit;
-    }
-
-    $database = \config\database::connect();
-    $model    = new \models\book($database);
-    $book     = $model->read($this->user_id, $code);
-
-    if (!$book) {
-      header('location: /books');
-      exit;
-    }
-
-    $this->view->book = $book;
-    $this->render('app/books/edit');
-  }
-
   public function updateBook(array $params = [])
   {
-
+    # TASK: find a book by title to validate (edit a book to title alread registed)
     # POST -> title, author, year, genre, quant, isbn
     $code = $params['code'] ?? null;
 
@@ -224,11 +225,21 @@ class book extends controller
   {
       $title = $_GET['title'] ?? '';
       $limit = max(1, (int) ($_GET['limit'] ?? 7));
+      $user_id = $this->user_id ?? false;
+
+      if(!$user_id) {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+            'success' => false,
+            'msg' => 'Unauthorized'
+        ]);
+        exit;
+      }
 
       $database = \config\database::connect();
       $model    = new \models\book($database);
       $books    = $model->search(
-          $this->user_id,
+          $user_id,
           $title,
           $limit,
           0,

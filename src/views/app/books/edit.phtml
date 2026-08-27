@@ -1,7 +1,7 @@
 <?php
-  if (isset($this->view->book)) {
-    $book = $this->view->book;
-  }
+if (isset($this->view->book)) {
+  $book = $this->view->book;
+}
 ?>
 
 <?php include __DIR__ . '/../components/header.phtml'; ?>
@@ -36,25 +36,25 @@
   <form
     action="<?php echo '/books/update/' . $book->__get('code') ?>"
     method="POST"
-    data-confirm="The data will be modified when you click Save. Are you sure?"
-  >
+    data-confirm="The data will be modified when you click Save. Are you sure?">
     <input type="hidden" name="csrf_token" value="<?php echo $this->view->csrf_token; ?>" />
     <input type="hidden" name="id" value="<?php echo $book?->__get('id') ?? '' ?>" />
 
     <div class="row g-4">
       <div class="col-12">
-        <label for="bookTitle" class="form-label text-body-secondary">
-          Title
-        </label>
-        <input
-          type="text"
-          class="form-control book-field"
-          id="bookTitle"
-          name="title"
-          value="<?php echo htmlspecialchars($book?->__get('title') ?? '') ?>"
-          style="border: 1px solid transparent"
-          required
-        />
+        <div class="border rounded p-3 h-100">
+          <label for="bookTitle" class="form-label text-body-secondary">
+            Title
+          </label>
+          <input
+            type="text"
+            class="form-control book-field"
+            id="bookTitle"
+            name="title"
+            value="<?php echo htmlspecialchars($book?->__get('title') ?? '') ?>"
+            style="border: 1px solid transparent"
+            required />
+        </div>
       </div>
 
       <div class="col-12 col-md-6">
@@ -69,8 +69,7 @@
             name="author"
             value="<?php echo htmlspecialchars($book?->__get('author') ?? '') ?>"
             style="border: 1px solid transparent"
-            required
-          />
+            required />
         </div>
       </div>
 
@@ -86,8 +85,7 @@
             name="year"
             value="<?php echo htmlspecialchars($book?->__get('year') ?? '') ?>"
             style="border: 1px solid transparent"
-            required
-          />
+            required />
         </div>
       </div>
 
@@ -103,8 +101,7 @@
             name="genre"
             value="<?php echo htmlspecialchars($book?->__get('genre') ?? '') ?>"
             style="border: 1px solid transparent"
-            required
-          />
+            required />
         </div>
       </div>
 
@@ -119,8 +116,7 @@
             id="bookIsbn"
             name="isbn"
             value="<?php echo htmlspecialchars($book?->__get('isbn') ?? '') ?>"
-            style="border: 1px solid transparent"
-          />
+            style="border: 1px solid transparent" />
         </div>
       </div>
 
@@ -139,8 +135,7 @@
             value="<?php echo htmlspecialchars($book?->__get('quantity') ?? '') ?>"
             min="0"
             style="border: 1px solid transparent"
-            required
-          />
+            required />
         </div>
       </div>
 
@@ -148,7 +143,8 @@
         <div class="border rounded p-3 h-100">
           <small class="text-body-secondary d-block"> Available </small>
           <span class="fs-4 fw-semibold text-success">
-            <?php # echo htmlspecialchars($book?->__get('available') ?? '—') ?> Soon
+            <?php # echo htmlspecialchars($book?->__get('available') ?? '—') 
+            ?> Soon
           </span>
         </div>
       </div>
@@ -157,7 +153,8 @@
         <div class="border rounded p-3 h-100">
           <small class="text-body-secondary d-block"> Borrowed </small>
           <span class="fs-4 fw-semibold text-danger">
-            <?php # echo htmlspecialchars($book?->__get('borrowed') ?? '—') ?> Soon
+            <?php # echo htmlspecialchars($book?->__get('borrowed') ?? '—') 
+            ?> Soon
           </span>
         </div>
       </div>
