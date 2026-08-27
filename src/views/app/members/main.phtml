@@ -1,3 +1,20 @@
+<?php
+
+if (isset($_SESSION['data'])) {
+  $data = $_SESSION['data'];
+};
+
+if (isset($this->view->search)) {
+  $members = $this->view->search['members'];
+  $totalMembers = $this->view->search['totalMembers'];
+  $totalPages = $this->view->search['totalPages'];
+  $sort = $this->view->search['sort'];
+  $page = $this->view->search['page'];
+  $limit = $this->view->search['limit'];
+};
+
+?>
+
 <div class="container-fluid mb-3">
   <div class="row mb-4">
     <div class="col">
@@ -16,8 +33,7 @@
               data-bs-toggle="collapse"
               data-bs-target="#memberForm"
               aria-expanded="true"
-              aria-controls="memberForm"
-            >
+              aria-controls="memberForm">
               <i class="bi bi-person-plus-fill me-2"></i>
               Register Member
             </button>
@@ -25,60 +41,71 @@
           <div
             id="memberForm"
             class="accordion-collapse collapse"
-            data-bs-parent="#memberAccordion"
-          >
+            data-bs-parent="#memberAccordion">
             <div class="accordion-body">
-              <form action="/members" method="POST">
+              <form action="/members/create" method="POST">
+                <input
+                  type="hidden"
+                  name="csrf_token"
+                  value="<?php echo $this->view->csrf_token; ?>" />
                 <div class="row g-3">
-                  <!-- NAME -->
                   <div class="col-12 col-md-6">
                     <label for="name" class="form-label"> Name </label>
-
                     <input
                       type="text"
                       class="form-control"
                       id="name"
                       name="name"
+                      value="<?php echo $data['name'] ?? '' ?>"
                       placeholder="Member name"
-                      required
-                    />
+                      required />
                   </div>
                   <div class="col-12 col-md-6">
                     <label for="email" class="form-label"> Email </label>
-
                     <input
                       type="email"
                       class="form-control"
                       id="email"
                       name="email"
+                      value="<?php echo $data['email'] ?? '' ?>"
                       placeholder="member@email.com"
-                      required
-                    />
+                      required />
                   </div>
                   <div class="col-12 col-md-6">
-                    <label for="phone" class="form-label"> Phone </label>
-
+                    <label for="phone" class="form-label"> Phone (optional) </label>
                     <input
                       type="text"
                       class="form-control"
                       id="phone"
                       name="phone"
-                      placeholder="Phone number"
-                      required
-                    />
+                      value="<?php echo $data['phone'] ?? '' ?>"
+                      placeholder="Phone number" />
                   </div>
                   <div class="col-12 col-md-6">
-                    <label for="document" class="form-label"> Document </label>
-
+                    <label for="document" class="form-label"> Document (optional) </label>
                     <input
                       type="text"
                       class="form-control"
                       id="document"
                       name="document"
-                      placeholder="Document number"
-                      required
-                    />
+                      value="<?php echo $data['document'] ?? '' ?>"
+                      placeholder="Document number" />
                   </div>
+
+                  <?php if (isset($_SESSION['success'])) { ?>
+                    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
+                      <i class="bi bi-check-circle-fill"></i>
+                      <p class="mb-0"><?php echo $_SESSION['success'] ?></p>
+                    </div>
+                  <?php } ?>
+
+                  <?php if (isset($_SESSION['error'])) { ?>
+                    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+                      <i class="bi bi-exclamation-circle"></i>
+                      <p class="mb-0"><?php echo $_SESSION['error'] ?></p>
+                    </div>
+                  <?php } ?>
+
                   <div class="col-12 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">
                       <i class="bi bi-check-lg me-1"></i>
@@ -97,8 +124,7 @@
     <div class="col-12">
       <div class="card shadow-sm">
         <div
-          class="card-header bg-body d-flex justify-content-between align-items-center"
-        >
+          class="card-header bg-body d-flex justify-content-between align-items-center">
           <div>
             <h5 class="mb-0">Members</h5>
             <small class="text-body-secondary"> Registered members </small>
@@ -108,96 +134,140 @@
         <div class="card-body border-bottom pb-3">
           <form action="/members" method="GET">
             <div class="row g-3">
-              <div class="col-12 col-md-4">
-                <label for="searchField" class="form-label"> Search by </label>
-                <select class="form-select" id="searchField" name="field">
-                  <option value="name">Name</option>
-                  <option value="email">Email</option>
-                  <option value="phone">Phone</option>
-                  <option value="document">Document</option>
-                </select>
-              </div>
-              <div class="col-12 col-md-6">
+              <div class="col-12 col-md-9">
                 <label for="search" class="form-label"> Search </label>
                 <input
                   type="text"
                   class="form-control"
                   id="search"
-                  name="search"
-                  placeholder="Enter your search..."
-                />
+                  name="name"
+                  value="<?php echo $_GET['name'] ?? '' ?>"
+                  placeholder="Enter with the name..." />
               </div>
-              <div class="col-12 col-md-2 d-flex align-items-end">
+              <div class="col-12 col-md-3 d-flex align-items-end gap-2">
                 <button type="submit" class="btn btn-primary w-100">
                   <i class="bi bi-search me-1"></i>
                   Search
                 </button>
+                <a href="/members" class="btn btn-outline-secondary w-100">
+                  <i class="bi bi-x-lg me-1"></i>
+                  Clear
+                </a>
               </div>
             </div>
           </form>
         </div>
+
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
             <thead>
               <tr>
+                <th class="d-none d-md-table-cell">#</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Phone</th>
-                <th>Document</th>
-                <th>Status</th>
+                <th class="d-none d-md-table-cell">Phone</th>
+                <th class="d-none d-md-table-cell">Document</th>
                 <th class="text-end">Options</th>
               </tr>
             </thead>
             <tbody>
 
-              <?php foreach ($members as $member): ?>
+              <?php if (empty($members)): ?>
                 <tr>
-                  <td><?= htmlspecialchars($member->__get('name') ?? '—') ?></td>
-                  <td><?= htmlspecialchars($member->__get('email') ?? '—') ?></td>
-                  <td><?= htmlspecialchars($member->__get('phone') ?? '—') ?></td>
-                  <td><?= htmlspecialchars($member->__get('document') ?? '—') ?></td>
-                  <td>
-                    <?php if ($member->__get('has_loan')): ?>
-                      <span class="badge text-bg-warning">With Loan</span>
-                    <?php else: ?>
-                      <span class="badge text-bg-success">No Loan</span>
-                    <?php endif; ?>
-                  </td>
-                  <td class="text-end">
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-sm btn-outline-secondary dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        Options
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                          <a
-                            class="dropdown-item"
-                            href="/members/edit/<?= htmlspecialchars($member->__get('id')) ?>"
-                          >
-                            <i class="bi bi-pencil me-2"></i>
-                            Edit
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+                  <td colspan="6" class="text-center text-body-secondary py-4">
+                    No books found.
                   </td>
                 </tr>
-              <?php endforeach; ?>
+              <?php else: ?>
 
-              <tr>
-                <td colspan="6" class="text-center text-body-secondary py-4">
-                  No members found.
-                </td>
-              </tr>
+                <?php foreach ($members as $member): ?>
+                  <tr>
+                    <td class="d-none d-md-table-cell"><?= htmlspecialchars($member->__get('code') ?? '—') ?></td>
+                    <td><?= htmlspecialchars($member->__get('name') ?? '—') ?></td>
+                    <td><?= htmlspecialchars($member->__get('email') ?? '—') ?></td>
+                    <td class="d-none d-md-table-cell"><?= htmlspecialchars($member->__get('phone') ?? '0') ?></td>
+                    <td class="d-none d-md-table-cell"><?= htmlspecialchars($member->__get('document') ?? '0') ?></td>
+
+                    <td class="text-end">
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          Options
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              href="/members/edit/<?= htmlspecialchars($member->__get('code')) ?>">
+                              <i class="bi bi-pencil me-2"></i>
+                              Edit
+                            </a>
+                          </li>
+                          <li>
+                            <form
+                              action="/members/delete/<?= htmlspecialchars($member->__get('code')) ?>"
+                              method="POST"
+                              data-confirm="The book will be deleted. Are you sure?">
+                              <input
+                                type="hidden"
+                                name="csrf_token"
+                                value="<?= $this->view->csrf_token ?>" />
+                              <button class="dropdown-item">
+                                <i class="bi bi-trash3-fill me-2"></i>
+                                Delete
+                              </button>
+                            </form>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
             </tbody>
           </table>
+        <?php endif; ?>
+
+        <?php if ($totalPages > 0): ?>
+          <nav class="mt-4" aria-label="Books pagination">
+            <ul class="pagination justify-content-center">
+              <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+                <a
+                  class="page-link"
+                  href="?page=<?= $page - 1 ?>&sort=<?= htmlspecialchars($sort) ?>">
+                  Previous
+                </a>
+              </li>
+              <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <li class="page-item <?= $i === $page ? 'active' : '' ?>">
+                  <a
+                    class="page-link"
+                    href="?page=<?= $i ?>&sort=<?= htmlspecialchars($sort) ?>">
+                    <?= $i ?>
+                  </a>
+                </li>
+              <?php endfor; ?>
+              <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>">
+                <a
+                  class="page-link"
+                  href="?page=<?= $page + 1 ?>&sort=<?= htmlspecialchars($sort) ?>">
+                  Next
+                </a>
+              </li>
+            </ul>
+          </nav>
+        <?php endif; ?>
+
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<?php
+unset($_SESSION['data']);
+unset($_SESSION['error']);
+unset($_SESSION['success']);
+?>

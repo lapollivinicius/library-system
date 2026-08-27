@@ -99,13 +99,40 @@ class routes
       'middleware' => ['auth'],
       'action' => 'index'
     );
-
     $routes['edit_member'] = array(
-      'route' => '/members/edit/:id',
+      'route' => '/members/edit/:code',
       'method' => 'GET',
       'controller' => 'member',
       'middleware' => ['auth'],
-      'action' => 'editMember'
+      'action' => 'edit'
+    );
+    $routes['add_member'] = array(
+      'route' => '/members/create',
+      'method' => 'POST',
+      'controller' => 'member',
+      'middleware' => ['auth', 'csrf'],
+      'action' => 'addMember'
+    );
+    $routes['update_member'] = array(
+      'route' => '/members/update/:code',
+      'method' => 'POST',
+      'controller' => 'member',
+      'middleware' => ['auth', 'csrf'],
+      'action' => 'updateMember'
+    );
+    $routes['delete_member'] = array(
+      'route' => '/members/delete/:code',
+      'method' => 'POST',
+      'controller' => 'member',
+      'middleware' => ['auth', 'csrf'],
+      'action' => 'deleteMember'
+    );
+    $routes['json_members'] = array(
+      'route' => '/members/json',
+      'method' => 'POST',
+      'controller' => 'member',
+      'middleware' => [],
+      'action' => 'listMembers'
     );
 
     // loans
@@ -116,7 +143,6 @@ class routes
       'middleware' => ['auth'],
       'action' => 'index'
     );
-
     $routes['edit_loan'] = array(
       'route' => '/loans/edit/:id',
       'method' => 'GET',
@@ -133,7 +159,13 @@ class routes
       'middleware' => ['auth'],
       'action' => 'index'
     );
-
+    $routes['edit_book'] = array(
+      'route' => '/books/edit/:code',
+      'method' => 'GET',
+      'controller' => 'book',
+      'middleware' => ['auth'],
+      'action' => 'edit'
+    );
     $routes['add_book'] = array(
       'route' => '/books/create',
       'method' => 'POST',
@@ -141,23 +173,6 @@ class routes
       'middleware' => ['auth', 'csrf'],
       'action' => 'addBook'
     );
-
-    $routes['delete_book'] = array(
-      'route' => '/books/delete/:code',
-      'method' => 'POST',
-      'controller' => 'book',
-      'middleware' => ['auth', 'csrf'],
-      'action' => 'deleteBook'
-    );
-
-    $routes['edit_book'] = array(
-      'route' => '/books/edit/:code',
-      'method' => 'GET',
-      'controller' => 'book',
-      'middleware' => ['auth'],
-      'action' => 'editBook'
-    );
-
     $routes['update_book'] = array(
       'route' => '/books/update/:code',
       'method' => 'POST',
@@ -165,10 +180,16 @@ class routes
       'middleware' => ['auth', 'csrf'],
       'action' => 'updateBook'
     );
-
+    $routes['delete_book'] = array(
+      'route' => '/books/delete/:code',
+      'method' => 'POST',
+      'controller' => 'book',
+      'middleware' => ['auth', 'csrf'],
+      'action' => 'deleteBook'
+    );
     $routes['json_books'] = array(
       'route' => '/books/json',
-      'method' => 'GET',
+      'method' => 'POST',
       'controller' => 'book',
       'middleware' => [],
       'action' => 'listbooks'

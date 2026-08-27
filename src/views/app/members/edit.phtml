@@ -1,10 +1,10 @@
 <?php
-  if (isset($this->view->member)) {
-    $member = $this->view->member;
-  }
+if (isset($this->view->member)) {
+  $member = $this->view->member;
+}
 ?>
 
-<?php include __DIR__ . '/header.phtml'; ?>
+<?php include __DIR__ . '/../components/header.phtml'; ?>
 
 <main class="container py-4">
 
@@ -34,28 +34,26 @@
   <?php } ?>
 
   <form
-    action="/members/update"
+    action="/members/update/<?php echo htmlspecialchars($member?->__get('code') ?? '') ?>"
     method="POST"
-    data-confirm="The data will be modified when you click Save. Are you sure?"
-  >
+    data-confirm="The data will be modified when you click Save. Are you sure?">
     <input type="hidden" name="csrf_token" value="<?php echo $this->view->csrf_token; ?>" />
-    <input type="hidden" name="id" value="<?php echo $member?->__get('id') ?? '' ?>" />
 
     <div class="row g-4">
-
       <div class="col-12">
-        <label for="memberName" class="form-label text-body-secondary">
-          Name
-        </label>
-        <input
-          type="text"
-          class="form-control member-field"
-          id="memberName"
-          name="name"
-          value="<?php echo htmlspecialchars($member?->__get('name') ?? '') ?>"
-          style="border: 1px solid transparent"
-          required
-        />
+        <div class="border rounded p-3 h-100">
+          <label for="memberName" class="form-label text-body-secondary">
+            Name
+          </label>
+          <input
+            type="text"
+            class="form-control member-field"
+            id="memberName"
+            name="name"
+            value="<?php echo htmlspecialchars($member?->__get('name') ?? '') ?>"
+            style="border: 1px solid transparent"
+            required />
+        </div>
       </div>
 
       <div class="col-12 col-md-6">
@@ -70,8 +68,7 @@
             name="email"
             value="<?php echo htmlspecialchars($member?->__get('email') ?? '') ?>"
             style="border: 1px solid transparent"
-            required
-          />
+            required />
         </div>
       </div>
 
@@ -87,7 +84,6 @@
             name="phone"
             value="<?php echo htmlspecialchars($member?->__get('phone') ?? '') ?>"
             style="border: 1px solid transparent"
-            required
           />
         </div>
       </div>
@@ -104,7 +100,6 @@
             name="document"
             value="<?php echo htmlspecialchars($member?->__get('document') ?? '') ?>"
             style="border: 1px solid transparent"
-            required
           />
         </div>
       </div>
@@ -113,44 +108,8 @@
         <div class="d-flex justify-content-between align-items-center border rounded p-3 h-100">
           <div>
             <small class="text-body-secondary d-block">Loan Status</small>
-            <span class="fw-semibold">Current status</span>
+            <span class="fw-semibold text-success fs-4">Feature coming soon</span>
           </div>
-          <?php if ($member?->__get('has_loan')): ?>
-            <span class="badge text-bg-warning">With Loan</span>
-          <?php else: ?>
-            <span class="badge text-bg-success">No Loan</span>
-          <?php endif; ?>
-        </div>
-      </div>
-
-      <div class="col-12">
-        <div class="border rounded p-3">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-              <h6 class="mb-0">Active Loans</h6>
-              <small class="text-body-secondary">Books currently borrowed</small>
-            </div>
-            <span class="badge text-bg-secondary">
-              <?php echo count($member?->__get('loans') ?? []) ?> loans
-            </span>
-          </div>
-
-          <?php if (!empty($member?->__get('loans'))): ?>
-            <?php foreach ($member->__get('loans') as $loan): ?>
-              <div class="d-flex justify-content-between align-items-center border-top py-3">
-                <div>
-                  <span class="fw-semibold d-block"><?= htmlspecialchars($loan['book_title'] ?? '—') ?></span>
-                  <small class="text-body-secondary">Loan: <?= htmlspecialchars($loan['loan_date'] ?? '—') ?></small>
-                </div>
-                <div class="text-end">
-                  <small class="text-body-secondary d-block">Return</small>
-                  <span class="fw-semibold"><?= htmlspecialchars($loan['return_date'] ?? '—') ?></span>
-                </div>
-              </div>
-            <?php endforeach; ?>
-          <?php else: ?>
-            <p class="text-body-secondary mb-0 border-top pt-3">No active loans.</p>
-          <?php endif; ?>
         </div>
       </div>
 
@@ -169,7 +128,7 @@
 
 </main>
 
-<?php include __DIR__ . '/footer.phtml'; ?>
+<?php include __DIR__ . '/../components/footer.phtml'; ?>
 
 <?php
 unset($_SESSION['error']);
