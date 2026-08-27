@@ -29,12 +29,12 @@ abstract class validators
 
   protected function name(string $value): bool
   {
-    return preg_match('/^[a-zA-Z ]+$/', $value) === 1;
+    return preg_match('/^[a-zA-Z. _-]+$/', $value) === 1;
   }
 
   protected function title(string $value): bool
   {
-    return preg_match('/^[a-z0-9A-Z_ ]+$/', $value) === 1;
+    return preg_match('/^[a-z0-9A-Z. _-]+$/', $value) === 1;
   }
 
   protected function email(string $value): bool

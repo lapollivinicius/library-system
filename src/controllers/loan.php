@@ -9,7 +9,7 @@ class loan extends controller
 
   public function index()
   {
-    $this->render('app/loans');
+    $this->render('app/loans/loans');
   }
 
   public function editLoan(array $params = [])
@@ -32,6 +32,6 @@ class loan extends controller
     }
 
     $this->view->loan = $loan;
-    $this->render('app/edit-loan');
+    $this->render('app/loans/edit');
   }
 }

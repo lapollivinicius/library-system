@@ -1,20 +1,20 @@
-<?php include __DIR__ . '/components/header.phtml'; ?>
+<?php include __DIR__ . '/../components/header.phtml'; ?>
 <main class="container">
   <section class="row">
     <aside class="col-12 col-md-3 p-2">
       <div class="row m-0 mb-4">
-        <p class="fw-bold fs-4 m-0">MEMBERS</p>
+        <p class="fw-bold fs-4 m-0">DASHBOARD</p>
         <small class="text-secondary m-0">Check your stats</small>
       </div>
       <nav>
         <ul class="nav nav-pills flex-column">
           <li class="nav-items">
-            <a class="nav-link" href="/dashboard">Dashboard</a>
+            <a class="nav-link active" href="/dashboard">Dashboard</a>
           </li>
           <li class="nav-items"><a class="nav-link" href="/loans">Loans</a></li>
           <li class="nav-items"><a class="nav-link" href="/books">Books</a></li>
           <li class="nav-items">
-            <a class="nav-link active" href="/members">Members</a>
+            <a class="nav-link" href="/members">Members</a>
           </li>
           <li class="nav-items">
             <a class="nav-link disabled text-secondary" disabled>Extra</a>
@@ -27,8 +27,8 @@
       style="width: 1px"
     ></div>
     <div class="col p-2">
-      <?php include __DIR__ . '/components/members.phtml'; ?>
+      <?php include __dir__ . '/main-dashboard.phtml'; ?>
     </div>
   </section>
 </main>
-<?php include __DIR__ . '/components/footer.phtml'; ?>
+<?php include __DIR__ . '/../components/footer.phtml'; ?>

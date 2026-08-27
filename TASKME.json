@@ -6,13 +6,6 @@
       "time": 0,
       "checked": false,
       "createdAt": 1787107457786
-    },
-    {
-      "id": "d375f1bb",
-      "content": "Modify css and js to modules",
-      "time": 0,
-      "checked": false,
-      "createdAt": 1787107482464
     }
   ],
   "history": [
@@ -43,6 +36,13 @@
       "time": 0,
       "checked": true,
       "createdAt": 1787107401015
+    },
+    {
+      "id": "d375f1bb",
+      "content": "Modify css and js to modules",
+      "time": 0,
+      "checked": true,
+      "createdAt": 1787107482464
     }
   ]
 }

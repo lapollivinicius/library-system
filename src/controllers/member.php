@@ -9,7 +9,7 @@ class member extends controller
 
   public function index()
   {
-    $this->render('app/members');
+    $this->render('app/members/members');
   }
 
   public function editMember(array $params = [])
@@ -32,6 +32,6 @@ class member extends controller
     }
 
     $this->view->member = $member;
-    $this->render('app/edit-member');
+    $this->render('app/members/edit');
   }
 }
