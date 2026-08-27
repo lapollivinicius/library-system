@@ -36,6 +36,7 @@ class routes
       'route' => '/',
       'method' => 'GET',
       'controller' => 'index',
+      'middleware' => ['guest'],
       'action' => 'home'
     );
     $routes['login'] = array(
@@ -56,21 +57,21 @@ class routes
       'route' => '/terms',
       'method' => 'GET',
       'controller' => 'index',
-      'middleware' => [],
+      'middleware' => ['guest'],
       'action' => 'terms'
     );
     $routes['privacy'] = array(
       'route' => '/privacy',
       'method' => 'GET',
       'controller' => 'index',
-      'middleware' => [],
+      'middleware' => ['guest'],
       'action' => 'privacy'
     );
     $routes['demo'] = array(
       'route' => '/demo',
       'method' => 'GET',
       'controller' => 'index',
-      'middleware' => [],
+      'middleware' => ['guest'],
       'action' => 'demo'
     );
 
