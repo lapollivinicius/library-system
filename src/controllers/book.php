@@ -185,11 +185,11 @@ class book extends controller
     try {
       $model->update($this->user_id, $book);
       $_SESSION['success'] = 'The Book was edited';
-      header('location: /books');
+      header('location: /books/edit/' . $code);
       exit;
     } catch (\PDOException $error) {
       $_SESSION['error'] = 'DATABASE ERROR - SORRY :( <br> ERROR: ' . $error->getMessage();
-      header('location: /books');
+      header('location: /books/edit/' . $code);
       exit;
     }
   }

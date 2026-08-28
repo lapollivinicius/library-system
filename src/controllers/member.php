@@ -174,7 +174,7 @@ class member extends controller
     if (!$validate->member($data)) {
       $_SESSION['data'] = $data;
       $_SESSION['error'] = $validate->getError();
-      header('location: /members');
+      header('location: /members/edit/' . $code);
       exit;
     };
 
@@ -190,7 +190,7 @@ class member extends controller
       exit;
     } catch (\PDOException $error) {
       $_SESSION['error'] = 'DATABASE ERROR - SORRY :( <br> ERROR: ' . $error->getMessage();
-      header('location: /members');
+      header('location: /members/edit/' . $code);
       exit;
     }
 
