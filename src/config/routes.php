@@ -53,6 +53,13 @@ class routes
       'middleware' => ['guest'],
       'action' => 'register'
     );
+    $routes['recovery'] = array(
+      'route' => '/recovery',
+      'method' => 'GET',
+      'controller' => 'index',
+      'middleware' => ['guest'],
+      'action' => 'recovery'
+    );
     $routes['terms'] = array(
       'route' => '/terms',
       'method' => 'GET',
@@ -216,6 +223,13 @@ class routes
       'controller' => 'auth',
       'middleware' => ['csrf'],
       'action' => 'logout'
+    );
+    $routes['recovery_password'] = array(
+      'route' => '/auth/recovery',
+      'method' => 'POST',
+      'controller' => 'auth',
+      'middleware' => ['csrf'],
+      'action' => 'recovery'
     );
 
     $this->setRoutes($routes);

@@ -40,4 +40,9 @@ class index extends controller
     $this->render('public/register');
   }
 
+  public function recovery()
+  {
+    $this->render('public/recovery');
+  }
+
 }

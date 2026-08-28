@@ -122,4 +122,11 @@ class auth
     header('Location: /login');
     exit;
   }
+
+  public function recovery() {
+
+    $_SESSION['error'] = 'Coming soon: password recovery :/';
+    header('Location: /login');
+
+  }
 }
