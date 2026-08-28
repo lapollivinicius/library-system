@@ -1,0 +1,17 @@
+<?php if (isset($_SESSION['error'])) { ?>
+  <div class="alert-animation position-fixed bottom-0 end-0 me-3" style="z-index: 300;">
+    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-exclamation-circle"></i>
+      <p class="mb-0"><?php echo $_SESSION['error'] ?></p>
+    </div>
+  </div>
+<?php } ?>
+
+<?php if (isset($_SESSION['success'])) { ?>
+  <div class="alert-animation position-fixed bottom-0 end-0 me-3" style="z-index: 300;">
+    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
+      <i class="bi bi-check-circle-fill"></i>
+      <p class="mb-0"><?php echo $_SESSION['success'] ?></p>
+    </div>
+  </div>
+<?php } ?>

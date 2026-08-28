@@ -1,9 +1,7 @@
 <?php
-
 if (isset($_SESSION['data'])) {
   $data = $_SESSION['data'];
 };
-
 if (isset($this->view->search)) {
   $members = $this->view->search['members'];
   $totalMembers = $this->view->search['totalMembers'];
@@ -12,9 +10,7 @@ if (isset($this->view->search)) {
   $page = $this->view->search['page'];
   $limit = $this->view->search['limit'];
 };
-
 ?>
-
 <div class="container-fluid mb-3">
   <div class="row mb-4">
     <div class="col">
@@ -91,21 +87,6 @@ if (isset($this->view->search)) {
                       value="<?php echo $data['document'] ?? '' ?>"
                       placeholder="Document number" />
                   </div>
-
-                  <?php if (isset($_SESSION['success'])) { ?>
-                    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
-                      <i class="bi bi-check-circle-fill"></i>
-                      <p class="mb-0"><?php echo $_SESSION['success'] ?></p>
-                    </div>
-                  <?php } ?>
-
-                  <?php if (isset($_SESSION['error'])) { ?>
-                    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
-                      <i class="bi bi-exclamation-circle"></i>
-                      <p class="mb-0"><?php echo $_SESSION['error'] ?></p>
-                    </div>
-                  <?php } ?>
-
                   <div class="col-12 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">
                       <i class="bi bi-check-lg me-1"></i>
@@ -129,12 +110,12 @@ if (isset($this->view->search)) {
             <h5 class="mb-0">Members</h5>
             <small class="text-body-secondary"> Registered members </small>
           </div>
-          <span class="badge text-bg-secondary"> 00 members </span>
+          <span class="badge text-bg-secondary"><?= htmlspecialchars($totalMembers ?? '0') ?> members</span>
         </div>
         <div class="card-body border-bottom pb-3">
           <form action="/members" method="GET">
             <div class="row g-3">
-              <div class="col-12 col-md-9">
+              <div class="col-12 col-lg-9">
                 <label for="search" class="form-label"> Search </label>
                 <input
                   type="text"
@@ -144,12 +125,12 @@ if (isset($this->view->search)) {
                   value="<?php echo $_GET['name'] ?? '' ?>"
                   placeholder="Enter with the name..." />
               </div>
-              <div class="col-12 col-md-3 d-flex align-items-end gap-2">
-                <button type="submit" class="btn btn-primary w-100">
+              <div class="col-12 col-lg-3 d-flex align-items-end gap-2">
+                <button type="submit" class="btn btn-primary w-100 d-flex flex-nowrap justify-content-center">
                   <i class="bi bi-search me-1"></i>
                   Search
                 </button>
-                <a href="/members" class="btn btn-outline-secondary w-100">
+                <a href="/members" class="btn btn-outline-secondary w-100 d-flex flex-nowrap justify-content-center">
                   <i class="bi bi-x-lg me-1"></i>
                   Clear
                 </a>
@@ -157,7 +138,6 @@ if (isset($this->view->search)) {
             </div>
           </form>
         </div>
-
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
             <thead>
@@ -171,7 +151,6 @@ if (isset($this->view->search)) {
               </tr>
             </thead>
             <tbody>
-
               <?php if (empty($members)): ?>
                 <tr>
                   <td colspan="6" class="text-center text-body-secondary py-4">
@@ -179,7 +158,6 @@ if (isset($this->view->search)) {
                   </td>
                 </tr>
               <?php else: ?>
-
                 <?php foreach ($members as $member): ?>
                   <tr>
                     <td class="d-none d-md-table-cell"><?= htmlspecialchars($member->__get('code') ?? '—') ?></td>
@@ -187,7 +165,6 @@ if (isset($this->view->search)) {
                     <td><?= htmlspecialchars($member->__get('email') ?? '—') ?></td>
                     <td class="d-none d-md-table-cell"><?= htmlspecialchars($member->__get('phone') ?? '0') ?></td>
                     <td class="d-none d-md-table-cell"><?= htmlspecialchars($member->__get('document') ?? '0') ?></td>
-
                     <td class="text-end">
                       <div class="dropdown">
                         <button
@@ -226,10 +203,9 @@ if (isset($this->view->search)) {
                     </td>
                   </tr>
                 <?php endforeach; ?>
+              <?php endif; ?>
             </tbody>
           </table>
-        <?php endif; ?>
-
         <?php if ($totalPages > 0): ?>
           <nav class="mt-4" aria-label="Books pagination">
             <ul class="pagination justify-content-center">
@@ -259,13 +235,11 @@ if (isset($this->view->search)) {
             </ul>
           </nav>
         <?php endif; ?>
-
         </div>
       </div>
     </div>
   </div>
 </div>
-
 <?php
 unset($_SESSION['data']);
 unset($_SESSION['error']);

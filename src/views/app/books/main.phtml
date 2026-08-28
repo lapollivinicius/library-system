@@ -2,7 +2,6 @@
 if (isset($_SESSION['data'])) {
   $data = $_SESSION['data'];
 };
-
 if (isset($this->view->search)) {
   $books = $this->view->search['books'];
   $totalBooks = $this->view->search['totalBooks'];
@@ -11,7 +10,6 @@ if (isset($this->view->search)) {
   $page = $this->view->search['page'];
   $limit = $this->view->search['limit'];
 };
-
 ?>
 <div class="container-fluid mb-3">
   <div class="row mb-4">
@@ -49,7 +47,6 @@ if (isset($this->view->search)) {
                 <div class="row g-3">
                   <div class="col-12 col-md-6 position-relative">
                     <label for="title" class="form-label">Title</label>
-
                     <input
                       type="text"
                       class="form-control"
@@ -65,7 +62,6 @@ if (isset($this->view->search)) {
                       aria-autocomplete="list"
                       aria-expanded="false"
                       required />
-
                     <div
                       id="book-title-results"
                       class="position-absolute start-0 end-0 text-bg-dark border rounded-3 shadow-sm mt-1 overflow-auto"
@@ -85,7 +81,6 @@ if (isset($this->view->search)) {
                       </button>
                     </div>
                   </div>
-
                   <div class="col-12 col-md-6">
                     <label for="author" class="form-label"> Author </label>
                     <input
@@ -142,21 +137,6 @@ if (isset($this->view->search)) {
                       value="<?php echo $data['isbn'] ?? '' ?>"
                       placeholder="ISBN" />
                   </div>
-
-                  <?php if (isset($_SESSION['success'])) { ?>
-                    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
-                      <i class="bi bi-check-circle-fill"></i>
-                      <p class="mb-0"><?php echo $_SESSION['success'] ?></p>
-                    </div>
-                  <?php } ?>
-
-                  <?php if (isset($_SESSION['error'])) { ?>
-                    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
-                      <i class="bi bi-exclamation-circle"></i>
-                      <p class="mb-0"><?php echo $_SESSION['error'] ?></p>
-                    </div>
-                  <?php } ?>
-
                   <div class="col-12 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">
                       <i class="bi bi-check-lg me-1"></i>
@@ -185,8 +165,7 @@ if (isset($this->view->search)) {
         <div class="card-body border-bottom pb-3">
           <form action="/books" method="GET">
             <div class="row g-3">
-
-              <div class="col-12 col-md-9">
+              <div class="col-12 col-lg-9">
                 <label for="search" class="form-label"> Search </label>
                 <input
                   type="text"
@@ -196,20 +175,20 @@ if (isset($this->view->search)) {
                   value="<?php echo $_GET['search'] ?? '' ?>"
                   placeholder="Enter with the title..." />
               </div>
-
-              <div class="col-12 col-md-3 d-flex align-items-end gap-2">
-                <button type="submit" class="btn btn-primary w-100">
+              <div class="col-12 col-lg-3 d-flex align-items-end gap-2">
+                <button type="submit" class="btn btn-primary w-100 d-flex flex-nowrap justify-content-center">
                   <i class="bi bi-search me-1"></i>
                   Search
                 </button>
-                <a href="/books" class="btn btn-outline-secondary w-100">
+                <a href="/books" class="btn btn-outline-secondary w-100 d-flex flex-nowrap justify-content-center">
                   <i class="bi bi-x-lg me-1"></i>
                   Clear
                 </a>
               </div>
-
             </div>
+
           </form>
+
         </div>
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
@@ -225,7 +204,6 @@ if (isset($this->view->search)) {
               </tr>
             </thead>
             <tbody>
-
               <?php if (empty($books)): ?>
                 <tr>
                   <td colspan="6" class="text-center text-body-secondary py-4">
@@ -295,7 +273,6 @@ if (isset($this->view->search)) {
               <?php endif; ?>
             </tbody>
           </table>
-
           <?php if ($totalPages > 0): ?>
             <nav class="mt-4" aria-label="Books pagination">
               <ul class="pagination justify-content-center">

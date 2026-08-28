@@ -3,11 +3,8 @@ if (isset($this->view->member)) {
   $member = $this->view->member;
 }
 ?>
-
 <?php include __DIR__ . '/../components/header.phtml'; ?>
-
 <main class="container py-4">
-
   <div class="row mb-4">
     <div class="col">
       <a href="/members" class="btn btn-outline-secondary btn-sm mb-3">
@@ -18,27 +15,11 @@ if (isset($this->view->member)) {
       <small class="text-body-secondary">Complete information about the Member</small>
     </div>
   </div>
-
-  <?php if (isset($_SESSION['success'])) { ?>
-    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
-      <i class="bi bi-check-circle-fill"></i>
-      <p class="mb-0"><?php echo $_SESSION['success'] ?></p>
-    </div>
-  <?php } ?>
-
-  <?php if (isset($_SESSION['error'])) { ?>
-    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
-      <i class="bi bi-exclamation-circle"></i>
-      <p class="mb-0"><?php echo $_SESSION['error'] ?></p>
-    </div>
-  <?php } ?>
-
   <form
     action="/members/update/<?php echo htmlspecialchars($member?->__get('code') ?? '') ?>"
     method="POST"
     data-confirm="The data will be modified when you click Save. Are you sure?">
     <input type="hidden" name="csrf_token" value="<?php echo $this->view->csrf_token; ?>" />
-
     <div class="row g-4">
       <div class="col-12">
         <div class="border rounded p-3 h-100">
@@ -55,7 +36,6 @@ if (isset($this->view->member)) {
             required />
         </div>
       </div>
-
       <div class="col-12 col-md-6">
         <div class="border rounded p-3 h-100">
           <label for="memberEmail" class="form-label text-body-secondary">
@@ -71,7 +51,6 @@ if (isset($this->view->member)) {
             required />
         </div>
       </div>
-
       <div class="col-12 col-md-6">
         <div class="border rounded p-3 h-100">
           <label for="memberPhone" class="form-label text-body-secondary">
@@ -87,7 +66,6 @@ if (isset($this->view->member)) {
           />
         </div>
       </div>
-
       <div class="col-12 col-md-6">
         <div class="border rounded p-3 h-100">
           <label for="memberDocument" class="form-label text-body-secondary">
@@ -103,7 +81,6 @@ if (isset($this->view->member)) {
           />
         </div>
       </div>
-
       <div class="col-12 col-md-6">
         <div class="d-flex justify-content-between align-items-center border rounded p-3 h-100">
           <div>
@@ -112,7 +89,6 @@ if (isset($this->view->member)) {
           </div>
         </div>
       </div>
-
       <div class="col-12 d-flex justify-content-end gap-2">
         <a href="/members" class="btn btn-outline-secondary" id="cancelMemberButton">
           Cancel
@@ -122,14 +98,10 @@ if (isset($this->view->member)) {
           Save
         </button>
       </div>
-
     </div>
   </form>
-
 </main>
-
 <?php include __DIR__ . '/../components/footer.phtml'; ?>
-
 <?php
 unset($_SESSION['error']);
 unset($_SESSION['success']);

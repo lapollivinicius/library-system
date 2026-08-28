@@ -14,23 +14,9 @@
         </div>
       </a>
       <div class="d-flex align-items-center gap-2">
-        <div class="d-none d-sm-flex align-items-center gap-2 me-2">
-          <div
-            class="rounded-circle bg-primary d-flex align-items-center justify-content-center"
-            style="width: 36px; height: 36px"
-          >
-            <i class="bi bi-person text-white"></i>
-          </div>
-          <div class="d-flex flex-column">
-            <span class="fw-semibold small text-capitalize">
-              <?= $_SESSION['name'] ?>
-            </span>
-            <small class="text-secondary"> Admin </small>
-          </div>
-        </div>
         <a href="/profile" class="btn btn-outline-primary" title="Profile">
           <i class="bi bi-person-circle"></i>
-          <span class="d-none d-lg-inline ms-1"> Profile </span>
+          <span class="d-none d-lg-inline ms-1"> <?php echo ucfirst($_SESSION['name']) ?? 'Profile' ?> • Admin </span>
         </a>
         <form action="/auth/logout" method="POST">
           <input

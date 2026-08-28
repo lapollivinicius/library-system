@@ -3,11 +3,8 @@ if (isset($this->view->book)) {
   $book = $this->view->book;
 }
 ?>
-
 <?php include __DIR__ . '/../components/header.phtml'; ?>
-
 <main class="container py-4">
-
   <div class="row mb-4">
     <div class="col">
       <a href="/books" class="btn btn-outline-secondary btn-sm mb-3">
@@ -18,28 +15,12 @@ if (isset($this->view->book)) {
       <small class="text-body-secondary">View and edit book information</small>
     </div>
   </div>
-
-  <?php if (isset($_SESSION['success'])) { ?>
-    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
-      <i class="bi bi-check-circle-fill"></i>
-      <p class="mb-0"><?php echo $_SESSION['success'] ?></p>
-    </div>
-  <?php } ?>
-
-  <?php if (isset($_SESSION['error'])) { ?>
-    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
-      <i class="bi bi-exclamation-circle"></i>
-      <p class="mb-0"><?php echo $_SESSION['error'] ?></p>
-    </div>
-  <?php } ?>
-
   <form
     action="<?php echo '/books/update/' . $book->__get('code') ?>"
     method="POST"
     data-confirm="The data will be modified when you click Save. Are you sure?">
     <input type="hidden" name="csrf_token" value="<?php echo $this->view->csrf_token; ?>" />
     <input type="hidden" name="id" value="<?php echo $book?->__get('id') ?? '' ?>" />
-
     <div class="row g-4">
       <div class="col-12">
         <div class="border rounded p-3 h-100">
@@ -56,7 +37,6 @@ if (isset($this->view->book)) {
             required />
         </div>
       </div>
-
       <div class="col-12 col-md-6">
         <div class="border rounded p-3 h-100">
           <label for="bookAuthor" class="form-label text-body-secondary">
@@ -72,7 +52,6 @@ if (isset($this->view->book)) {
             required />
         </div>
       </div>
-
       <div class="col-12 col-md-6">
         <div class="border rounded p-3 h-100">
           <label for="bookYear" class="form-label text-body-secondary">
@@ -88,7 +67,6 @@ if (isset($this->view->book)) {
             required />
         </div>
       </div>
-
       <div class="col-12 col-md-6">
         <div class="border rounded p-3 h-100">
           <label for="bookGenre" class="form-label text-body-secondary">
@@ -104,7 +82,6 @@ if (isset($this->view->book)) {
             required />
         </div>
       </div>
-
       <div class="col-12 col-md-6">
         <div class="border rounded p-3 h-100">
           <label for="bookIsbn" class="form-label text-body-secondary">
@@ -119,7 +96,6 @@ if (isset($this->view->book)) {
             style="border: 1px solid transparent" />
         </div>
       </div>
-
       <div class="col-12 col-md-4">
         <div class="border rounded p-3">
           <label for="bookQuantity" class="form-label text-body-secondary">
@@ -138,7 +114,6 @@ if (isset($this->view->book)) {
             required />
         </div>
       </div>
-
       <div class="col-12 col-md-4">
         <div class="border rounded p-3 h-100">
           <small class="text-body-secondary d-block"> Available </small>
@@ -148,7 +123,6 @@ if (isset($this->view->book)) {
           </span>
         </div>
       </div>
-
       <div class="col-12 col-md-4">
         <div class="border rounded p-3 h-100">
           <small class="text-body-secondary d-block"> Borrowed </small>
@@ -158,7 +132,6 @@ if (isset($this->view->book)) {
           </span>
         </div>
       </div>
-
       <div class="col-12">
         <div class="d-flex justify-content-between align-items-center border rounded p-3">
           <div>
@@ -172,7 +145,6 @@ if (isset($this->view->book)) {
           <?php endif; ?>
         </div>
       </div>
-
       <div class="col-12 d-flex justify-content-end gap-2">
         <a href="/books" class="btn btn-outline-secondary" id="cancelBookButton">
           Cancel
@@ -184,11 +156,8 @@ if (isset($this->view->book)) {
       </div>
     </div>
   </form>
-
 </main>
-
 <?php include __DIR__ . '/../components/footer.phtml'; ?>
-
 <?php
 unset($_SESSION['error']);
 unset($_SESSION['success']);

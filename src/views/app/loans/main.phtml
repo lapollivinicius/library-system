@@ -147,7 +147,6 @@
               </tr>
             </thead>
             <tbody>
-
               <?php foreach ($loans as $loan): ?>
                 <tr>
                   <td><?= htmlspecialchars($loan->__get('book_title') ?? '—') ?></td>
@@ -178,7 +177,6 @@
                   </td>
                 </tr>
               <?php endforeach; ?>
-
               <tr>
                 <td colspan="4" class="text-center text-body-secondary py-4">
                   No active loans found.

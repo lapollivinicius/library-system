@@ -3,11 +3,8 @@
     $loan = $this->view->loan;
   }
 ?>
-
 <?php include __DIR__ . '/header.phtml'; ?>
-
 <main class="container py-4">
-
   <div class="row mb-4">
     <div class="col">
       <a href="/loans" class="btn btn-outline-secondary btn-sm mb-3">
@@ -18,23 +15,7 @@
       <small class="text-body-secondary">Complete information about the loan</small>
     </div>
   </div>
-
-  <?php if (isset($_SESSION['success'])) { ?>
-    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
-      <i class="bi bi-check-circle-fill"></i>
-      <p class="mb-0"><?php echo $_SESSION['success'] ?></p>
-    </div>
-  <?php } ?>
-
-  <?php if (isset($_SESSION['error'])) { ?>
-    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
-      <i class="bi bi-exclamation-circle"></i>
-      <p class="mb-0"><?php echo $_SESSION['error'] ?></p>
-    </div>
-  <?php } ?>
-
   <div class="row g-4">
-
     <div class="col-12">
       <div class="border rounded p-3">
         <small class="text-body-secondary d-block">Book</small>
@@ -44,7 +25,6 @@
         </small>
       </div>
     </div>
-
     <div class="col-12">
       <div class="border rounded p-3">
         <small class="text-body-secondary d-block">Member</small>
@@ -54,7 +34,6 @@
         </small>
       </div>
     </div>
-
     <div class="col-12 col-md-4">
       <div class="border rounded p-3 h-100">
         <small class="text-body-secondary d-block">Loan Date</small>
@@ -63,7 +42,6 @@
         </span>
       </div>
     </div>
-
     <div class="col-12 col-md-4">
       <div class="border rounded p-3 h-100">
         <small class="text-body-secondary d-block">Return Date</small>
@@ -72,7 +50,6 @@
         </span>
       </div>
     </div>
-
     <div class="col-12 col-md-4">
       <div class="border rounded p-3 h-100">
         <small class="text-body-secondary d-block">Status</small>
@@ -83,7 +60,6 @@
         <?php endif; ?>
       </div>
     </div>
-
     <div class="col-12">
       <div class="border rounded p-3">
         <h6 class="mb-3">Loan Information</h6>
@@ -111,7 +87,6 @@
         </div>
       </div>
     </div>
-
     <div class="col-12 d-flex justify-content-end gap-2">
       <a href="/loans" class="btn btn-outline-secondary">
         Close
@@ -129,13 +104,9 @@
         </button>
       </form>
     </div>
-
   </div>
-
 </main>
-
 <?php include __DIR__ . '/footer.phtml'; ?>
-
 <?php
 unset($_SESSION['error']);
 unset($_SESSION['success']);

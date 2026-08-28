@@ -63,7 +63,8 @@
 </head>
 
 <body>
-  <?php include __DIR__ . '/app/modals/modal-confirm.phtml'; ?>
+  <?php include __DIR__ . '/public/components/warning.phtml'; ?>
+  <?php include __DIR__ . '/public/components/modal-confirm.phtml'; ?>
   <?= $this->content(); ?>
   <?php include __DIR__ . '/public/components/cookie.phtml'; ?>
 </body>
