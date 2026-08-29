@@ -104,9 +104,9 @@ class loan extends controller
     $book_id = $book->__get('book_id');
     $book_title = $book->__get('title');
     $code = \config\utils::code('L');
-    $loaned_at = date('m-d-Y', strtotime($data['loan']));
-    $due_at = date('m-d-Y', strtotime($data['return']));
-    $returned_at = '00-00-0000';
+    $loaned_at = $data['loan'];
+    $due_at = $data['return'];
+    $returned_at = '0000-00-00';
 
     $loan = new \entities\loan(
       $loan_id,
