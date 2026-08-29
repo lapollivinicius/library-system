@@ -15,7 +15,7 @@ if (isset($this->view->search)) {
   <div class="row mb-4">
     <div class="col">
       <p class="fw-bold fs-4 m-0">BOOKS</p>
-      <small class="text-secondary m-0"> Book registration and search </small>
+      <small class="text-secondary m-0">Book registration and search</small>
     </div>
   </div>
   <div class="row mb-4">
@@ -29,7 +29,8 @@ if (isset($this->view->search)) {
               data-bs-toggle="collapse"
               data-bs-target="#bookForm"
               aria-expanded="true"
-              aria-controls="bookForm">
+              aria-controls="bookForm"
+            >
               <i class="bi bi-plus-circle-fill me-2"></i>
               Register Book
             </button>
@@ -43,10 +44,12 @@ if (isset($this->view->search)) {
                 <input
                   type="hidden"
                   name="csrf_token"
-                  value="<?php echo $this->view->csrf_token; ?>" />
+                  value="<?php echo $this->view->csrf_token; ?>" 
+                />
                 <div class="row g-3">
-                  <div class="col-12 col-md-6 position-relative">
-                    <label for="title" class="form-label">Title</label>
+
+                  <div class="col-12 col-md-6">
+                    <label for="author" class="form-label"> Title </label>
                     <input
                       type="text"
                       class="form-control"
@@ -54,32 +57,7 @@ if (isset($this->view->search)) {
                       name="title"
                       value="<?php echo $data['title'] ?? '' ?>"
                       placeholder="Book title"
-                      autocomplete="off"
-                      data-autocomplete-url="/api/books"
-                      data-autocomplete-search-param="title"
-                      data-autocomplete-target="book-title-results"
-                      data-autocomplete-min="2"
-                      aria-autocomplete="list"
-                      aria-expanded="false"
                       required />
-                    <div
-                      id="book-title-results"
-                      class="position-absolute start-0 end-0 text-bg-dark border rounded-3 shadow-sm mt-1 overflow-auto"
-                      style="max-height: 300px; z-index: 1050"
-                      role="listbox"
-                      hidden>
-                      <button
-                        type="button"
-                        class="dropdown-item p-3 border-bottom"
-                        data-autocomplete-option="Clean Code"
-                        data-value="15"
-                        data-label="Clean Code">
-                        <div class="fw-semibold">Clean Code</div>
-                        <small class="text-body-secondary">
-                          Robert C. Martin
-                        </small>
-                      </button>
-                    </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <label for="author" class="form-label"> Author </label>
@@ -163,9 +141,10 @@ if (isset($this->view->search)) {
           <span class="badge text-bg-secondary"> <?php echo $totalBooks ?? 0 ?> books </span>
         </div>
         <div class="card-body border-bottom pb-3">
+
           <form action="/books" method="GET">
             <div class="row g-3">
-              <div class="col-12 col-lg-9">
+              <div class="col-12 col-lg-8">
                 <label for="search" class="form-label"> Search </label>
                 <input
                   type="text"
@@ -175,7 +154,7 @@ if (isset($this->view->search)) {
                   value="<?php echo $_GET['search'] ?? '' ?>"
                   placeholder="Enter with the title..." />
               </div>
-              <div class="col-12 col-lg-3 d-flex align-items-end gap-2">
+              <div class="col-12 col-lg-4 d-flex align-items-end gap-2">
                 <button type="submit" class="btn btn-primary w-100 d-flex flex-nowrap justify-content-center">
                   <i class="bi bi-search me-1"></i>
                   Search
@@ -186,9 +165,8 @@ if (isset($this->view->search)) {
                 </a>
               </div>
             </div>
-
           </form>
-
+          
         </div>
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
@@ -199,8 +177,7 @@ if (isset($this->view->search)) {
                 <th class="d-none d-md-table-cell">Author</th>
                 <th class="d-none d-md-table-cell">Year</th>
                 <th class="d-none d-md-table-cell">Quant</th>
-                <!-- <th class="d-none d-md-table-cell">Status</th> -->
-                <th  class="text-end">Options</th>
+                <th class="text-end">Options</th>
               </tr>
             </thead>
             <tbody>
@@ -213,26 +190,23 @@ if (isset($this->view->search)) {
               <?php else: ?>
                 <?php foreach ($books as $book): ?>
                   <tr>
-                    <td><?= htmlspecialchars($book->__get('code')) ?></td>
-                    <td><?= htmlspecialchars($book->__get('title')) ?></td>
-                    <td class="d-none d-md-table-cell"><?= htmlspecialchars($book->__get('author')) ?></td>
-                    <td class="d-none d-md-table-cell"><?= htmlspecialchars($book->__get('year')) ?></td>
-                    <td class="d-none d-md-table-cell"><?= htmlspecialchars($book->__get('quantity')) ?></td>
-
-                    <!-- <td class="d-none d-md-table-cell">
-                      <?php if ($book->__get('is_active')): ?>
-                        <span class="badge text-bg-success">
-                          Active
-                        </span>
-                      <?php else: ?>
-                        <span class="badge text-bg-secondary">
-                          Inactive
-                        </span>
-                      <?php endif; ?>
-                    </td> -->
-
+                    <td>
+                      <?= htmlspecialchars($book->__get('code')) ?>
+                    </td>
+                    <td>
+                      <?= htmlspecialchars($book->__get('title')) ?>
+                    </td>
+                    <td class="d-none d-md-table-cell">
+                      <?= htmlspecialchars($book->__get('author')) ?>
+                    </td>
+                    <td class="d-none d-md-table-cell">
+                      <?= htmlspecialchars($book->__get('year')) ?>
+                    </td>
+                    <td class="d-none d-md-table-cell">
+                      <?= htmlspecialchars($book->__get('quantity')) ?>
+                    </td>
                     <td class="text-end">
-                      <div class="dropdown " >
+                      <div class="dropdown">
                         <button
                           class="btn btn-sm btn-outline-secondary dropdown-toggle"
                           type="button"
@@ -304,6 +278,7 @@ if (isset($this->view->search)) {
           <?php endif; ?>
 
         </div>
+        
       </div>
     </div>
   </div>

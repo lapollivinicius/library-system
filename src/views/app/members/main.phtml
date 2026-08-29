@@ -115,7 +115,7 @@ if (isset($this->view->search)) {
         <div class="card-body border-bottom pb-3">
           <form action="/members" method="GET">
             <div class="row g-3">
-              <div class="col-12 col-lg-9">
+              <div class="col-12 col-lg-8">
                 <label for="search" class="form-label"> Search </label>
                 <input
                   type="text"
@@ -125,7 +125,7 @@ if (isset($this->view->search)) {
                   value="<?php echo $_GET['name'] ?? '' ?>"
                   placeholder="Enter with the name..." />
               </div>
-              <div class="col-12 col-lg-3 d-flex align-items-end gap-2">
+              <div class="col-12 col-lg-4 d-flex align-items-end gap-2">
                 <button type="submit" class="btn btn-primary w-100 d-flex flex-nowrap justify-content-center">
                   <i class="bi bi-search me-1"></i>
                   Search
@@ -145,8 +145,8 @@ if (isset($this->view->search)) {
                 <th class="d-none d-md-table-cell">#</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th class="d-none d-md-table-cell">Phone</th>
-                <th class="d-none d-md-table-cell">Document</th>
+                <th class="d-none d-lg-table-cell">Phone</th>
+                <th class="d-none d-lg-table-cell">Document</th>
                 <th class="text-end">Options</th>
               </tr>
             </thead>
@@ -163,8 +163,8 @@ if (isset($this->view->search)) {
                     <td class="d-none d-md-table-cell"><?= htmlspecialchars($member->__get('code') ?? '—') ?></td>
                     <td><?= htmlspecialchars($member->__get('name') ?? '—') ?></td>
                     <td><?= htmlspecialchars($member->__get('email') ?? '—') ?></td>
-                    <td class="d-none d-md-table-cell"><?= htmlspecialchars($member->__get('phone') ?? '0') ?></td>
-                    <td class="d-none d-md-table-cell"><?= htmlspecialchars($member->__get('document') ?? '0') ?></td>
+                    <td class="d-none d-lg-table-cell"><?= htmlspecialchars($member->__get('phone') ?? '0') ?></td>
+                    <td class="d-none d-lg-table-cell"><?= htmlspecialchars($member->__get('document') ?? '0') ?></td>
                     <td class="text-end">
                       <div class="dropdown">
                         <button

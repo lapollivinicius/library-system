@@ -1,10 +1,21 @@
+<?php
+if (isset($_SESSION['data'])) {
+  $data = $_SESSION['data'];
+};
+if (isset($this->view->search)) {
+  $loans = $this->view->search['loans'];
+  $totalLoans = $this->view->search['totalLoans'];
+  $totalPages = $this->view->search['totalPages'];
+  $sort = $this->view->search['sort'];
+  $page = $this->view->search['page'];
+  $limit = $this->view->search['limit'];
+};
+?>
 <div class="container-fluid mb-3">
   <div class="row mb-4">
     <div class="col">
       <p class="fw-bold fs-4 m-0">LOANS</p>
-      <small class="text-secondary m-0">
-        Loan registration and active loans
-      </small>
+      <small class="text-secondary m-0">Loan registration and active loans</small>
     </div>
   </div>
   <div class="row mb-4">
@@ -18,8 +29,7 @@
               data-bs-toggle="collapse"
               data-bs-target="#loanForm"
               aria-expanded="true"
-              aria-controls="loanForm"
-            >
+              aria-controls="loanForm">
               <i class="bi bi-plus-circle-fill me-2"></i>
               Register Loan
             </button>
@@ -27,12 +37,15 @@
           <div
             id="loanForm"
             class="accordion-collapse collapse"
-            data-bs-parent="#loanAccordion"
-          >
+            data-bs-parent="#loanAccordion">
             <div class="accordion-body">
-              <form action="/loans" method="POST">
+              <form action="/loan/create" method="POST">
+                <input
+                  type="hidden"
+                  name="csrf_token"
+                  value="<?php echo $this->view->csrf_token; ?>" />
                 <div class="row g-3">
-                  <div class="col-12 col-md-6">
+                  <div class="col-12 col-md-6 position-relative">
                     <label for="bookTitle" class="form-label">
                       Book Title
                     </label>
@@ -40,21 +53,50 @@
                       type="text"
                       class="form-control"
                       id="bookTitle"
-                      name="book_title"
+                      name="book"
+                      value="<?php echo $data['book'] ?? '' ?>"
                       placeholder="Book title"
-                      required
+                      autocomplete="off"
+                      data-autocomplete-url="/books/json"
+                      data-autocomplete-search-param="title"
+                      data-autocomplete-target="book-title-results"
+                      data-autocomplete-min="2"
+                      aria-autocomplete="list"
+                      aria-expanded="false"
+                      required 
                     />
+                    <div
+                      id="book-title-results"
+                      class="position-absolute start-0 end-0 text-bg-dark border rounded-3 shadow-sm mt-1 overflow-auto"
+                      style="max-height: 300px; z-index: 1050"
+                      role="listbox"
+                      hidden>
+                    </div>
                   </div>
-                  <div class="col-12 col-md-6">
+                  <div class="col-12 col-md-6 position-relative">
                     <label for="member" class="form-label"> Member </label>
                     <input
                       type="text"
                       class="form-control"
                       id="member"
                       name="member"
+                      value="<?php echo $data['member'] ?? '' ?>"
                       placeholder="Member name"
-                      required
-                    />
+                      autocomplete="off"
+                      data-autocomplete-url="/members/json"
+                      data-autocomplete-search-param="name"
+                      data-autocomplete-target="member-results"
+                      data-autocomplete-min="2"
+                      aria-autocomplete="list"
+                      aria-expanded="false"
+                      required />
+                    <div
+                      id="member-results"
+                      class="position-absolute start-0 end-0 text-bg-dark border rounded-3 shadow-sm mt-1 overflow-auto"
+                      style="max-height: 300px; z-index: 1050"
+                      role="listbox"
+                      hidden>
+                    </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <label for="loanDate" class="form-label"> Loan Date </label>
@@ -62,9 +104,9 @@
                       type="date"
                       class="form-control"
                       id="loanDate"
-                      name="loan_date"
-                      required
-                    />
+                      name="loan"
+                      value="<?php echo $data['loan'] ?? '' ?>"
+                      required />
                   </div>
                   <div class="col-12 col-md-6">
                     <label for="returnDate" class="form-label">
@@ -74,9 +116,9 @@
                       type="date"
                       class="form-control"
                       id="returnDate"
-                      name="return_date"
-                      required
-                    />
+                      name="return"
+                      value="<?php echo $data['return'] ?? '' ?>"
+                      required />
                   </div>
                   <div class="col-12 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">
@@ -96,96 +138,139 @@
     <div class="col-12">
       <div class="card shadow-sm">
         <div
-          class="card-header bg-body d-flex justify-content-between align-items-center"
-        >
+          class="card-header bg-body d-flex justify-content-between align-items-center">
           <div>
             <h5 class="mb-0">Active Loans</h5>
             <small class="text-body-secondary">
               Currently borrowed books
             </small>
           </div>
-          <span class="badge text-bg-secondary"> 00 loans </span>
+          <span class="badge text-bg-secondary"> <?php echo $totalLoans ?? 0 ?> loans </span>
         </div>
         <div class="card-body border-bottom pb-3">
           <form action="/loans" method="GET">
             <div class="row g-3">
-              <div class="col-12 col-md-4">
-                <label for="searchField" class="form-label"> Search by </label>
-                <select class="form-select" id="searchField" name="field">
-                  <option value="book_title">Book Title</option>
-                  <option value="code">Code</option>
-                  <option value="member">Member</option>
-                </select>
-              </div>
-              <div class="col-12 col-md-6">
+              <div class="col-12 col-lg-8">
                 <label for="search" class="form-label"> Search </label>
                 <input
                   type="text"
                   class="form-control"
                   id="search"
-                  name="search"
-                  placeholder="Enter your search..."
-                />
+                  name="title"
+                  value="<?php echo $_GET['search'] ?? '' ?>"
+                  placeholder="Enter with the title..." />
               </div>
-              <div class="col-12 col-md-2 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary w-100">
+              <div class="col-12 col-lg-4 d-flex align-items-end gap-2">
+                <button type="submit" class="btn btn-primary w-100 d-flex flex-nowrap justify-content-center">
                   <i class="bi bi-search me-1"></i>
                   Search
                 </button>
+                <a href="/loans" class="btn btn-outline-secondary w-100 d-flex flex-nowrap justify-content-center">
+                  <i class="bi bi-x-lg me-1"></i>
+                  Clear
+                </a>
               </div>
             </div>
           </form>
         </div>
         <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
+          <table class="table table-hover align-middle mb-0 text-break">
             <thead>
               <tr>
                 <th>Title</th>
                 <th>Member</th>
-                <th>Return Date</th>
+                <th class="d-none d-md-table-cell">Return Date</th>
+                <th>Status</th>
                 <th class="text-end">Options</th>
               </tr>
             </thead>
             <tbody>
-              <?php foreach ($loans as $loan): ?>
+              <?php if (empty($loans)): ?>
                 <tr>
-                  <td><?= htmlspecialchars($loan->__get('book_title') ?? '—') ?></td>
-                  <td><?= htmlspecialchars($loan->__get('member_name') ?? '—') ?></td>
-                  <td><?= htmlspecialchars($loan->__get('return_date') ?? '—') ?></td>
-                  <td class="text-end">
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-sm btn-outline-secondary dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        Options
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                          <a
-                            class="dropdown-item"
-                            href="/loans/edit/<?= htmlspecialchars($loan->__get('id')) ?>"
-                          >
-                            <i class="bi bi-pencil me-2"></i>
-                            Edit
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+                  <td colspan="6" class="text-center text-body-secondary py-4">
+                    No active loans found.
                   </td>
                 </tr>
-              <?php endforeach; ?>
-              <tr>
-                <td colspan="4" class="text-center text-body-secondary py-4">
-                  No active loans found.
-                </td>
-              </tr>
+              <?php else: ?>
+                <?php foreach ($loans as $loan): ?>
+                  <tr>
+                    <td>
+                      <?= htmlspecialchars($loan->__get('book_title') ?? '—') ?>
+                    </td>
+                    <td>
+                      <?= htmlspecialchars($loan->__get('member_name') ?? '—') ?>
+                    </td>
+                    <td class="d-none d-md-table-cell">
+                      <?= htmlspecialchars(\config\utils::formatDate($loan->__get('due_at'))) ?>
+                    </td>
+                    <td>
+                      <div class="badge bg-warning">
+                        at due
+                      </div>
+                    </td>
+                    <td class="text-end">
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          Options
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              href="/loans/edit/<?= htmlspecialchars($loan->__get('code')) ?>">
+                              <i class="bi bi-pencil me-2"></i>
+                              Edit
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php endif; ?>
             </tbody>
           </table>
+          <?php if ($totalPages > 0): ?>
+            <nav class="mt-4" aria-label="Loans pagination">
+              <ul class="pagination justify-content-center">
+                <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+                  <a
+                    class="page-link"
+                    href="?page=<?= $page - 1 ?>&sort=<?= htmlspecialchars($sort) ?>">
+                    Previous
+                  </a>
+                </li>
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                  <li class="page-item <?= $i === $page ? 'active' : '' ?>">
+                    <a
+                      class="page-link"
+                      href="?page=<?= $i ?>&sort=<?= htmlspecialchars($sort) ?>">
+                      <?= $i ?>
+                    </a>
+                  </li>
+                <?php endfor; ?>
+                <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>">
+                  <a
+                    class="page-link"
+                    href="?page=<?= $page + 1 ?>&sort=<?= htmlspecialchars($sort) ?>">
+                    Next
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          <?php endif; ?>
         </div>
+
       </div>
     </div>
   </div>
 </div>
+<?php
+unset($_SESSION['data']);
+unset($_SESSION['error']);
+unset($_SESSION['success']);
+?>

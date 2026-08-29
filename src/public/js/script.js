@@ -105,136 +105,194 @@ $(document).on("click", "#confirmModalCancel, #confirmModalClose", function () {
   confirmForm = null;
 });
 
-// autocomplete
-$(document).on("focus", "[data-autocomplete-target]", function () {
-  const targetId = $(this).data("autocomplete-target");
-  const $results = $("#" + targetId);
-
-  if ($results.children().length > 0) {
-    $results.prop("hidden", false);
-    $(this).attr("aria-expanded", "true");
-  }
-});
-
-$(document).on("input", "[data-autocomplete-target]", function () {
-  const $input = $(this);
-  const value = $input.val().trim();
-  const url = $input.data("autocomplete-url");
-  const searchParam = $input.data("autocomplete-search-param") || "search";
-  const targetId = $input.data("autocomplete-target");
-  const min = Number($input.data("autocomplete-min")) || 2;
-  const $results = $("#" + targetId);
-
-  if (value.length < min) {
-    $results.empty().prop("hidden", true);
-    $input.attr("aria-expanded", "false");
-    return;
-  }
-
-  if (!url) return;
-
-  const params = new URLSearchParams({
-    [searchParam]: value,
-  });
-
-  fetch(`${url}?${params}`)
-    .then((response) => response.json())
-    .then((data) => {
-      $results.empty();
-
-      if (Array.isArray(data) && data.length > 0) {
-        data.forEach((item) => {
-          const label = item.label || item.title || item.name || "";
-          const subtitle = item.subtitle || item.author || item.email || "";
-          const val = item.value || label;
-
-          const $option = $(`
-            <button
-              type="button"
-              class="dropdown-item p-3 border-bottom"
-              data-autocomplete-option="${val}"
-              data-label="${label}">
-              <div class="fw-semibold">${label}</div>
-              ${subtitle ? `<small class="text-body-secondary">${subtitle}</small>` : ""}
-            </button>
-          `);
-          $results.append($option);
-        });
-
-        $results.prop("hidden", false);
-        $input.attr("aria-expanded", "true");
-      } else {
-        $results.prop("hidden", true);
-        $input.attr("aria-expanded", "false");
-      }
-    })
-    .catch((err) => {
-      console.error("Autocomplete fetch error:", err);
-      $results.prop("hidden", true);
-      $input.attr("aria-expanded", "false");
-    });
-});
-
-$(document).on("click", function (event) {
-  $("[data-autocomplete-target]").each(function () {
-    const $input = $(this);
-    const targetId = $input.data("autocomplete-target");
-    const $results = $("#" + targetId);
-
-    if (
-      !$(event.target).closest($input).length &&
-      !$(event.target).closest($results).length
-    ) {
-      $results.prop("hidden", true);
-      $input.attr("aria-expanded", "false");
-    }
-  });
-});
-
-$(document).on("click", "[data-autocomplete-option]", function () {
-  const value = $(this).data("autocomplete-option");
-  const $results = $(this).closest("[role='listbox']");
-  const targetId = $results.attr("id");
-  const $input = $(`[data-autocomplete-target="${targetId}"]`);
-
-  $input.val(value);
-  $input.attr("aria-expanded", "false");
-  $results.prop("hidden", true);
-});
-
 // theme
 $(document).ready(function () {
-    const $html = $('html');
-    const $button = $('.theme-toggle');
-    const savedTheme = localStorage.getItem('theme');
+  const $html = $("html");
+  const $button = $(".theme-toggle");
+  const savedTheme = localStorage.getItem("theme");
 
-    if (savedTheme) {
-        $html.attr('data-bs-theme', savedTheme);
-    }
+  if (savedTheme) {
+    $html.attr("data-bs-theme", savedTheme);
+  }
+  updateIcon();
+  $button.on("click", function () {
+    const currentTheme = $html.attr("data-bs-theme");
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    $html.attr("data-bs-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
     updateIcon();
-    $button.on('click', function () {
-        const currentTheme = $html.attr('data-bs-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        $html.attr('data-bs-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateIcon();
-    });
+  });
 
-    function updateIcon() {
-        const theme = $html.attr('data-bs-theme');
-        
-        if (theme === 'dark') {
-            $button.html('<i class="bi bi-sun"></i>');
-        } else {
-            $button.html('<i class="bi bi-moon"></i>');
-        }
+  function updateIcon() {
+    const theme = $html.attr("data-bs-theme");
+
+    if (theme === "dark") {
+      $button.html('<i class="bi bi-sun"></i>');
+    } else {
+      $button.html('<i class="bi bi-moon"></i>');
     }
-
+  }
 });
 
 // dropdown
-document.querySelectorAll('.dropdown').forEach(dropdown => {
-    dropdown.addEventListener('click', event => {
-        event.stopPropagation();
-    });
+document.querySelectorAll(".dropdown").forEach((dropdown) => {
+  dropdown.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+});
+
+// autocomplete
+$(document).ready(function () {
+  let debounceTimeout = null;
+
+  $(document).on("input focus", "input[data-autocomplete-url]", function () {
+    const $input = $(this);
+    const url = $input.attr("data-autocomplete-url");
+    const searchParam =
+      $input.attr("data-autocomplete-search-param") || "search";
+    const targetId = $input.attr("data-autocomplete-target");
+    const minLength = parseInt($input.attr("data-autocomplete-min") || "2", 10);
+    const $target = $("#" + targetId);
+
+    if (!$target.length) return;
+
+    const query = $input.val().trim();
+
+    if (query.length < minLength) {
+      clearTimeout(debounceTimeout);
+      $target.empty().append(
+        $("<div>", {
+          class: "dropdown-item p-3 text-body-secondary text-center",
+          text: "Type at least " + minLength + " characters to search...",
+        }),
+      );
+      $target.removeAttr("hidden");
+      $input.attr("aria-expanded", "true");
+      return;
+    }
+
+    $target.empty().append(
+      $("<div>", {
+        class: "dropdown-item p-3 text-body-secondary text-center",
+      })
+        .append(
+          $("<span>", {
+            class: "spinner-border spinner-border-sm me-2",
+            role: "status",
+            "aria-hidden": "true",
+          }),
+        )
+        .append("Searching..."),
+    );
+    $target.removeAttr("hidden");
+    $input.attr("aria-expanded", "true");
+
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(function () {
+      const data = {};
+      data[searchParam] = query;
+
+      $.ajax({
+        url: url,
+        method: "GET",
+        data: data,
+        dataType: "json",
+        success: function (response) {
+          $target.empty();
+
+          let items = [];
+          if (response && response.success) {
+            if (response.books && response.books.length > 0) {
+              items = response.books.map(function (b) {
+                return { label: b.title, desc: b.author };
+              });
+            } else if (response.member && response.member.length > 0) {
+              items = response.member.map(function (m) {
+                return { label: m.name, desc: m.email };
+              });
+            }
+          }
+
+          if (items.length > 0) {
+            items.forEach(function (item) {
+              const $btn = $("<button>", {
+                type: "button",
+                class: "dropdown-item p-3 border-bottom",
+                "data-autocomplete-option": item.label,
+                "data-label": item.label,
+              });
+
+              const $titleDiv = $("<div>", {
+                class: "fw-semibold",
+                text: item.label,
+              });
+
+              const $descSmall = $("<small>", {
+                class: "text-body-secondary",
+                text: item.desc,
+              });
+
+              $btn.append($titleDiv).append($descSmall);
+              $target.append($btn);
+            });
+          } else {
+            $target.append(
+              $("<div>", {
+                class: "dropdown-item p-3 text-body-secondary text-center",
+                text: "No results found",
+              }),
+            );
+          }
+        },
+        error: function () {
+          $target.empty().append(
+            $("<div>", {
+              class: "dropdown-item p-3 text-danger text-center",
+              text: "Error loading results",
+            }),
+          );
+        },
+      });
+    }, 250);
+  });
+
+  $(document).on(
+    "click",
+    "[role='listbox'] button[data-autocomplete-option]",
+    function (e) {
+      e.preventDefault();
+      const $btn = $(this);
+      const val = $btn.attr("data-autocomplete-option");
+
+      const $target = $btn.closest("[role='listbox']");
+      const targetId = $target.attr("id");
+      const $input = $("input[data-autocomplete-target='" + targetId + "']");
+
+      if ($input.length) {
+        $input.val(val);
+        clearAndHideAutocomplete($input, $target);
+      }
+    },
+  );
+
+  $(document).on("click", function (e) {
+    if (
+      !$(e.target).closest("input[data-autocomplete-url], [role='listbox']")
+        .length
+    ) {
+      $("input[data-autocomplete-url]").each(function () {
+        const $input = $(this);
+        const targetId = $input.attr("data-autocomplete-target");
+        const $target = $("#" + targetId);
+        if ($target.length) {
+          clearAndHideAutocomplete($input, $target);
+        }
+      });
+    }
+  });
+
+  function clearAndHideAutocomplete($input, $target) {
+    $target.attr("hidden", true);
+    $input.attr("aria-expanded", "false");
+  }
 });
