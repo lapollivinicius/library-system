@@ -18,4 +18,12 @@ class utils
     $hex = strtoupper(bin2hex(random_bytes(3)));
     return strtoupper($prefix) . '-' . $hex;
   }
+
+  public static function formatDate(?string $date): string
+  {
+    if (!$date) {
+      return '—';
+    }
+    return date('m/d/Y', strtotime($date));
+  }
 }
