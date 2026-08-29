@@ -1,9 +1,16 @@
 <?php
-  if (isset($this->view->loan)) {
-    $loan = $this->view->loan;
-  }
+if (isset($this->view->loan)) {
+  $loan = $this->view->loan;
+}
+
+$loanedAt = new DateTime($loan->__get('loaned_at'));
+$dueAt = new DateTime($loan->__get('due_at'));
+$now = new DateTime();
+
+$period = $loanedAt->diff($dueAt)->days;
+$isOverdue = $now > $dueAt;
 ?>
-<?php include __DIR__ . '/header.phtml'; ?>
+<?php include __DIR__ . '/../components/header.phtml'; ?>
 <main class="container py-4">
   <div class="row mb-4">
     <div class="col">
@@ -19,18 +26,18 @@
     <div class="col-12">
       <div class="border rounded p-3">
         <small class="text-body-secondary d-block">Book</small>
-        <h4 class="mb-0"><?= htmlspecialchars($loan?->__get('book_title') ?? '—') ?></h4>
-        <small class="text-body-secondary">
-          ISBN: <?= htmlspecialchars($loan?->__get('isbn') ?? '—') ?>
+        <h4 class="mb-0 text-capitalize"><?= htmlspecialchars($loan?->__get('book_title') ?? '—') ?></h4>
+        <small class="text-body-secondary text-capitalize">
+          CODE: #<?= htmlspecialchars($loan?->__get('book_code') ?? '—') ?>
         </small>
       </div>
     </div>
     <div class="col-12">
       <div class="border rounded p-3">
         <small class="text-body-secondary d-block">Member</small>
-        <h5 class="mb-0"><?= htmlspecialchars($loan?->__get('member_name') ?? '—') ?></h5>
-        <small class="text-body-secondary">
-          <?= htmlspecialchars($loan?->__get('member_email') ?? '—') ?>
+        <h5 class="mb-0 text-capitalize"><?= htmlspecialchars($loan?->__get('member_name') ?? '—') ?></h5>
+        <small class="text-body-secondary text-capitalize">
+          CODE: #<?= htmlspecialchars($loan?->__get('member_code') ?? '—') ?>
         </small>
       </div>
     </div>
@@ -38,7 +45,7 @@
       <div class="border rounded p-3 h-100">
         <small class="text-body-secondary d-block">Loan Date</small>
         <span class="fs-5 fw-semibold">
-          <?= htmlspecialchars($loan?->__get('loan_date') ?? '—') ?>
+          <?= htmlspecialchars(\config\utils::formatDate($loan?->__get('loaned_at')) ?? '—') ?>
         </span>
       </div>
     </div>
@@ -46,7 +53,7 @@
       <div class="border rounded p-3 h-100">
         <small class="text-body-secondary d-block">Return Date</small>
         <span class="fs-5 fw-semibold">
-          <?= htmlspecialchars($loan?->__get('return_date') ?? '—') ?>
+          <?= htmlspecialchars(\config\utils::formatDate($loan?->__get('due_at')) ?? '—') ?>
         </span>
       </div>
     </div>
@@ -70,20 +77,24 @@
               #<?= htmlspecialchars($loan?->__get('code') ?? '—') ?>
             </span>
           </div>
+
           <div class="col-12 col-md-4">
             <small class="text-body-secondary d-block">Loan Period</small>
             <span class="fw-semibold">
-              <?= htmlspecialchars($loan?->__get('period') ?? '—') ?> days
+              <?= htmlspecialchars($period) ?> days
             </span>
           </div>
+
           <div class="col-12 col-md-4">
             <small class="text-body-secondary d-block">Deadline</small>
-            <?php if ($loan?->__get('is_overdue')): ?>
+
+            <?php if ($isOverdue): ?>
               <span class="text-danger fw-semibold">Overdue</span>
             <?php else: ?>
               <span class="text-success fw-semibold">Within deadline</span>
             <?php endif; ?>
           </div>
+
         </div>
       </div>
     </div>
@@ -91,22 +102,25 @@
       <a href="/loans" class="btn btn-outline-secondary">
         Close
       </a>
+      <a href="#" class="btn btn-warning">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        Contact
+      </a>
       <form action="/loans/return" method="POST" class="d-inline">
         <input type="hidden" name="csrf_token" value="<?php echo $this->view->csrf_token; ?>" />
         <input type="hidden" name="id" value="<?php echo $loan?->__get('id') ?? '' ?>" />
         <button
           type="submit"
-          class="btn btn-primary"
-          <?= !$loan?->__get('is_active') ? 'disabled' : '' ?>
-        >
-          <i class="bi bi-check2-circle me-1"></i>
+          class="btn btn-success"
+          <?= !$loan?->__get('is_active') ? 'disabled' : '' ?>>
+          <i class="bi bi-check-circle-fill"></i>
           Mark as Returned
         </button>
       </form>
     </div>
   </div>
 </main>
-<?php include __DIR__ . '/footer.phtml'; ?>
+<?php include __DIR__ . '/../components/footer.phtml'; ?>
 <?php
 unset($_SESSION['error']);
 unset($_SESSION['success']);

@@ -204,11 +204,11 @@ $(document).ready(function () {
           if (response && response.success) {
             if (response.books && response.books.length > 0) {
               items = response.books.map(function (b) {
-                return { label: b.title, desc: b.author, available: b.available };
+                return { label: b.title, desc: b.author, available: (b.available  + (b.available != 1 ? ' books' : ' book')) };
               });
             } else if (response.member && response.member.length > 0) {
               items = response.member.map(function (m) {
-                return { label: m.name, desc: m.email };
+                return { label: m.name, desc: m.email, available: 'Member' };
               });
             }
           }
@@ -236,7 +236,7 @@ $(document).ready(function () {
 
               const $badgeSpan = $("<span>", {
                 class: "position-absolute top-0 end-0 mt-2 badge bg-success me-2",
-                text: item.available + (item.available != 1 ? ' books' : ' book'),
+                text: item.available,
               });
 
               $btn.append($badgeSpan).append($titleDiv).append($descSmall);

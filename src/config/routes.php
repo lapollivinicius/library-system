@@ -150,19 +150,26 @@ class routes
       'middleware' => ['auth'],
       'action' => 'index'
     );
-    $routes['edit_loan'] = array(
-      'route' => '/loans/edit/:id',
+    $routes['details_loan'] = array(
+      'route' => '/loans/details/:code',
       'method' => 'GET',
       'controller' => 'loan',
       'middleware' => ['auth'],
-      'action' => 'editLoan'
+      'action' => 'details'
     );
     $routes['add_loan'] = array(
-      'route' => '/loan/create',
+      'route' => '/loans/create',
       'method' => 'POST',
       'controller' => 'loan',
       'middleware' => ['auth', 'csrf'],
       'action' => 'addLoan'
+    );
+    $routes['returned_book'] = array(
+      'route' => '/loans/returned/:code',
+      'method' => 'POST',
+      'controller' => 'loan',
+      'middleware' => ['auth', 'csrf'],
+      'action' => 'returnLoan'
     );
 
     // books 

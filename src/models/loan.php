@@ -68,6 +68,72 @@ class loan
     ]);
   }
 
+
+  public function read(string $user_id, string $code): \entities\loan|null
+  {
+
+    $query = "
+        SELECT *
+        FROM loans
+        WHERE code = :code
+          AND user_id = :user_id
+          AND is_returned = 0
+          AND is_active = 1
+        LIMIT 1
+      ";
+
+    $stmt = $this->database->prepare($query);
+    $stmt->execute([
+      ':user_id' => $user_id,
+      ':code' => $code
+    ]);
+
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$data) {
+      return null;
+    }
+
+    return new \entities\loan(
+      $data['loan_id'],
+      $data['user_id'],
+      $data['member_id'],
+      $data['member_name'],
+      $data['book_id'],
+      $data['book_title'],
+      $data['code'],
+      $data['loaned_at'],
+      $data['due_at'],
+      $data['returned_at'],
+      $data['is_returned'],
+      $data['is_active']
+    );
+  }
+
+
+  public function update(string $user_id, \entities\loan $loan): void
+  {
+    $query = '
+        UPDATE loans SET
+            due_at = :due_at,
+            returned_at = :returned_at,
+            is_returned = :is_returned,
+            is_active = :is_active
+        WHERE user_id = :user_id AND code = :code
+    ';
+
+    $stmt = $this->database->prepare($query);
+
+    $stmt->execute([
+      'user_id'     => $user_id,
+      'due_at'      => $loan->__get('due_at'),
+      'returned_at' => $loan->__get('returned_at'),
+      'is_returned' => $loan->__get('is_returned'),
+      'is_active'   => $loan->__get('is_active'),
+      'code'        => $loan->__get('code'),
+    ]);
+  }
+
   public function search(string $user_id, ?string $search = '', int $limit = 10, int $offset = 0, string $sort = 'asc'): array
   {
 
@@ -160,4 +226,6 @@ class loan
     $stmt->execute();
     return (int) $stmt->fetchColumn();
   }
+
+  
 }

@@ -39,7 +39,7 @@ if (isset($this->view->search)) {
             class="accordion-collapse collapse"
             data-bs-parent="#loanAccordion">
             <div class="accordion-body">
-              <form action="/loan/create" method="POST">
+              <form action="/loans/create" method="POST">
                 <input
                   type="hidden"
                   name="csrf_token"
@@ -67,7 +67,7 @@ if (isset($this->view->search)) {
                     />
                     <div
                       id="book-title-results"
-                      class="position-absolute start-0 end-0 text-bg-dark border rounded-3 shadow-sm mt-1 overflow-auto"
+                      class="position-absolute start-0 end-0 bg-body text-body border rounded-3 shadow-sm mt-1 overflow-auto"
                       style="max-height: 300px; z-index: 1050"
                       role="listbox"
                       hidden>
@@ -92,7 +92,7 @@ if (isset($this->view->search)) {
                       required />
                     <div
                       id="member-results"
-                      class="position-absolute start-0 end-0 text-bg-dark border rounded-3 shadow-sm mt-1 overflow-auto"
+                      class="position-absolute start-0 end-0 bg-body text-body border rounded-3 shadow-sm mt-1 overflow-auto"
                       style="max-height: 300px; z-index: 1050"
                       role="listbox"
                       hidden>

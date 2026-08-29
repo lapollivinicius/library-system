@@ -147,26 +147,69 @@ class loan extends controller
 
   }
 
-  // public function editLoan(array $params = [])
-  // {
-  //   $id = $params['id'] ?? null;
+  public function returnLoan(array $params = []) {
 
-  //   if (!$id) {
-  //     header('location: /loans');
-  //     exit;
-  //   }
+    $code = $params['code'] ?? null;
 
-  //   $database = \config\database::connect();
-  //   $model    = new \models\loan($database);
+    $database = \config\database::connect();
+    $model_loan = new \models\loan($database);
+    $model_book = new \models\book($database);
 
-  //   $loan = $model->find($id);
+    $loan = $model_loan->read($this->user_id, $code);
 
-  //   if (!$loan) {
-  //     header('location: /loans');
-  //     exit;
-  //   }
+    if(!$loan) {
+      $_SESSION['error'] = 'Loan record not found';
+      header('location: /loans');
+      exit;
+    };
 
-  //   $this->view->loan = $loan;
-  //   $this->render('app/loans/edit');
-  // }
+    $loan->__set('is_returned', true);
+    $loan->__set('returned_at', date('Y-m-d'));
+    $book = $model_book->find($this->user_id, $loan->__get('book_title'));
+
+    if(!$book) {
+      $_SESSION['error'] = 'ERROR to find the book';
+      header('location: /loans');
+      exit;
+    };
+
+    $book_available = $book->__get('available');
+    $book->__set('available', ($book_available + 1));
+
+    try {
+      $model_loan->update($this->user_id, $loan);
+      $model_book->update($this->user_id, $book);
+      $_SESSION['success'] = 'Book returned';
+      header('location: /loans');
+      exit;
+    } catch (\PDOException $error) {
+      $_SESSION['error'] = 'DATABASE ERROR - SORRY :( <br> ERROR: ' . $error->getMessage();
+      header('location: /loans');
+      exit;
+    }
+
+  }
+
+  public function details(array $params = [])
+  {
+    $code = $params['code'] ?? null;
+
+    if (!$code) {
+      header('location: /loans');
+      exit;
+    }
+
+    $database = \config\database::connect();
+    $model    = new \models\loan($database);
+
+    $loan = $model->read($this->user_id, $code);
+
+    if (!$loan) {
+      header('location: /loans');
+      exit;
+    }
+
+    $this->view->loan = $loan;
+    $this->render('app/loans/details');
+  }
 }
