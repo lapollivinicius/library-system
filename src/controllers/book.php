@@ -113,6 +113,7 @@ class book extends controller
     $year     = strtolower($data['year']);
     $genre    = strtolower($data['genre']);
     $quantity = $data['quantity'] ?? 1;
+    $available = $quantity;
     $isbn     = $data['isbn'] ?? '';
 
     $book = new \entities\book(
@@ -125,6 +126,7 @@ class book extends controller
       $genre,
       $year,
       $quantity,
+      $available,
       true
     );
 
@@ -249,7 +251,8 @@ class book extends controller
       $books = array_map(
           fn($book) => [
               'title' => $book->__get('title'),
-              'author' => $book->__get('author')
+              'author' => $book->__get('author'),
+              'available' => $book->__get('available')
           ],
           $books
       );

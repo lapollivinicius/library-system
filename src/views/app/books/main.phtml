@@ -175,7 +175,7 @@ if (isset($this->view->search)) {
                 <th>Title</th>
                 <th>Author</th>
                 <th class="d-none d-md-table-cell">Year</th>
-                <th class="d-none d-md-table-cell">Quant</th>
+                <th class="d-none d-md-table-cell">Available</th>
                 <th class="text-end">Options</th>
               </tr>
             </thead>
@@ -199,7 +199,7 @@ if (isset($this->view->search)) {
                       <?= htmlspecialchars($book->__get('year')) ?>
                     </td>
                     <td class="d-none d-md-table-cell">
-                      <?= htmlspecialchars($book->__get('quantity')) ?>
+                      <?= htmlspecialchars($book->__get('available')) ?>
                     </td>
                     <td class="text-end">
                       <div class="dropdown">

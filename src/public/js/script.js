@@ -204,7 +204,7 @@ $(document).ready(function () {
           if (response && response.success) {
             if (response.books && response.books.length > 0) {
               items = response.books.map(function (b) {
-                return { label: b.title, desc: b.author };
+                return { label: b.title, desc: b.author, available: b.available };
               });
             } else if (response.member && response.member.length > 0) {
               items = response.member.map(function (m) {
@@ -215,15 +215,17 @@ $(document).ready(function () {
 
           if (items.length > 0) {
             items.forEach(function (item) {
+
               const $btn = $("<button>", {
                 type: "button",
-                class: "dropdown-item p-3 border-bottom",
+                class: `dropdown-item p-3 border-bottom position-relative ${item.available <= 0 ? "disabled" : ""}`,
                 "data-autocomplete-option": item.label,
                 "data-label": item.label,
+                disabled: item.available <= 0
               });
 
               const $titleDiv = $("<div>", {
-                class: "fw-semibold",
+                class: "fw-semibold text-capitalize",
                 text: item.label,
               });
 
@@ -232,7 +234,12 @@ $(document).ready(function () {
                 text: item.desc,
               });
 
-              $btn.append($titleDiv).append($descSmall);
+              const $badgeSpan = $("<span>", {
+                class: "position-absolute top-0 end-0 mt-2 badge bg-success me-2",
+                text: item.available + (item.available != 1 ? ' books' : ' book'),
+              });
+
+              $btn.append($badgeSpan).append($titleDiv).append($descSmall);
               $target.append($btn);
             });
           } else {

@@ -87,6 +87,16 @@ class loan extends controller
       exit;
     }
 
+    $book_available = $book->__get('available');
+
+    if($book_available < 1) {
+      $_SESSION['data'] = $data;
+      $_SESSION['error'] = 'This book isnt available';
+      header('location: /loans');
+      exit;
+    }
+
+    $book->__set('available', ($book_available - 1));
     $search_member = ['name' => $data['member'],'email' => ''];
     $member = $model_member->find($this->user_id, $search_member);
 
@@ -119,11 +129,13 @@ class loan extends controller
       $loaned_at,
       $due_at,
       $returned_at,
+      false,
       true
     );
 
     try {
       $model_loan->create($loan);
+      $model_book->update($this->user_id, $book);
       $_SESSION['success'] = 'Loan registed';
       header('location: /loans');
       exit;
@@ -134,8 +146,6 @@ class loan extends controller
     }
 
   }
-
-
 
   // public function editLoan(array $params = [])
   // {

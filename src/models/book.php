@@ -110,7 +110,7 @@ class book
             isbn = :isbn,
             genre = :genre,
             year = :year,
-            quantity = :quantity
+            quantity = :quantity,
             available = :available
         WHERE user_id = :user_id AND code = :code
     ';
@@ -190,7 +190,7 @@ class book
     $query = "
         SELECT *
         FROM books
-        WHERE user_id = :user_id AND is_active = 1 
+        WHERE user_id = :user_id AND is_active = 1
         LIMIT :limit OFFSET :offset
     ";
 
