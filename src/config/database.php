@@ -64,17 +64,21 @@ class database
             loan_id VARCHAR(36) PRIMARY KEY NOT NULL,
             user_id VARCHAR(36) NOT NULL,
             member_id VARCHAR(36) NOT NULL,
-            
+            member_name VARCHAR(64) NOT NULL,
             book_id VARCHAR(36) NOT NULL,
+            book_title VARCHAR(64) NOT NULL,
             code VARCHAR(16) NOT NULL,
-
-            loaned_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            loaned_at DATETIME NOT NULL,
             due_at DATETIME NOT NULL,
             returned_at DATETIME NULL,
 
             FOREIGN KEY (user_id) REFERENCES users(user_id),
             FOREIGN KEY (member_id) REFERENCES members(member_id),
-            FOREIGN KEY (book_id) REFERENCES books(book_id)
+            FOREIGN KEY (book_id) REFERENCES books(book_id),
+
+            UNIQUE KEY unique_user_code (user_id, code),
+            UNIQUE KEY unique_user_book_member (user_id, member_id, book_id)
+
           );
       ') !== false;
   }
