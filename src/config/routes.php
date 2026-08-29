@@ -136,7 +136,7 @@ class routes
     );
     $routes['json_members'] = array(
       'route' => '/members/json',
-      'method' => 'POST',
+      'method' => 'GET',
       'controller' => 'member',
       'middleware' => [],
       'action' => 'listMembers'
@@ -156,6 +156,13 @@ class routes
       'controller' => 'loan',
       'middleware' => ['auth'],
       'action' => 'editLoan'
+    );
+    $routes['add_loan'] = array(
+      'route' => '/loan/create',
+      'method' => 'POST',
+      'controller' => 'loan',
+      'middleware' => ['auth', 'csrf'],
+      'action' => 'addLoan'
     );
 
     // books 
@@ -196,7 +203,7 @@ class routes
     );
     $routes['json_books'] = array(
       'route' => '/books/json',
-      'method' => 'POST',
+      'method' => 'GET',
       'controller' => 'book',
       'middleware' => [],
       'action' => 'listbooks'

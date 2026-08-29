@@ -37,6 +37,11 @@ abstract class validators
     return preg_match('/^[a-z0-9A-Z. _-]+$/', $value) === 1;
   }
 
+  protected function date_valid(string $value): bool
+  {
+      return preg_match('/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/', $value) === 1;
+  }
+
   protected function email(string $value): bool
   {
     return preg_match(
