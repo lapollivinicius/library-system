@@ -194,10 +194,10 @@ if (isset($this->view->search)) {
               <?php else: ?>
                 <?php foreach ($loans as $loan): ?>
                   <tr>
-                    <td>
+                    <td class="text-capitalize">
                       <?= htmlspecialchars($loan->__get('book_title') ?? '—') ?>
                     </td>
-                    <td>
+                    <td class="text-capitalize">
                       <?= htmlspecialchars($loan->__get('member_name') ?? '—') ?>
                     </td>
                     <td class="d-none d-md-table-cell">
@@ -221,10 +221,25 @@ if (isset($this->view->search)) {
                           <li>
                             <a
                               class="dropdown-item"
-                              href="/loans/edit/<?= htmlspecialchars($loan->__get('code')) ?>">
-                              <i class="bi bi-pencil me-2"></i>
-                              Edit
+                              href="/loans/details/<?= htmlspecialchars($loan->__get('code')) ?>">
+                              <i class="bi bi-info-circle-fill me-2"></i>
+                              Details
                             </a>
+                          </li>
+                          <li>
+                            <form
+                              action="/loans/returned/<?= htmlspecialchars($loan->__get('code')) ?>"
+                              method="POST"
+                              data-confirm="The book will be deleted. Are you sure?">
+                              <input
+                                type="hidden"
+                                name="csrf_token"
+                                value="<?= $this->view->csrf_token ?>" />
+                              <button class="dropdown-item text-success">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                Returned
+                              </button>
+                            </form>
                           </li>
                         </ul>
                       </div>

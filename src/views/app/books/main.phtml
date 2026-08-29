@@ -172,9 +172,8 @@ if (isset($this->view->search)) {
           <table class="table table-hover align-middle mb-0">
             <thead>
               <tr>
-                <th>#</th>
                 <th>Title</th>
-                <th class="d-none d-md-table-cell">Author</th>
+                <th>Author</th>
                 <th class="d-none d-md-table-cell">Year</th>
                 <th class="d-none d-md-table-cell">Quant</th>
                 <th class="text-end">Options</th>
@@ -190,13 +189,10 @@ if (isset($this->view->search)) {
               <?php else: ?>
                 <?php foreach ($books as $book): ?>
                   <tr>
-                    <td>
-                      <?= htmlspecialchars($book->__get('code')) ?>
-                    </td>
-                    <td>
+                    <td class="text-capitalize">
                       <?= htmlspecialchars($book->__get('title')) ?>
                     </td>
-                    <td class="d-none d-md-table-cell">
+                    <td class="text-capitalize">
                       <?= htmlspecialchars($book->__get('author')) ?>
                     </td>
                     <td class="d-none d-md-table-cell">

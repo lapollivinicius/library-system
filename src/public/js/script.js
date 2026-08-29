@@ -163,7 +163,7 @@ $(document).ready(function () {
       $target.empty().append(
         $("<div>", {
           class: "dropdown-item p-3 text-body-secondary text-center",
-          text: "Type at least " + minLength + " characters to search...",
+          text: "Type at least " + minLength + " characters...",
         }),
       );
       $target.removeAttr("hidden");
