@@ -27,6 +27,7 @@ class book
             genre,
             year,
             quantity,
+            available,
             is_active
         )
         VALUES (
@@ -39,6 +40,7 @@ class book
             :genre,
             :year,
             :quantity,
+            :available,
             :is_active
         )
     ';
@@ -48,13 +50,14 @@ class book
     $stmt->execute([
       'book_id'   => $book->__get('book_id'),
       'user_id'   => $book->__get('user_id'),
-      'code'     => $book->__get('code'),
+      'code'      => $book->__get('code'),
       'title'     => $book->__get('title'),
       'author'    => $book->__get('author'),
       'isbn'      => $book->__get('isbn'),
       'genre'     => $book->__get('genre'),
       'year'      => $book->__get('year'),
       'quantity'  => $book->__get('quantity'),
+      'available' => $book->__get('available'),
       'is_active' => (bool) $book->__get('is_active'),
     ]);
   }
@@ -63,7 +66,7 @@ class book
   {
 
     $query = "
-        SELECT book_id, user_id, code, title, author, isbn, genre, year, quantity, is_active
+        SELECT *
         FROM books
         WHERE code = :code
           AND user_id = :user_id
@@ -93,6 +96,7 @@ class book
       $data['genre'],
       $data['year'],
       $data['quantity'],
+      $data['available'],
       $data['is_active']
     );
   }
@@ -107,20 +111,22 @@ class book
             genre = :genre,
             year = :year,
             quantity = :quantity
+            available = :available
         WHERE user_id = :user_id AND code = :code
     ';
 
     $stmt = $this->database->prepare($query);
 
     $stmt->execute([
-      'user_id'    => $user_id,
-      'title'    => $book->__get('title'),
-      'author'   => $book->__get('author'),
-      'isbn'     => $book->__get('isbn'),
-      'genre'    => $book->__get('genre'),
-      'year'     => $book->__get('year'),
-      'quantity' => $book->__get('quantity'),
-      'code'     => $book->__get('code'),
+      'user_id'   => $user_id,
+      'title'     => $book->__get('title'),
+      'author'    => $book->__get('author'),
+      'isbn'      => $book->__get('isbn'),
+      'genre'     => $book->__get('genre'),
+      'year'      => $book->__get('year'),
+      'quantity'  => $book->__get('quantity'),
+      'available' => $book->__get('available'),
+      'code'      => $book->__get('code'),
     ]);
   }
 
@@ -144,7 +150,7 @@ class book
   {
 
     $query = "
-        SELECT book_id, user_id, code, title, author, isbn, genre, year, quantity, is_active
+        SELECT *
         FROM books
         WHERE title = :title
           AND user_id = :user_id
@@ -174,6 +180,7 @@ class book
       $data['genre'],
       $data['year'],
       $data['quantity'],
+      $data['available'],
       $data['is_active']
     );
   }
@@ -205,6 +212,7 @@ class book
         $book['genre'],
         $book['year'],
         $book['quantity'],
+        $book['available'],
         $book['is_active']
       ),
       $data
@@ -256,6 +264,7 @@ class book
         $book['genre'],
         $book['year'],
         $book['quantity'],
+        $book['available'],
         $book['is_active']
       ),
       $data

@@ -29,6 +29,7 @@ class loan
           loaned_at, 
           due_at, 
           returned_at,
+          is_returned,
           is_active
         )
         VALUES (
@@ -42,6 +43,7 @@ class loan
           :loaned_at, 
           :due_at, 
           :returned_at,
+          :is_returned,
           :is_active
         )
     ';
@@ -59,45 +61,46 @@ class loan
       'loaned_at'   => $loan->__get('loaned_at'),
       'due_at'      => $loan->__get('due_at'),
       'returned_at' => $loan->__get('returned_at'),
+      'is_returned' => $loan->__get('is_returned'),
       'is_active'   => (bool) $loan->__get('is_active'),
     ]);
   }
 
-  public function read(string $user_id, string $code): \entities\member|null
-  {
+  // public function read(string $user_id, string $code): \entities\member|null
+  // {
 
-    $query = "
-        SELECT *
-        FROM members
-        WHERE code = :code
-          AND user_id = :user_id
-          AND is_active = 1
-        LIMIT 1
-      ";
+  //   $query = "
+  //       SELECT *
+  //       FROM members
+  //       WHERE code = :code
+  //         AND user_id = :user_id
+  //         AND is_active = 1
+  //       LIMIT 1
+  //     ";
 
-    $stmt = $this->database->prepare($query);
-    $stmt->execute([
-      ':user_id' => $user_id,
-      ':code'    => $code
-    ]);
+  //   $stmt = $this->database->prepare($query);
+  //   $stmt->execute([
+  //     ':user_id' => $user_id,
+  //     ':code'    => $code
+  //   ]);
 
-    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+  //   $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$data) {
-      return null;
-    }
+  //   if (!$data) {
+  //     return null;
+  //   }
 
-    return new \entities\member(
-      $data['member_id'],
-      $data['user_id'],
-      $data['code'],
-      $data['name'],
-      $data['email'],
-      $data['phone'],
-      $data['document'],
-      $data['is_active']
-    );
-  }
+  //   return new \entities\member(
+  //     $data['member_id'],
+  //     $data['user_id'],
+  //     $data['code'],
+  //     $data['name'],
+  //     $data['email'],
+  //     $data['phone'],
+  //     $data['document'],
+  //     $data['is_active']
+  //   );
+  // }
   
   // public function update(string $user_id, \entities\member $loan): void
   // {
@@ -231,6 +234,7 @@ class loan
         $loan['loaned_at'],
         $loan['due_at'],
         $loan['returned_at'],
+        $loan['is_returned'],
         $loan['is_active']
       ),
       $data
@@ -240,8 +244,8 @@ class loan
   public function count(string $user_id, ?string $search = ''): int
   {
     $where = $search
-      ? 'WHERE user_id = :user_id AND is_active = 1 AND (code LIKE :search OR book_title LIKE :search OR member_name LIKE :search)'
-      : 'WHERE user_id = :user_id AND is_active = 1';
+      ? 'WHERE user_id = :user_id AND is_active = 1 AND is_returned = 0 AND (code LIKE :search OR book_title LIKE :search OR member_name LIKE :search)'
+      : 'WHERE user_id = :user_id AND is_active = 1 AND is_returned = 0';
 
     $query = "
           SELECT COUNT(*)

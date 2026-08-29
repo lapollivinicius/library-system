@@ -14,6 +14,7 @@ class book
   private string $genre;
   private string $year;
   private int $quantity;
+  private int $available;
   private bool $is_active;
 
   public function __construct(
@@ -26,6 +27,7 @@ class book
     string $genre,
     string $year,
     int $quantity = 0,
+    int $available = 0,
     bool $is_active = true
   ) {
     $this->book_id = $book_id;
@@ -37,6 +39,7 @@ class book
     $this->genre = $genre;
     $this->year = $year;
     $this->quantity = (int) $quantity;
+    $this->available = (int) $available;
     $this->is_active = (bool) $is_active;
   }
 

@@ -17,6 +17,7 @@ class loan
   private string $loaned_at;
   private string $due_at;
   private string $returned_at;
+  private bool $is_returned;
   private bool $is_active;
 
   public function __construct(
@@ -30,6 +31,7 @@ class loan
     string $loaned_at,
     string $due_at,
     ?string $returned_at,
+    bool $is_returned = false,
     bool $is_active = true
   ) {
     $this->loan_id = $loan_id;
@@ -42,6 +44,7 @@ class loan
     $this->loaned_at = $loaned_at;
     $this->due_at = $due_at;
     $this->returned_at = $returned_at;
+    $this->is_returned = $is_returned;
     $this->is_active = $is_active;
   }
 
