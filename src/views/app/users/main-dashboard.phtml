@@ -58,7 +58,6 @@ $loans = $this->view->infoDashboard['recents'];
               </h2>
               <small class="text-body-secondary"> Registered Members </small>
             </div>
-
             <div class="fs-2">
               <i class="bi bi-people-fill"></i>
             </div>
@@ -121,8 +120,8 @@ $loans = $this->view->infoDashboard['recents'];
             <thead>
               <tr>
                 <th>Title</th>
-                <th>Loan Date</th>
-                <th class="d-none d-md-table-cell">Return Date</th>
+                <th class="d-none d-lg-table-cell">Loan Date</th>
+                <th class="d-none d-lg-table-cell">Return Date</th>
                 <th>Status</th>
                 <th>Options</th>
               </tr>
@@ -140,10 +139,10 @@ $loans = $this->view->infoDashboard['recents'];
                     <td class="text-capitalize">
                       <?= htmlspecialchars($loan->__get('book_title') ?? '—') ?>
                     </td>
-                    <td class="text-capitalize">
+                    <td class="text-capitalize d-none d-lg-table-cell">
                       <?= htmlspecialchars(\config\utils::formatDate($loan->__get('loaned_at')) ?? '—') ?>
                     </td>
-                    <td class="d-none d-md-table-cell">
+                    <td class="d-none d-lg-table-cell">
                       <?= htmlspecialchars(\config\utils::formatDate($loan->__get('due_at'))) ?>
                     </td>
                     <td>
@@ -159,12 +158,12 @@ $loans = $this->view->infoDashboard['recents'];
                     </td>
                     <td>
                       <a
-                        class="icon-link icon-link-hover"
+                        class="btn btn-outline-secondary d-flex flex-nowrap justify-content-center gap-2"
                         href="/loans/details/<?= htmlspecialchars($loan->__get('code')) ?>"
                         style="text-decoration: none;"
                       >
-                        Go to Loan
-                        <i class="bi bi-arrow-right" style="margin-top: -9px;"></i>
+                        <p class="mb-0 d-none d-lg-block text-nowrap">Go to Loan</p>
+                        <i class="bi bi-arrow-right"></i>
                       </a>
                     </td>
                   </tr>
