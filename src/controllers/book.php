@@ -177,12 +177,24 @@ class book extends controller
       exit;
     };
 
+    
+
     $book->__set('title', $data['title']);
     $book->__set('author', $data['author']);
     $book->__set('genre', $data['genre']);
     $book->__set('year', $data['year']);
-    $book->__set('quantity', $data['quantity']);
     $book->__set('isbn', $data['isbn']);
+    
+
+    $book_quantity = $book->__get('quantity'); 
+
+    $book->__set('quantity', $data['quantity']);
+
+    $book_available = $book->__get('available');
+
+    $book->__set('available', $book_available + ($data['quantity'] - $book_quantity));
+
+    # 10 
 
     try {
       $model->update($this->user_id, $book);

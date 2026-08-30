@@ -48,7 +48,7 @@ class book
     return $this->$item;
   }
 
-  public function __set(string $item, string $value)
+  public function __set(string $item, mixed $value)
   {
     return $this->$item = $value;
   }

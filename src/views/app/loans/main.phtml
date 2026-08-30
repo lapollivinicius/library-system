@@ -156,7 +156,7 @@ if (isset($this->view->search)) {
                   type="text"
                   class="form-control"
                   id="search"
-                  name="title"
+                  name="search"
                   value="<?php echo $_GET['search'] ?? '' ?>"
                   placeholder="Enter with the title..." />
               </div>
@@ -204,9 +204,15 @@ if (isset($this->view->search)) {
                       <?= htmlspecialchars(\config\utils::formatDate($loan->__get('due_at'))) ?>
                     </td>
                     <td>
-                      <div class="badge bg-warning">
-                        at due
-                      </div>
+                      <?php 
+                      $dueAt = new DateTime($loan->__get('due_at'));
+                      $now = new DateTime();
+                      if ($now > $dueAt): 
+                      ?>
+                        <span class="badge bg-danger fw-semibold">Overdue</span>
+                      <?php else: ?>
+                        <span class="badge bg-warning fw-semibold">at due</span>
+                      <?php endif; ?>
                     </td>
                     <td class="text-end">
                       <div class="dropdown">
@@ -230,7 +236,7 @@ if (isset($this->view->search)) {
                             <form
                               action="/loans/returned/<?= htmlspecialchars($loan->__get('code')) ?>"
                               method="POST"
-                              data-confirm="The book will be deleted. Are you sure?">
+                              data-confirm="By confirming, you declare that the book has been returned. Are you sure?">
                               <input
                                 type="hidden"
                                 name="csrf_token"

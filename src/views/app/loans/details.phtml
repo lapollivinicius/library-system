@@ -106,7 +106,12 @@ $isOverdue = $now > $dueAt;
         <i class="bi bi-exclamation-circle-fill"></i>
         Contact
       </a>
-      <form action="/loans/return" method="POST" class="d-inline">
+      <form 
+        action="/loans/returned/<?= htmlspecialchars($loan?->__get('code')) ?>" 
+        method="POST" 
+        class="d-inline"
+        data-confirm="By confirming, you declare that the book has been returned. Are you sure?"
+      >
         <input type="hidden" name="csrf_token" value="<?php echo $this->view->csrf_token; ?>" />
         <input type="hidden" name="id" value="<?php echo $loan?->__get('id') ?? '' ?>" />
         <button

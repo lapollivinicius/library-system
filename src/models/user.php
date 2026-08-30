@@ -62,4 +62,40 @@ class user
       is_active: (bool) $data['is_active'],
     );
   }
+
+  public function stats(string $user_id)
+  {
+    $query = '
+      SELECT
+        (SELECT COUNT(*)
+        FROM books
+        WHERE user_id = :user_id
+          AND is_active = 1) AS books_count,
+
+        (SELECT COUNT(*)
+        FROM members
+        WHERE user_id = :user_id
+          AND is_active = 1) AS members_count,
+
+        (SELECT COUNT(*)
+        FROM loans
+        WHERE is_returned = FALSE
+          AND user_id = :user_id
+          AND is_active = 1) AS active_loans,
+
+        (SELECT COUNT(*)
+        FROM loans
+        WHERE due_at < NOW()
+          AND is_returned = FALSE
+          AND user_id = :user_id
+          AND is_active = 1) AS overdue_loans
+    ';
+
+    $stmt = $this->database->prepare($query);
+    $stmt->execute([
+        ':user_id' => $user_id
+    ]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
 }

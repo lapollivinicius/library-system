@@ -64,24 +64,20 @@ class database
           CREATE TABLE IF NOT EXISTS loans (
             loan_id VARCHAR(36) PRIMARY KEY NOT NULL,
             user_id VARCHAR(36) NOT NULL,
-            member_id VARCHAR(36) NOT NULL,
-            member_name VARCHAR(64) NOT NULL,
-            book_id VARCHAR(36) NOT NULL,
-            book_title VARCHAR(64) NOT NULL,
             code VARCHAR(16) NOT NULL,
+            member_code VARCHAR(36) NOT NULL,
+            book_code VARCHAR(36) NOT NULL,
             loaned_at DATETIME NOT NULL,
             due_at DATETIME NOT NULL,
             returned_at DATETIME NULL,
             is_returned BOOLEAN NOT NULL DEFAULT FALSE,
             is_active BOOLEAN NOT NULL DEFAULT TRUE,
-            
-            FOREIGN KEY (user_id) REFERENCES users(user_id),
-            FOREIGN KEY (member_id) REFERENCES members(member_id),
-            FOREIGN KEY (book_id) REFERENCES books(book_id),
 
-            UNIQUE KEY unique_user_code (user_id, code),
-            UNIQUE KEY unique_user_book_member (user_id, member_id, book_id)
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id, member_code) REFERENCES members(user_id, code) ON DELETE CASCADE,
+            FOREIGN KEY (user_id, book_code) REFERENCES books(user_id, code) ON DELETE CASCADE,
 
+            UNIQUE KEY unique_user_code (user_id, code)
           );
       ') !== false;
   }

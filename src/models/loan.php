@@ -20,11 +20,9 @@ class loan
         INSERT INTO loans (
           loan_id, 
           user_id, 
-          member_id, 
-          member_name, 
-          book_id, 
-          book_title, 
           code, 
+          member_code, 
+          book_code, 
           loaned_at, 
           due_at, 
           returned_at,
@@ -34,11 +32,9 @@ class loan
         VALUES (
           :loan_id, 
           :user_id, 
-          :member_id, 
-          :member_name, 
-          :book_id, 
-          :book_title, 
           :code, 
+          :member_code, 
+          :book_code, 
           :loaned_at, 
           :due_at, 
           :returned_at,
@@ -55,11 +51,9 @@ class loan
     $stmt->execute([
       'loan_id'     => $loan->__get('loan_id'),
       'user_id'     => $loan->__get('user_id'),
-      'member_id'   => $loan->__get('member_id'),
-      'member_name' => $loan->__get('member_name'),
-      'book_id'     => $loan->__get('book_id'),
-      'book_title'  => $loan->__get('book_title'),
       'code'        => $loan->__get('code'),
+      'member_code'   => $loan->__get('member_code'),
+      'book_code'     => $loan->__get('book_code'),
       'loaned_at'   => $loan->__get('loaned_at'),
       'due_at'      => $loan->__get('due_at'),
       'returned_at' => $loan->__get('returned_at'),
@@ -68,21 +62,42 @@ class loan
     ]);
   }
 
-
   public function read(string $user_id, string $code): \entities\loan|null
   {
-
     $query = "
-        SELECT *
-        FROM loans
-        WHERE code = :code
-          AND user_id = :user_id
-          AND is_returned = 0
-          AND is_active = 1
+        SELECT
+            l.loan_id,
+            l.user_id,
+            l.code,
+            l.member_code,
+            l.book_code,
+            l.loaned_at,
+            l.due_at,
+            l.returned_at,
+            l.is_returned,
+            l.is_active,
+            m.name AS member_name,
+            b.title AS book_title
+        FROM loans l
+
+        INNER JOIN members m
+            ON m.user_id = l.user_id
+            AND m.code = l.member_code
+
+        INNER JOIN books b
+            ON b.user_id = l.user_id
+            AND b.code = l.book_code
+
+        WHERE l.code = :code
+            AND l.user_id = :user_id
+            AND l.is_returned = 0
+            AND l.is_active = 1
+
         LIMIT 1
-      ";
+    ";
 
     $stmt = $this->database->prepare($query);
+
     $stmt->execute([
       ':user_id' => $user_id,
       ':code' => $code
@@ -97,19 +112,18 @@ class loan
     return new \entities\loan(
       $data['loan_id'],
       $data['user_id'],
-      $data['member_id'],
-      $data['member_name'],
-      $data['book_id'],
-      $data['book_title'],
       $data['code'],
+      $data['member_code'],
+      $data['book_code'],
       $data['loaned_at'],
       $data['due_at'],
       $data['returned_at'],
       $data['is_returned'],
-      $data['is_active']
+      $data['is_active'],
+      $data['member_name'],
+      $data['book_title']
     );
   }
-
 
   public function update(string $user_id, \entities\loan $loan): void
   {
@@ -134,8 +148,13 @@ class loan
     ]);
   }
 
-  public function search(string $user_id, ?string $search = '', int $limit = 10, int $offset = 0, string $sort = 'asc'): array
-  {
+  public function search(
+    string $user_id,
+    ?string $search = '',
+    int $limit = 10,
+    int $offset = 0,
+    string $sort = 'asc'
+  ): array {
 
     $sort = strtolower($sort);
 
@@ -144,23 +163,37 @@ class loan
     }
 
     $where = $search
-      ? 'WHERE user_id = :user_id
-        AND is_active = 1
-        AND is_returned = 0
-        AND (
-          code LIKE :search
-          OR book_title LIKE :search
-          OR member_name LIKE :search
-        )' 
-      : 'WHERE user_id = :user_id
-        AND is_active = 1
-        AND is_returned = 0';
+      ? 'WHERE l.user_id = :user_id
+           AND l.is_active = 1
+           AND l.is_returned = 0
+           AND (
+               l.code LIKE :search
+               OR b.title LIKE :search
+               OR m.name LIKE :search
+           )'
+      : 'WHERE l.user_id = :user_id
+           AND l.is_active = 1
+           AND l.is_returned = 0';
 
     $query = "
-        SELECT *
-        FROM loans
+        SELECT
+            l.*,
+            m.name AS member_name,
+            b.title AS book_title
+        FROM loans l
+
+        INNER JOIN members m
+            ON m.user_id = l.user_id
+            AND m.code = l.member_code
+
+        INNER JOIN books b
+            ON b.user_id = l.user_id
+            AND b.code = l.book_code
+
         {$where}
-        ORDER BY member_name {$sort}
+
+        ORDER BY l.due_at {$sort}
+
         LIMIT :limit OFFSET :offset
     ";
 
@@ -169,6 +202,7 @@ class loan
     if ($search) {
       $stmt->bindValue(':search', "%{$search}%", PDO::PARAM_STR);
     }
+
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
     $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
     $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
@@ -181,16 +215,16 @@ class loan
       fn(array $loan) => new \entities\loan(
         $loan['loan_id'],
         $loan['user_id'],
-        $loan['member_id'],
-        $loan['member_name'],
-        $loan['book_id'],
-        $loan['book_title'],
         $loan['code'],
+        $loan['member_code'],
+        $loan['book_code'],
         $loan['loaned_at'],
         $loan['due_at'],
         $loan['returned_at'],
         $loan['is_returned'],
-        $loan['is_active']
+        $loan['is_active'],
+        $loan['member_name'],
+        $loan['book_title']
       ),
       $data
     );
@@ -199,33 +233,98 @@ class loan
   public function count(string $user_id, ?string $search = ''): int
   {
     $where = $search
-      ? 'WHERE user_id = :user_id 
-        AND is_active = 1 
-        AND is_returned = 0 
-        AND (
-          code LIKE :search 
-          OR book_title LIKE :search 
-          OR member_name LIKE :search
-        )'
-      : 'WHERE user_id = :user_id 
-        AND is_active = 1 
-        AND is_returned = 0';
+      ? 'WHERE l.user_id = :user_id
+           AND l.is_active = 1
+           AND l.is_returned = 0
+           AND (
+               l.code LIKE :search
+               OR b.title LIKE :search
+               OR m.name LIKE :search
+           )'
+      : 'WHERE l.user_id = :user_id
+           AND l.is_active = 1
+           AND l.is_returned = 0';
 
     $query = "
-          SELECT COUNT(*)
-          FROM loans
-          {$where}
+        SELECT COUNT(*)
+        FROM loans l
+
+        INNER JOIN members m
+            ON m.user_id = l.user_id
+            AND m.code = l.member_code
+
+        INNER JOIN books b
+            ON b.user_id = l.user_id
+            AND b.code = l.book_code
+
+        {$where}
     ";
 
     $stmt = $this->database->prepare($query);
+
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+
     if ($search) {
       $stmt->bindValue(':search', "%{$search}%", PDO::PARAM_STR);
     }
 
     $stmt->execute();
+
     return (int) $stmt->fetchColumn();
   }
 
-  
+  public function recent(string $user_id, int $limit = 3): array
+  {
+    $query = '
+        SELECT
+            l.*,
+            m.name AS member_name,
+            b.title AS book_title
+        FROM loans l
+
+        INNER JOIN members m
+            ON m.user_id = l.user_id
+            AND m.code = l.member_code
+
+        INNER JOIN books b
+            ON b.user_id = l.user_id
+            AND b.code = l.book_code
+
+        WHERE l.user_id = :user_id
+          AND is_returned = 0
+          AND l.is_active = 1
+
+        ORDER BY l.loaned_at DESC
+
+        LIMIT :limit
+    ';
+
+    $stmt = $this->database->prepare($query);
+
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+
+    $stmt->execute();
+
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return array_map(
+      fn(array $loan) => new \entities\loan(
+        $loan['loan_id'],
+        $loan['user_id'],
+        $loan['code'],
+        $loan['member_code'],
+        $loan['book_code'],
+        $loan['loaned_at'],
+        $loan['due_at'],
+        $loan['returned_at'],
+        $loan['is_returned'],
+        $loan['is_active'],
+        $loan['member_name'],
+        $loan['book_title']
+      ),
+      $data
+    );
+  }
+
 }

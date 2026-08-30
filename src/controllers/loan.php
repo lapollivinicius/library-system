@@ -109,11 +109,9 @@ class loan extends controller
  
     $loan_id = \config\utils::UUID();
     $user_id = $this->user_id;
-    $member_id = $member->__get('member_id');
-    $member_name = $member->__get('name');
-    $book_id = $book->__get('book_id');
-    $book_title = $book->__get('title');
     $code = \config\utils::code('L');
+    $member_code = $member->__get('code');
+    $book_code = $book->__get('code');
     $loaned_at = $data['loan'];
     $due_at = $data['return'];
     $returned_at = '0000-00-00';
@@ -121,11 +119,9 @@ class loan extends controller
     $loan = new \entities\loan(
       $loan_id,
       $user_id,
-      $member_id,
-      $member_name,
-      $book_id,
-      $book_title,
       $code,
+      $member_code,
+      $book_code,
       $loaned_at,
       $due_at,
       $returned_at,

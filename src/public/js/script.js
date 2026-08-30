@@ -216,13 +216,21 @@ $(document).ready(function () {
           if (items.length > 0) {
             items.forEach(function (item) {
 
+              const isUnavailable = Number(item.available) <= 0;
+
               const $btn = $("<button>", {
                 type: "button",
-                class: `dropdown-item p-3 border-bottom position-relative ${item.available <= 0 ? "disabled" : ""}`,
+                class: `dropdown-item p-3 border-bottom position-relative ${
+                  isUnavailable ? "disabled" : ""
+                }`,
                 "data-autocomplete-option": item.label,
                 "data-label": item.label,
-                disabled: item.available <= 0
+                disabled: isUnavailable
               });
+
+              if (isUnavailable) {
+                $btn.prop("disabled", true);
+              }
 
               const $titleDiv = $("<div>", {
                 class: "fw-semibold text-capitalize",
@@ -235,7 +243,9 @@ $(document).ready(function () {
               });
 
               const $badgeSpan = $("<span>", {
-                class: "position-absolute top-0 end-0 mt-2 badge bg-success me-2",
+                class: `position-absolute top-0 end-0 mt-2 badge ${
+                  isUnavailable ? "bg-secondary" : "bg-success"
+                } me-2`,
                 text: item.available,
               });
 

@@ -1,3 +1,10 @@
+<?php
+$data = $this->view->infoDashboard['stats'];
+$within = (int) $data['active_loans'] - $data['overdue_loans'];
+
+$loans = $this->view->infoDashboard['recents'];
+?>
+
 <div class="container-fluid mb-3">
   <div class="row mb-4">
     <div class="col">
@@ -28,7 +35,9 @@
           <div class="d-flex justify-content-between align-items-start">
             <div>
               <h6 class="text-body-secondary mb-2">Books</h6>
-              <h2 class="mb-1">00</h2>
+              <h2 class="mb-1">
+                <?= str_pad($data['books_count'], 2, '0', STR_PAD_LEFT) ?? '--' ?>
+              </h2>
               <small class="text-body-secondary"> Registered Books </small>
             </div>
             <div class="fs-2">
@@ -44,7 +53,9 @@
           <div class="d-flex justify-content-between align-items-start">
             <div>
               <h6 class="text-body-secondary mb-2">Members</h6>
-              <h2 class="mb-1">00</h2>
+              <h2 class="mb-1">
+                <?= str_pad($data['members_count'], 2, '0', STR_PAD_LEFT) ?? '--' ?>
+              </h2>
               <small class="text-body-secondary"> Registered Members </small>
             </div>
 
@@ -61,8 +72,12 @@
           <div class="d-flex justify-content-between align-items-start">
             <div>
               <h6 class="text-body-secondary mb-2">Active Loans</h6>
-              <h2 class="mb-1">00</h2>
-              <small class="text-success"> 00 within the deadline </small>
+              <h2 class="mb-1">
+                <?= str_pad($data['active_loans'], 2, '0', STR_PAD_LEFT) ?? '--' ?>
+              </h2>
+              <small class="text-success">
+                <?= str_pad($within, 2, '0', STR_PAD_LEFT) ?>
+                within the deadline </small>
             </div>
             <div class="fs-2">
               <i class="bi bi-book-fill"></i>
@@ -77,7 +92,9 @@
           <div class="d-flex justify-content-between align-items-start">
             <div>
               <h6 class="text-body-secondary mb-2">Delay</h6>
-              <h2 class="mb-1">00</h2>
+              <h2 class="mb-1">
+                <?= str_pad($data['overdue_loans'], 2, '0', STR_PAD_LEFT) ?? '--' ?>
+              </h2>
               <small class="text-danger"> Warning </small>
             </div>
             <div class="fs-2">
@@ -100,26 +117,59 @@
           <a href="/loans" class="btn btn-sm btn-outline-primary"> See more </a>
         </div>
         <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
+          <table class="table table-hover align-middle mb-0 text-break">
             <thead>
               <tr>
-                <th>Member</th>
-                <th>Book</th>
-                <th>Loan</th>
-                <th>Return</th>
+                <th>Title</th>
+                <th>Loan Date</th>
+                <th class="d-none d-md-table-cell">Return Date</th>
                 <th>Status</th>
+                <th>Options</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>NAME PERSON</td>
-                <td>BOOK TITLE</td>
-                <td>LOAN DATE</td>
-                <td>RETURN DATE</td>
-                <td>
-                  <span class="badge text-bg-success"> active </span>
-                </td>
-              </tr>
+              <?php if (empty($loans)): ?>
+                <tr>
+                  <td colspan="6" class="text-center text-body-secondary py-4">
+                    No active loans found.
+                  </td>
+                </tr>
+              <?php else: ?>
+                <?php foreach ($loans as $loan): ?>
+                  <tr>
+                    <td class="text-capitalize">
+                      <?= htmlspecialchars($loan->__get('book_title') ?? '—') ?>
+                    </td>
+                    <td class="text-capitalize">
+                      <?= htmlspecialchars(\config\utils::formatDate($loan->__get('loaned_at')) ?? '—') ?>
+                    </td>
+                    <td class="d-none d-md-table-cell">
+                      <?= htmlspecialchars(\config\utils::formatDate($loan->__get('due_at'))) ?>
+                    </td>
+                    <td>
+                      <?php
+                      $dueAt = new DateTime($loan->__get('due_at'));
+                      $now = new DateTime();
+                      if ($now > $dueAt):
+                      ?>
+                        <span class="badge bg-danger fw-semibold">Overdue</span>
+                      <?php else: ?>
+                        <span class="badge bg-warning fw-semibold">at due</span>
+                      <?php endif; ?>
+                    </td>
+                    <td>
+                      <a
+                        class="icon-link icon-link-hover"
+                        href="/loans/details/<?= htmlspecialchars($loan->__get('code')) ?>"
+                        style="text-decoration: none;"
+                      >
+                        Go to Loan
+                        <i class="bi bi-arrow-right" style="margin-top: -9px;"></i>
+                      </a>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php endif; ?>
             </tbody>
           </table>
         </div>

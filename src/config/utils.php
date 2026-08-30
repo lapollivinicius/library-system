@@ -24,6 +24,6 @@ class utils
     if (!$date) {
       return '—';
     }
-    return date('m/d/Y', strtotime($date));
+    return date('d/m', strtotime($date));
   }
 }

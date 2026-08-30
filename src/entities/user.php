@@ -12,8 +12,14 @@ class user
   private string $password;
   private bool $is_active;
 
-  public function __construct(string $user_id, string $library_name, string $name, string $email, string $password, bool $is_active = true)
-  {
+  public function __construct(
+    string $user_id, 
+    string $library_name, 
+    string $name, 
+    string $email, 
+    string $password, 
+    bool $is_active = true
+  ) {
     $this->user_id = $user_id;
     $this->library_name = $library_name;
     $this->name = $name;
@@ -27,7 +33,7 @@ class user
     return $this->$item;
   }
 
-  public function __set(string $item, string $value)
+  public function __set(string $item, mixed $value)
   {
     return $this->$item = $value;
   }
