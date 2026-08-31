@@ -97,6 +97,20 @@ class routes
       'middleware' => ['auth'],
       'action' => 'profile'
     );
+    $routes['update_user'] = array(
+      'route' => '/profile/update',
+      'method' => 'POST',
+      'controller' => 'user',
+      'middleware' => ['auth'],
+      'action' => 'updateUser'
+    );
+    $routes['delete_use'] = array(
+      'route' => '/profile/delete',
+      'method' => 'POST',
+      'controller' => 'user',
+      'middleware' => ['auth'],
+      'action' => 'deleteUser'
+    );
 
     // members
     $routes['members'] = array(
@@ -216,7 +230,7 @@ class routes
       'action' => 'listbooks'
     );
 
-    // auth
+    // user
     $routes['auth_register'] = array(
       'route' => '/auth/register',
       'method' => 'POST',

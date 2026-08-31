@@ -23,9 +23,9 @@ class user
     $password = $user->__get('password');
     $is_active = $user->__get('is_active');
     $query = '
-        INSERT INTO users (user_id, library_name, name, email, password, is_active)
-        VALUES (:user_id, :library_name, :name, :email, :password, :is_active);
-      ';
+      INSERT INTO users (user_id, library_name, name, email, password, is_active)
+      VALUES (:user_id, :library_name, :name, :email, :password, :is_active);
+    ';
     $stmt = $this->database->prepare($query);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
     $stmt->bindValue(':library_name', $library_name, PDO::PARAM_STR);
@@ -40,19 +40,81 @@ class user
   public function read(string $email)
   {
     $query = '
-        SELECT user_id, library_name, name, email, password, is_active
-        FROM users
-        WHERE email = :email
-        LIMIT 1
-      ';
+      SELECT *
+      FROM users
+      WHERE email = :email
+      LIMIT 1
+    ';
     $stmt = $this->database->prepare($query);
     $stmt->execute([
       ':email' => $email
     ]);
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
     if (!$data) {
       return null;
     };
+
+    return new \entities\user(
+      user_id: $data['user_id'],
+      library_name: $data['library_name'],
+      name: $data['name'],
+      email: $data['email'],
+      password: $data['password'],
+      is_active: (bool) $data['is_active'],
+    );
+  }
+
+  public function update(string $user_id, \entities\user $user): void
+  {
+    $query = '
+        UPDATE users SET
+            library_name = :library_name
+        WHERE user_id = :user_id AND is_active = TRUE;
+    ';
+
+    $stmt = $this->database->prepare($query);
+
+    $stmt->execute([
+      'user_id'      => $user_id,
+      'library_name' => $user->__get('library_name'),
+    ]);
+  }
+
+  public function delete(string $user_id): void
+  {
+    $query = "
+        DELETE FROM users
+        WHERE user_id = :user_id
+        LIMIT 1
+    ";
+
+    $stmt = $this->database->prepare($query);
+    $stmt->execute([
+      ':user_id' => $user_id
+    ]);
+  }
+
+  public function find(string $user_id) 
+  {
+    $query = '
+      SELECT *
+      FROM users
+      WHERE user_id = :user_id 
+      LIMIT 1
+    ';
+
+    $stmt = $this->database->prepare($query);
+    $stmt->execute([
+      ':user_id' => $user_id,
+    ]);
+
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$data) {
+      return null;
+    };
+    
     return new \entities\user(
       user_id: $data['user_id'],
       library_name: $data['library_name'],
