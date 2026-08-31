@@ -41,7 +41,7 @@ class database
             UNIQUE KEY unique_user_name (user_id, name),
             UNIQUE KEY unique_user_email (user_id, email),
 
-            FOREIGN KEY (user_id) REFERENCES users(user_id)
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
           );
           CREATE TABLE IF NOT EXISTS books (
             book_id VARCHAR(36) PRIMARY KEY NOT NULL,
@@ -56,7 +56,7 @@ class database
             available INT NOT NULL DEFAULT 0,
             is_active BOOLEAN NOT NULL DEFAULT TRUE,
 
-            FOREIGN KEY (user_id) REFERENCES users(user_id),
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
 
             UNIQUE KEY unique_user_title (user_id, title),
             UNIQUE KEY unique_user_code (user_id, code)
