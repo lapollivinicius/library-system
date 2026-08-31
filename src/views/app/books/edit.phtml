@@ -118,7 +118,7 @@ if (isset($this->view->book)) {
         <div class="border rounded p-3 h-100">
           <small class="text-body-secondary d-block"> Available </small>
           <span class="fs-4 fw-semibold text-success">
-            <?php echo htmlspecialchars($book?->__get('available') ?? '—') 
+            <?php echo htmlspecialchars($book?->__get('available') ?? '—')
             ?>
           </span>
         </div>
@@ -127,7 +127,7 @@ if (isset($this->view->book)) {
         <div class="border rounded p-3 h-100">
           <small class="text-body-secondary d-block"> Borrowed </small>
           <span class="fs-4 fw-semibold text-danger">
-            <?php echo $book?->__get('quantity') - $book?->__get('available') ?? '—'?> 
+            <?php echo $book?->__get('quantity') - $book?->__get('available') ?? '—' ?>
           </span>
         </div>
       </div>

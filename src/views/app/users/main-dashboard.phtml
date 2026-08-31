@@ -1,10 +1,8 @@
 <?php
-$data = $this->view->infoDashboard['stats'];
+$data   = $this->view->infoDashboard['stats'];
 $within = (int) $data['active_loans'] - $data['overdue_loans'];
-
-$loans = $this->view->infoDashboard['recents'];
+$loans  = $this->view->infoDashboard['recents'];
 ?>
-
 <div class="container-fluid mb-3">
   <div class="row mb-4">
     <div class="col">
@@ -160,8 +158,7 @@ $loans = $this->view->infoDashboard['recents'];
                       <a
                         class="icon-link icon-link-hover flex-nowrap justify-content-center gap-2 w-75"
                         href="/loans/details/<?= htmlspecialchars($loan->__get('code')) ?>"
-                        style="text-decoration: none;"
-                      >
+                        style="text-decoration: none;">
                         <p class="mb-0 text-nowrap">Go to Loan</p>
                         <i class="bi bi-arrow-right-circle-fill" style="margin-top: -8px;"></i>
                       </a>

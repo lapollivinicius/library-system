@@ -7,9 +7,6 @@ class auth extends validators
 
   public function register(array $data)
   {
-
-    # validate based on the defined fields (!!!)
-    # name, email, password, library_name, terms
     foreach ($data as $key => $value) {
 
       if (!$this->terms($data)) {
@@ -28,7 +25,6 @@ class auth extends validators
         if (!$this->name($value)) {
           return $this->setError('The Name field can only contain letters');
         }
-
         if (!$this->minLength($value, 3) || !$this->maxLength($value, 64)) {
           return $this->setError('The Name field must be between 3 and 64 characters long.');
         }
@@ -44,7 +40,6 @@ class auth extends validators
       }
 
       if ($key == 'password') {
-        # is a password strong?
         if (!$this->minLength($value, 8) || !$this->maxLength($value, 64)) {
           return $this->setError('The Password field must be between 8 and 64 characters long.');
         }
@@ -63,14 +58,11 @@ class auth extends validators
         return $this->setError('The terms field is required');
       }
     }
-
     return true;
   }
 
   public function login(array $data)
   {
-
-    # email, password
     foreach ($data as $key => $value) {
 
       if (!is_string($value)) {
@@ -98,7 +90,7 @@ class auth extends validators
           return $this->setError('The Password field must be between 8 and 64 characters long.');
         }
       }
-
+      
     }
     return true;
   }

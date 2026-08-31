@@ -7,18 +7,15 @@ require_once '../config/utils.php';
 
 abstract class controller
 {
-
   protected \stdClass $view;
   protected string $user_id;
 
   public function __construct()
   {
     $this->view = new \stdClass();
-    
     if(!empty($_SESSION['user_id'])) {
       $this->user_id = $_SESSION['user_id'];
     }
-
   }
 
   protected function render(

@@ -2,12 +2,10 @@
 if (isset($this->view->loan)) {
   $loan = $this->view->loan;
 }
-
-$loanedAt = new DateTime($loan->__get('loaned_at'));
-$dueAt = new DateTime($loan->__get('due_at'));
-$now = new DateTime();
-
-$period = $loanedAt->diff($dueAt)->days;
+$loanedAt  = new DateTime($loan->__get('loaned_at'));
+$dueAt     = new DateTime($loan->__get('due_at'));
+$now       = new DateTime();
+$period    = $loanedAt->diff($dueAt)->days;
 $isOverdue = $now > $dueAt;
 ?>
 <?php include __DIR__ . '/../components/header.phtml'; ?>
@@ -77,24 +75,20 @@ $isOverdue = $now > $dueAt;
               #<?= htmlspecialchars($loan?->__get('code') ?? '—') ?>
             </span>
           </div>
-
           <div class="col-12 col-md-4">
             <small class="text-body-secondary d-block">Loan Period</small>
             <span class="fw-semibold">
               <?= htmlspecialchars($period) ?> days
             </span>
           </div>
-
           <div class="col-12 col-md-4">
             <small class="text-body-secondary d-block">Deadline</small>
-
             <?php if ($isOverdue): ?>
               <span class="text-danger fw-semibold">Overdue</span>
             <?php else: ?>
               <span class="text-success fw-semibold">Within deadline</span>
             <?php endif; ?>
           </div>
-
         </div>
       </div>
     </div>
@@ -106,12 +100,11 @@ $isOverdue = $now > $dueAt;
         <i class="bi bi-exclamation-circle-fill"></i>
         Contact
       </a>
-      <form 
-        action="/loans/returned/<?= htmlspecialchars($loan?->__get('code')) ?>" 
-        method="POST" 
+      <form
+        action="/loans/returned/<?= htmlspecialchars($loan?->__get('code')) ?>"
+        method="POST"
         class="d-inline"
-        data-confirm="By confirming, you declare that the book has been returned. Are you sure?"
-      >
+        data-confirm="By confirming, you declare that the book has been returned. Are you sure?">
         <input type="hidden" name="csrf_token" value="<?php echo $this->view->csrf_token; ?>" />
         <input type="hidden" name="id" value="<?php echo $loan?->__get('id') ?? '' ?>" />
         <button

@@ -31,7 +31,7 @@ class routes
   private function initRoutes()
   {
 
-    // public views
+    // public
     $routes['home'] = array(
       'route' => '/',
       'method' => 'GET',
@@ -101,14 +101,14 @@ class routes
       'route' => '/profile/update',
       'method' => 'POST',
       'controller' => 'user',
-      'middleware' => ['auth'],
+      'middleware' => ['auth', 'csrf'],
       'action' => 'updateUser'
     );
     $routes['delete_use'] = array(
       'route' => '/profile/delete',
       'method' => 'POST',
       'controller' => 'user',
-      'middleware' => ['auth'],
+      'middleware' => ['auth', 'csrf'],
       'action' => 'deleteUser'
     );
 
@@ -230,7 +230,7 @@ class routes
       'action' => 'listbooks'
     );
 
-    // user
+    // auth
     $routes['auth_register'] = array(
       'route' => '/auth/register',
       'method' => 'POST',

@@ -11,5 +11,7 @@ try {
   $session = config\session::init();
   $routes = new config\routes();
 } catch (\Throwable $error) {
-  echo $error->getMessage();
+  $errorMessage = $error->getMessage();
+  header('location: /error.php');
+  exit;
 }

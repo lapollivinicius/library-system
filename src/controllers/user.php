@@ -26,7 +26,6 @@ class user extends controller
 
   public function infoDashboard()
   {
-
     $database   = \config\database::connect();
     $model_user = new \models\user($database);
     $model_loan = new \models\loan($database);
@@ -34,7 +33,10 @@ class user extends controller
     $stats   = $model_user->stats($this->user_id);
     $recents = $model_loan->recent($this->user_id);
 
-    return ['stats' => $stats, 'recents' => $recents];
+    return [
+      'stats'   => $stats, 
+      'recents' => $recents
+    ];
   }
 
   public function updateUser()
@@ -47,7 +49,7 @@ class user extends controller
     $validate = new \validators\user();
 
     if (!$validate->update($data)) {
-      $_SESSION['data'] = $data;
+      $_SESSION['data']  = $data;
       $_SESSION['error'] = $validate->getError();
       header('location: /profile');
       exit;
@@ -85,7 +87,7 @@ class user extends controller
     $database   = \config\database::connect();
     $model_user = new \models\user($database);
     $user       = $model_user->find($this->user_id);
-    $auth = new auth();
+    $auth       = new auth();
 
     if (!$user) {
       $_SESSION['error'] = "User not found";

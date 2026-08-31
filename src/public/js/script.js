@@ -204,18 +204,22 @@ $(document).ready(function () {
           if (response && response.success) {
             if (response.books && response.books.length > 0) {
               items = response.books.map(function (b) {
-                return { label: b.title, desc: b.author, available: (b.available  + (b.available != 1 ? ' books' : ' book')) };
+                return {
+                  label: b.title,
+                  desc: b.author,
+                  available:
+                    b.available + (b.available != 1 ? " books" : " book"),
+                };
               });
             } else if (response.member && response.member.length > 0) {
               items = response.member.map(function (m) {
-                return { label: m.name, desc: m.email, available: 'Member' };
+                return { label: m.name, desc: m.email, available: "Member" };
               });
             }
           }
 
           if (items.length > 0) {
             items.forEach(function (item) {
-
               const isUnavailable = Number(item.available) <= 0;
 
               const $btn = $("<button>", {
@@ -225,7 +229,7 @@ $(document).ready(function () {
                 }`,
                 "data-autocomplete-option": item.label,
                 "data-label": item.label,
-                disabled: isUnavailable
+                disabled: isUnavailable,
               });
 
               if (isUnavailable) {

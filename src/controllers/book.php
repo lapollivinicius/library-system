@@ -41,7 +41,6 @@ class book extends controller
 
   public function searchBook()
   {
-    # title
     $title  = $_GET['title'] ?? '';
     $limit  = max(1, (int) ($_GET['limit'] ?? 7));
     $page   = max(1, (int) ($_GET['page']  ?? 1));
@@ -51,44 +50,38 @@ class book extends controller
       ? strtolower($sort)
       : 'asc';
 
-    # validate title ?
-
     $database = \config\database::connect();
     $model    = new \models\book($database);
 
-    $books = $model->search($this->user_id, $title, $limit, $offset, $sort);
-
+    $books      = $model->search($this->user_id, $title, $limit, $offset, $sort);
     $totalBooks = $model->count($this->user_id, $title);
-
     $totalPages = (int) ceil($totalBooks / $limit);
 
     return [
-      'books' => $books,
+      'books'      => $books,
       'totalBooks' => $totalBooks,
       'totalPages' => $totalPages,
-      'sort' => $sort,
-      'page' => $page,
-      'limit' => $limit,
-      'offset' => $offset
+      'sort'       => $sort,
+      'page'       => $page,
+      'limit'      => $limit,
+      'offset'     => $offset
     ];
   }
 
   public function addBook()
   {
-
-    # POST -> title, author, year, genre, quant, isbn
     $data = [
-      'title' => $_POST['title'] ?? '',
-      'author' => $_POST['author'] ?? '',
-      'year' => $_POST['year'] ?? '',
-      'genre' => $_POST['genre'] ?? '',
+      'title'    => $_POST['title'] ?? '',
+      'author'   => $_POST['author'] ?? '',
+      'year'     => $_POST['year'] ?? '',
+      'genre'    => $_POST['genre'] ?? '',
       'quantity' => $_POST['quantity'] ?? '',
-      'isbn' => $_POST['isbn'] ?? ''
+      'isbn'     => $_POST['isbn'] ?? ''
     ];
     $validate = new \validators\book();
 
     if (!$validate->book($data)) {
-      $_SESSION['data'] = $data;
+      $_SESSION['data']  = $data;
       $_SESSION['error'] = $validate->getError();
       header('location: /books');
       exit;
@@ -106,15 +99,15 @@ class book extends controller
       exit;
     }
 
-    $book_id  = \config\utils::UUID();
-    $code     = \config\utils::code('B');
-    $user_id  = $this->user_id;
-    $author   = strtolower($data['author']);
-    $year     = strtolower($data['year']);
-    $genre    = strtolower($data['genre']);
-    $quantity = $data['quantity'] ?? 1;
+    $book_id   = \config\utils::UUID();
+    $code      = \config\utils::code('B');
+    $user_id   = $this->user_id;
+    $author    = strtolower($data['author']);
+    $year      = strtolower($data['year']);
+    $genre     = strtolower($data['genre']);
+    $quantity  = $data['quantity'] ?? 1;
     $available = $quantity;
-    $isbn     = $data['isbn'] ?? '';
+    $isbn      = $data['isbn'] ?? '';
 
     $book = new \entities\book(
       $book_id,
@@ -144,8 +137,6 @@ class book extends controller
 
   public function updateBook(array $params = [])
   {
-    # TASK: find a book by title to validate (edit a book to title alread registed)
-    # POST -> title, author, year, genre, quant, isbn
     $code = $params['code'] ?? null;
 
     $database  = \config\database::connect();
@@ -160,24 +151,22 @@ class book extends controller
     }
 
     $data = [
-      'title' => $_POST['title'] ?? '',
-      'author' => $_POST['author'] ?? '',
-      'genre' => $_POST['genre'] ?? '',
-      'year' => $_POST['year'] ?? '',
+      'title'    => $_POST['title'] ?? '',
+      'author'   => $_POST['author'] ?? '',
+      'genre'    => $_POST['genre'] ?? '',
+      'year'     => $_POST['year'] ?? '',
       'quantity' => $_POST['quantity'] ?? '',
-      'isbn' => $_POST['isbn'] ?? ''
+      'isbn'     => $_POST['isbn'] ?? ''
     ];
 
     $validate = new \validators\book();
 
     if (!$validate->book($data)) {
-      $_SESSION['data'] = $data;
+      $_SESSION['data']  = $data;
       $_SESSION['error'] = $validate->getError();
       header('location: /books/edit/' . $code);
       exit;
     };
-
-    
 
     $book->__set('title', $data['title']);
     $book->__set('author', $data['author']);
@@ -185,16 +174,10 @@ class book extends controller
     $book->__set('year', $data['year']);
     $book->__set('isbn', $data['isbn']);
     
-
     $book_quantity = $book->__get('quantity'); 
-
     $book->__set('quantity', $data['quantity']);
-
     $book_available = $book->__get('available');
-
     $book->__set('available', $book_available + ($data['quantity'] - $book_quantity));
-
-    # 10 
 
     try {
       $model->update($this->user_id, $book);
@@ -210,7 +193,6 @@ class book extends controller
 
   public function deleteBook(array $params = [])
   {
-
     $code = $params['code'] ?? null;
 
     if (!$code) {
@@ -237,44 +219,44 @@ class book extends controller
 
   public function listBooks()
   {
-      $title = $_GET['title'] ?? '';
-      $limit = max(1, (int) ($_GET['limit'] ?? 7));
-      $user_id = $this->user_id ?? false;
+    $title   = $_GET['title'] ?? '';
+    $limit   = max(1, (int) ($_GET['limit'] ?? 7));
+    $user_id = $this->user_id ?? false;
 
-      if(!$user_id) {
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode([
-            'success' => false,
-            'msg' => 'Unauthorized'
-        ]);
-        exit;
-      }
-
-      $database = \config\database::connect();
-      $model    = new \models\book($database);
-      $books    = $model->search(
-          $user_id,
-          $title,
-          $limit,
-          0,
-          'asc'
-      );
-
-      $books = array_map(
-          fn($book) => [
-              'title' => $book->__get('title'),
-              'author' => $book->__get('author'),
-              'available' => $book->__get('available')
-          ],
-          $books
-      );
-      
+    if(!$user_id) {
       header('Content-Type: application/json; charset=utf-8');
       echo json_encode([
-          'success' => true,
-          'books' => $books
+          'success' => false,
+          'msg'     => 'Unauthorized'
       ]);
       exit;
+    }
+
+    $database = \config\database::connect();
+    $model    = new \models\book($database);
+    $books    = $model->search(
+      $user_id,
+      $title,
+      $limit,
+      0,
+      'asc'
+    );
+
+    $books = array_map(
+        fn($book) => [
+            'title'     => $book->__get('title'),
+            'author'    => $book->__get('author'),
+            'available' => $book->__get('available')
+        ],
+        $books
+    );
+    
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode([
+        'success' => true,
+        'books'   => $books
+    ]);
+    exit;
   }
 
 }

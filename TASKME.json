@@ -1,11 +1,11 @@
 {
   "tasks": [
     {
-      "id": "941749ca",
-      "content": "Finalize controllers, the model, and entities",
+      "id": "592bd6cb",
+      "content": "add other validation but the user_id in autg mid",
       "time": 0,
       "checked": false,
-      "createdAt": 1787107457786
+      "createdAt": 1788139140289
     }
   ],
   "history": [
@@ -43,6 +43,13 @@
       "time": 0,
       "checked": true,
       "createdAt": 1787107482464
+    },
+    {
+      "id": "941749ca",
+      "content": "Finalize controllers, the model, and entities",
+      "time": 0,
+      "checked": true,
+      "createdAt": 1787107457786
     }
   ]
 }

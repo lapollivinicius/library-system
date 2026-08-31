@@ -14,7 +14,7 @@ abstract class validators
 
   protected function number(string $value): bool
   {
-      return is_numeric(trim($value));
+    return is_numeric(trim($value));
   }
 
   protected function minLength(string $value, int $min): bool
@@ -39,7 +39,7 @@ abstract class validators
 
   protected function date_valid(string $value): bool
   {
-      return preg_match('/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/', $value) === 1;
+    return preg_match('/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/', $value) === 1;
   }
 
   protected function email(string $value): bool

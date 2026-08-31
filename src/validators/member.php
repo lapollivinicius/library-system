@@ -5,9 +5,8 @@ namespace validators;
 class member extends validators
 {
 
-  public function member(Array $data) {
-
-    # name, email, phone, document
+  public function member(Array $data) 
+  {
     foreach ($data as $key => $value) {
 
       if (!is_string($value)) {
@@ -39,9 +38,7 @@ class member extends validators
       }
 
       if($key == 'phone' || $key == 'document') {
-
         $value = $value == '' ? 0 : $value;
-
         if(!$this->maxLength($value, 35)) {
           return $this->setError('The phone or document field must not exceed 35 characters');
         };
@@ -49,9 +46,8 @@ class member extends validators
           return $this->setError('The phone or document field can only contain numbers');
         };
       }
+      
     }
-    
     return true;
   }
-
 }

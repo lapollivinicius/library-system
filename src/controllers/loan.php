@@ -23,8 +23,7 @@ class loan extends controller
 
   public function searchLoans()
   {
-    # search
-    $search  = $_GET['search'] ?? '';
+    $search = $_GET['search'] ?? '';
     $limit  = max(1, (int) ($_GET['limit'] ?? 7));
     $page   = max(1, (int) ($_GET['page']  ?? 1));
     $offset = ($page - 1) * $limit;
@@ -33,41 +32,37 @@ class loan extends controller
       ? strtolower($sort)
       : 'asc';
 
-    $database = \config\database::connect();
-    $model_loan    = new \models\loan($database);
+    $database   = \config\database::connect();
+    $model_loan = new \models\loan($database);
 
-    $loans = $model_loan->search($this->user_id, $search, $limit, $offset, $sort);
-
+    $loans      = $model_loan->search($this->user_id, $search, $limit, $offset, $sort);
     $totalLoans = $model_loan->count($this->user_id, $search);
-
     $totalPages = (int) ceil($totalLoans / $limit);
 
     return [
-      'loans' => $loans,
+      'loans'      => $loans,
       'totalLoans' => $totalLoans,
       'totalPages' => $totalPages,
-      'sort' => $sort,
-      'page' => $page,
-      'limit' => $limit,
-      'offset' => $offset
+      'sort'       => $sort,
+      'page'       => $page,
+      'limit'      => $limit,
+      'offset'     => $offset
     ];
   }
 
   public function addLoan() 
   {
-
-    # book, member, loan (date), return (date)
     $data = [
-      'book' => $_POST['book'],
+      'book'   => $_POST['book'],
       'member' => $_POST['member'],
-      'loan' => $_POST['loan'],
+      'loan'   => $_POST['loan'],
       'return' => $_POST['return'],
     ];
 
     $validate = new \validators\loan();
 
     if (!$validate->loan($data)) {
-      $_SESSION['data'] = $data;
+      $_SESSION['data']  = $data;
       $_SESSION['error'] = $validate->getError();
       header('location: /loans');
       exit;
@@ -81,7 +76,7 @@ class loan extends controller
     $book = $model_book->find($this->user_id, $data['book']);
 
     if(!$book) {
-      $_SESSION['data'] = $data;
+      $_SESSION['data']  = $data;
       $_SESSION['error'] = 'Book not found';
       header('location: /loans');
       exit;
@@ -90,7 +85,7 @@ class loan extends controller
     $book_available = $book->__get('available');
 
     if($book_available < 1) {
-      $_SESSION['data'] = $data;
+      $_SESSION['data']  = $data;
       $_SESSION['error'] = 'This book isnt available';
       header('location: /loans');
       exit;
@@ -98,22 +93,22 @@ class loan extends controller
 
     $book->__set('available', ($book_available - 1));
     $search_member = ['name' => $data['member'],'email' => ''];
-    $member = $model_member->find($this->user_id, $search_member);
+    $member        = $model_member->find($this->user_id, $search_member);
 
     if(!$member) {
-      $_SESSION['data'] = $data;
+      $_SESSION['data']  = $data;
       $_SESSION['error'] = 'Member not found';
       header('location: /loans');
       exit;
     }
  
-    $loan_id = \config\utils::UUID();
-    $user_id = $this->user_id;
-    $code = \config\utils::code('L');
+    $loan_id     = \config\utils::UUID();
+    $user_id     = $this->user_id;
+    $code        = \config\utils::code('L');
     $member_code = $member->__get('code');
-    $book_code = $book->__get('code');
-    $loaned_at = $data['loan'];
-    $due_at = $data['return'];
+    $book_code   = $book->__get('code');
+    $loaned_at   = $data['loan'];
+    $due_at      = $data['return'];
     $returned_at = '0000-00-00';
 
     $loan = new \entities\loan(
@@ -143,11 +138,11 @@ class loan extends controller
 
   }
 
-  public function returnLoan(array $params = []) {
-
+  public function returnLoan(array $params = []) 
+  {
     $code = $params['code'] ?? null;
 
-    $database = \config\database::connect();
+    $database   = \config\database::connect();
     $model_loan = new \models\loan($database);
     $model_book = new \models\book($database);
 

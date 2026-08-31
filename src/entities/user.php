@@ -4,7 +4,6 @@ namespace entities;
 
 class user
 {
-
   private string $user_id;
   private string $library_name;
   private string $name;
@@ -20,12 +19,12 @@ class user
     string $password, 
     bool $is_active = true
   ) {
-    $this->user_id = $user_id;
+    $this->user_id      = $user_id;
     $this->library_name = $library_name;
-    $this->name = $name;
-    $this->email = $email;
-    $this->password = $password;
-    $this->is_active = $is_active;
+    $this->name         = $name;
+    $this->email        = $email;
+    $this->password     = $password;
+    $this->is_active    = $is_active;
   }
 
   public function __get(string $item)

@@ -2,8 +2,6 @@ body {
     min-width: 350px;
 }
 
-/* BOOTSTRAP CLASS */
-/* margin top negative */
 .mt-n3 {
     margin-top: -0.75rem !important;
 }

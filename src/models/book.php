@@ -17,32 +17,32 @@ class book
   public function create(\entities\book $book): void
   {
     $query = '
-        INSERT INTO books (
-            book_id,
-            user_id,
-            code,
-            title,
-            author,
-            isbn,
-            genre,
-            year,
-            quantity,
-            available,
-            is_active
-        )
-        VALUES (
-            :book_id,
-            :user_id,
-            :code,
-            :title,
-            :author,
-            :isbn,
-            :genre,
-            :year,
-            :quantity,
-            :available,
-            :is_active
-        )
+      INSERT INTO books (
+        book_id,
+        user_id,
+        code,
+        title,
+        author,
+        isbn,
+        genre,
+        year,
+        quantity,
+        available,
+        is_active
+      )
+      VALUES (
+        :book_id,
+        :user_id,
+        :code,
+        :title,
+        :author,
+        :isbn,
+        :genre,
+        :year,
+        :quantity,
+        :available,
+        :is_active
+      )
     ';
 
     $stmt = $this->database->prepare($query);
@@ -66,12 +66,12 @@ class book
   {
 
     $query = "
-        SELECT *
-        FROM books
-        WHERE code = :code
-          AND user_id = :user_id
-          AND is_active = 1
-        LIMIT 1
+      SELECT *
+      FROM books
+      WHERE code = :code
+        AND user_id = :user_id
+        AND is_active = 1
+      LIMIT 1
       ";
 
     $stmt = $this->database->prepare($query);
@@ -104,15 +104,16 @@ class book
   public function update(string $user_id, \entities\book $book): void
   {
     $query = '
-        UPDATE books SET
-            title = :title,
-            author = :author,
-            isbn = :isbn,
-            genre = :genre,
-            year = :year,
-            quantity = :quantity,
-            available = :available
-        WHERE user_id = :user_id AND code = :code
+      UPDATE books SET
+        title = :title,
+        author = :author,
+        isbn = :isbn,
+        genre = :genre,
+        year = :year,
+        quantity = :quantity,
+        available = :available
+      WHERE user_id = :user_id 
+        AND code = :code
     ';
 
     $stmt = $this->database->prepare($query);
@@ -133,29 +134,28 @@ class book
   public function delete(string $user_id, string $code): void
   {
     $query = "
-        DELETE FROM books
-        WHERE code = :code
-          AND user_id = :user_id
-        LIMIT 1
+      DELETE FROM books
+      WHERE code = :code
+        AND user_id = :user_id
+      LIMIT 1
     ";
 
     $stmt = $this->database->prepare($query);
     $stmt->execute([
-      ':code' => $code,
+      ':code'    => $code,
       ':user_id' => $user_id
     ]);
   }
 
   public function find(string $user_id, string $title): \entities\book|false
   {
-
     $query = "
-        SELECT *
-        FROM books
-        WHERE title = :title
-          AND user_id = :user_id
-          AND is_active = 1
-        LIMIT 1
+      SELECT *
+      FROM books
+      WHERE title = :title
+        AND user_id = :user_id
+        AND is_active = 1
+      LIMIT 1
       ";
 
     $stmt = $this->database->prepare($query);
@@ -188,10 +188,11 @@ class book
   public function list(string $user_id, int $limit = 10, int $offset = 0): array
   {
     $query = "
-        SELECT *
-        FROM books
-        WHERE user_id = :user_id AND is_active = 1
-        LIMIT :limit OFFSET :offset
+      SELECT *
+      FROM books
+      WHERE user_id = :user_id 
+        AND is_active = 1
+      LIMIT :limit OFFSET :offset
     ";
 
     $stmt = $this->database->prepare($query);
@@ -221,7 +222,6 @@ class book
 
   public function search(string $user_id, ?string $title = '', int $limit = 10, int $offset = 0, string $sort = 'asc'): array
   {
-
     $sort = strtolower($sort);
 
     if (!in_array($sort, ['asc', 'desc'], true)) {
@@ -245,12 +245,12 @@ class book
     if ($title) {
       $stmt->bindValue(':title', "%{$title}%", PDO::PARAM_STR);
     }
+
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
     $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
     $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 
     $stmt->execute();
-
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     return array_map(
@@ -285,6 +285,7 @@ class book
 
     $stmt = $this->database->prepare($query);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+    
     if ($title) {
       $stmt->bindValue(':title', "%{$title}%", PDO::PARAM_STR);
     }

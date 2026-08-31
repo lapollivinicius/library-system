@@ -3,12 +3,12 @@ if (isset($_SESSION['data'])) {
   $data = $_SESSION['data'];
 };
 if (isset($this->view->search)) {
-  $books = $this->view->search['books'];
+  $books      = $this->view->search['books'];
   $totalBooks = $this->view->search['totalBooks'];
   $totalPages = $this->view->search['totalPages'];
-  $sort = $this->view->search['sort'];
-  $page = $this->view->search['page'];
-  $limit = $this->view->search['limit'];
+  $sort       = $this->view->search['sort'];
+  $page       = $this->view->search['page'];
+  $limit      = $this->view->search['limit'];
 };
 ?>
 <div class="container-fluid mb-3">
@@ -29,8 +29,7 @@ if (isset($this->view->search)) {
               data-bs-toggle="collapse"
               data-bs-target="#bookForm"
               aria-expanded="true"
-              aria-controls="bookForm"
-            >
+              aria-controls="bookForm">
               <i class="bi bi-plus-circle-fill me-2"></i>
               Register Book
             </button>
@@ -44,10 +43,8 @@ if (isset($this->view->search)) {
                 <input
                   type="hidden"
                   name="csrf_token"
-                  value="<?php echo $this->view->csrf_token; ?>" 
-                />
+                  value="<?php echo $this->view->csrf_token; ?>" />
                 <div class="row g-3">
-
                   <div class="col-12 col-md-6">
                     <label for="author" class="form-label"> Title </label>
                     <input
@@ -141,7 +138,6 @@ if (isset($this->view->search)) {
           <span class="badge text-bg-secondary"> <?php echo $totalBooks ?? 0 ?> books </span>
         </div>
         <div class="card-body border-bottom pb-3">
-
           <form action="/books" method="GET">
             <div class="row g-3">
               <div class="col-12 col-lg-8">
@@ -166,7 +162,6 @@ if (isset($this->view->search)) {
               </div>
             </div>
           </form>
-          
         </div>
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
@@ -272,9 +267,7 @@ if (isset($this->view->search)) {
               </ul>
             </nav>
           <?php endif; ?>
-
         </div>
-        
       </div>
     </div>
   </div>

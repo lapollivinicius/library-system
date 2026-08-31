@@ -1,7 +1,7 @@
-<?php 
-  if(isset($_SESSION['data'])) {
-    $data = $_SESSION['data'];
-  };
+<?php
+if (isset($_SESSION['data'])) {
+  $data = $_SESSION['data'];
+};
 ?>
 <?php include __DIR__ . '/components/header.phtml'; ?>
 <main>
@@ -11,21 +11,17 @@
         <div class="row justify-content-center">
           <div class="col-12 col-lg-10 col-xl-9">
             <div
-              class="row g-0 border border-secondary rounded-4 overflow-hidden shadow"
-            >
+              class="row g-0 border border-secondary rounded-4 overflow-hidden shadow">
               <div class="col-md-6 d-none d-md-block">
                 <div class="h-100 position-relative">
                   <img
                     src="/assets/image.png"
                     alt="Library"
-                    class="w-100 h-100 object-fit-cover"
-                  />
+                    class="w-100 h-100 object-fit-cover" />
                   <div
-                    class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"
-                  ></div>
+                    class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
                   <div
-                    class="position-absolute bottom-0 start-0 p-4 text-white"
-                  >
+                    class="position-absolute bottom-0 start-0 p-4 text-white">
                     <i class="bi bi-book-half fs-1"></i>
                     <h2 class="fw-bold mt-3">Library System</h2>
                     <p class="mb-0 text-light">
@@ -46,8 +42,7 @@
                     <input
                       type="hidden"
                       name="csrf_token"
-                      value="<?php echo $this->view->csrf_token; ?>"
-                    />
+                      value="<?php echo $this->view->csrf_token; ?>" />
                     <div class="mb-3">
                       <label for="name" class="form-label fw-semibold">
                         Name
@@ -64,8 +59,7 @@
                           placeholder="Your name"
                           autocomplete="name"
                           value="<?php echo $data['name'] ?? '' ?>"
-                          required
-                        />
+                          required />
                       </div>
                     </div>
                     <div class="mb-3">
@@ -84,8 +78,7 @@
                           placeholder="you@example.com"
                           autocomplete="email"
                           value="<?php echo $data['email'] ?? '' ?>"
-                          required
-                        />
+                          required />
                       </div>
                     </div>
                     <div class="mb-3">
@@ -104,8 +97,7 @@
                           placeholder="My Library"
                           autocomplete="organization"
                           value="<?php echo $data['library_name'] ?? '' ?>"
-                          required
-                        />
+                          required />
                       </div>
                     </div>
                     <div class="mb-3">
@@ -124,8 +116,7 @@
                           placeholder="••••••••"
                           autocomplete="new-password"
                           minlength="8"
-                          required
-                        />
+                          required />
                       </div>
                       <div class="form-text">Use at least 8 characters.</div>
                     </div>
@@ -136,12 +127,10 @@
                         id="terms"
                         name="terms"
                         value="1"
-                        required
-                      />
+                        required />
                       <label
                         class="form-check-label text-secondary"
-                        for="terms"
-                      >
+                        for="terms">
                         I agree to the
                         <a href="/terms">Terms of Use</a>
                         and
@@ -172,7 +161,7 @@
 </main>
 <?php include __DIR__ . '/components/footer.phtml'; ?>
 <?php
-  unset($_SESSION['data']); 
-  unset($_SESSION['error']); 
-  unset($_SESSION['success']); 
+unset($_SESSION['data']);
+unset($_SESSION['error']);
+unset($_SESSION['success']);
 ?>

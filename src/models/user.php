@@ -16,23 +16,32 @@ class user
 
   public function create(\entities\user $user)
   {
-    $user_id = $user->__get('user_id');
-    $library_name = $user->__get('library_name');
-    $name = $user->__get('name');
-    $email = $user->__get('email');
-    $password = $user->__get('password');
-    $is_active = $user->__get('is_active');
     $query = '
-      INSERT INTO users (user_id, library_name, name, email, password, is_active)
-      VALUES (:user_id, :library_name, :name, :email, :password, :is_active);
+      INSERT INTO users (
+        user_id, 
+        library_name, 
+        name, 
+        email, 
+        password, 
+        is_active)
+      VALUES (
+        :user_id, 
+        :library_name, 
+        :name, 
+        :email, 
+        :password, 
+        :is_active
+      );
     ';
+
     $stmt = $this->database->prepare($query);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
-    $stmt->bindValue(':library_name', $library_name, PDO::PARAM_STR);
-    $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-    $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-    $stmt->bindValue(':password', $password, PDO::PARAM_STR);
-    $stmt->bindValue(':is_active', $is_active, PDO::PARAM_BOOL);
+    $stmt->bindValue(':user_id', $user->__get('user_id'), PDO::PARAM_STR);
+    $stmt->bindValue(':library_name', $user->__get('library_name'), PDO::PARAM_STR);
+    $stmt->bindValue(':name', $user->__get('name'), PDO::PARAM_STR);
+    $stmt->bindValue(':email', $user->__get('email'), PDO::PARAM_STR);
+    $stmt->bindValue(':password', $user->__get('password'), PDO::PARAM_STR);
+    $stmt->bindValue(':is_active', $user->__get('is_active'), PDO::PARAM_BOOL);
+
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
@@ -68,9 +77,9 @@ class user
   public function update(string $user_id, \entities\user $user): void
   {
     $query = '
-        UPDATE users SET
-            library_name = :library_name
-        WHERE user_id = :user_id AND is_active = TRUE;
+      UPDATE users SET
+        library_name = :library_name
+      WHERE user_id = :user_id AND is_active = TRUE;
     ';
 
     $stmt = $this->database->prepare($query);
@@ -84,9 +93,9 @@ class user
   public function delete(string $user_id): void
   {
     $query = "
-        DELETE FROM users
-        WHERE user_id = :user_id
-        LIMIT 1
+      DELETE FROM users
+      WHERE user_id = :user_id
+      LIMIT 1
     ";
 
     $stmt = $this->database->prepare($query);

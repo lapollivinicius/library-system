@@ -3,12 +3,12 @@ if (isset($_SESSION['data'])) {
   $data = $_SESSION['data'];
 };
 if (isset($this->view->search)) {
-  $loans = $this->view->search['loans'];
+  $loans      = $this->view->search['loans'];
   $totalLoans = $this->view->search['totalLoans'];
   $totalPages = $this->view->search['totalPages'];
-  $sort = $this->view->search['sort'];
-  $page = $this->view->search['page'];
-  $limit = $this->view->search['limit'];
+  $sort       = $this->view->search['sort'];
+  $page       = $this->view->search['page'];
+  $limit      = $this->view->search['limit'];
 };
 ?>
 <div class="container-fluid mb-3">
@@ -63,8 +63,7 @@ if (isset($this->view->search)) {
                       data-autocomplete-min="2"
                       aria-autocomplete="list"
                       aria-expanded="false"
-                      required 
-                    />
+                      required />
                     <div
                       id="book-title-results"
                       class="position-absolute start-0 end-0 bg-body text-body border rounded-3 shadow-sm mt-1 overflow-auto"
@@ -204,10 +203,10 @@ if (isset($this->view->search)) {
                       <?= htmlspecialchars(\config\utils::formatDate($loan->__get('due_at'))) ?>
                     </td>
                     <td>
-                      <?php 
+                      <?php
                       $dueAt = new DateTime($loan->__get('due_at'));
                       $now = new DateTime();
-                      if ($now > $dueAt): 
+                      if ($now > $dueAt):
                       ?>
                         <span class="badge bg-danger fw-semibold">Overdue</span>
                       <?php else: ?>
@@ -285,7 +284,6 @@ if (isset($this->view->search)) {
             </nav>
           <?php endif; ?>
         </div>
-
       </div>
     </div>
   </div>

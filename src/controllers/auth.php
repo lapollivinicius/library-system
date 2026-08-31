@@ -10,12 +10,17 @@ class auth
 {
   public function register()
   {
-
-    $data = $_POST;
+    $data = [
+      'name'         => $_POST['name'],
+      'email'        => $_POST['email'],
+      'password'     => $_POST['password'],
+      'library_name' => $_POST['library_name'],
+      'terms'        => $_POST['terms']
+    ];
     $validate = new \validators\auth();
 
     if (!$validate->register($data)) {
-      $_SESSION['data'] = $data;
+      $_SESSION['data']  = $data;
       $_SESSION['error'] = $validate->getError();
       header('location: /register');
       exit;
@@ -59,12 +64,15 @@ class auth
 
   public function login()
   {
+    $data = [
+      'email'    => $_POST['email'],
+      'password' => $_POST['password'],
+    ];
 
-    $data = $_POST;
     $validate = new \validators\auth();
 
     if (!$validate->login($data)) {
-      $_SESSION['data'] = $data;
+      $_SESSION['data']  = $data;
       $_SESSION['error'] = $validate->getError();
       header('location: /login');
       exit;
@@ -73,27 +81,27 @@ class auth
     $email    = strtolower($data['email']);
     $password = $data['password'];
 
-    $database = \config\database::connect();
+    $database   = \config\database::connect();
     $user_model = new \models\user($database);
-    $user = $user_model->read($email);
+    $user       = $user_model->read($email);
 
     if (!$user) {
-      $_SESSION['data'] = $data;
+      $_SESSION['data']  = $data;
       $_SESSION['error'] = 'email or password incorrect';
       header('location: /login');
       exit;
     };
 
     if (!password_verify($password, $user->__get('password'))) {
-      $_SESSION['data'] = $data;
+      $_SESSION['data']  = $data;
       $_SESSION['error'] = 'email or password incorrect';
       header('location: /login');
       exit;
     };
 
     $_SESSION['library_name'] = $user->__get('library_name');
-    $_SESSION['user_id'] = $user->__get('user_id');
-    $_SESSION['name'] = $user->__get('name');
+    $_SESSION['user_id']      = $user->__get('user_id');
+    $_SESSION['name']         = $user->__get('name');
 
     header('location: /dashboard');
     exit;
@@ -123,10 +131,9 @@ class auth
     exit;
   }
 
-  public function recovery() {
-
+  public function recovery()
+  {
     $_SESSION['error'] = 'Coming soon: password recovery :/';
     header('Location: /login');
-
   }
 }

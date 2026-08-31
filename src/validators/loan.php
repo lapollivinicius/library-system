@@ -5,9 +5,8 @@ namespace validators;
 class loan extends validators
 {
 
-  public function loan(Array $data) {
-
-    # book, member, loan (date), return (date)
+  public function loan(Array $data) 
+  {
     foreach ($data as $key => $value) {
 
       if (!is_string($value)) {
@@ -50,10 +49,8 @@ class loan extends validators
       if ($loan >= $return) { 
         return $this->setError('The loan date must be before the return date'); 
       }
-      
+
     }
-    
     return true;
   }
-
 }
