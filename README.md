@@ -25,15 +25,38 @@ The project was developed using PHP with a custom MVC architecture, focusing on 
 
 ## Features
 
-- User registration
-- Form validation
-- Session management
-- CSRF protection
-- Authentication flow
-- Library management
-- MySQL database integration
-- Server-side rendered views
-- Responsive interface with Bootstrap
+### 📚 Core Functionalities
+- **Multi-Tenant System:** Each library operates as an independent, isolated tenant.
+- **Book Inventory:** Register, update, search, and track the status of books.
+- **Customer Management:** Maintain records of library members and their history.
+- **Loan Tracking:** Manage book check-outs, monitor returns, and track due dates.
+- **User Access Control:** Manage staff access and permissions within each library environment.
+
+### 🛡️ Security & Authentication
+- **Secure Authentication Flow:** Robust user login and registration mechanisms.
+- **CSRF Protection:** Built-in middleware to prevent Cross-Site Request Forgery attacks.
+- **Session Management:** Secure handling and validation of user sessions.
+- **Server-Side Validation:** Dedicated request validators to ensure data integrity and prevent malicious input.
+
+### ⚙️ Technical Highlights
+- **Custom MVC Architecture:** Clean separation of concerns built entirely from scratch.
+- **Dynamic Routing:** Custom routing engine handling HTTP verbs, dynamic parameters, and middleware.
+- **MySQL Integration:** Direct database interactions using PDO and custom data access models.
+- **Server-Side Rendered Views:** HTML rendering using native PHP templating mechanisms.
+- **Responsive Interface:** Front-end styled with Bootstrap and enhanced with jQuery for dynamic interactions.
+- **Dockerized Environment:** Seamless local development setup using Docker and Docker Compose.
+
+## Architecture
+
+This project was built from the ground up without using large frameworks (like Laravel or Symfony) to provide a deep, hands-on understanding of backend concepts. The custom architecture is structured as follows:
+
+- **`src/controllers/`**: The orchestrator. Intercepts incoming HTTP requests, coordinates with models and entities, and returns the appropriate view or redirect.
+- **`src/models/`**: The data access layer. Responsible for direct database communication, executing queries, and data mapping.
+- **`src/entities/`**: Domain objects representing the core business logic and data structures (e.g., `Book`, `Member`, `Loan`).
+- **`src/views/`**: The presentation layer containing HTML/PHP templates. It is strictly separated into public pages and internal application dashboards.
+- **`src/validators/`**: Dedicated classes that validate incoming form inputs and ensure data consistency before processing.
+- **`src/config/`**: Holds core system configurations, database connection bootstrapping, routing definitions, and schema migrations.
+- **`src/public/`**: The designated web root containing the front controller (`index.php`) and static assets (CSS, JS, images). All incoming traffic is routed here to ensure sensitive backend files remain inaccessible.
 
 ## Running the Project
 

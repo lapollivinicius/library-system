@@ -15,7 +15,7 @@ class session
       'lifetime' => 0,
       'path'     => '/',
       'domain'   => '',
-      'secure'   => false,
+      'secure'   => true,
       'httponly' => true,
       'samesite' => 'Lax',
     ]);
