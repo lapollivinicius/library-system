@@ -6,6 +6,8 @@ This project was developed to practice backend development with PHP and understa
 
 The application uses a traditional server-rendered approach with Apache and a lightweight frontend using Bootstrap and jQuery.
 
+Demo: https://librarysystem.freehosting.dev/
+
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![Apache](https://img.shields.io/badge/Apache-D22128?style=for-the-badge&logo=apache&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
@@ -19,9 +21,9 @@ The application uses a traditional server-rendered approach with Apache and a li
 
 Library System is a multi-tenant library management application built to manage the complete book lending workflow.
 
-Each library operates as an independent tenant, allowing its users to manage books, customers, and loan records within their own environment. The system provides functionality for registering and managing books and customers, controlling users, and tracking book loans and returns.
+Each library operates as an independent tenant, allowing its users to manage books, customers, and loan records within their own environment. The system provides functionality for registering and mana[...]
 
-The project was developed using PHP with a custom MVC architecture, focusing on understanding backend fundamentals such as HTTP requests, routing, middleware, authentication, sessions, CSRF protection, server-side validation, and database integration.
+The project was developed using PHP with a custom MVC architecture, focusing on understanding backend fundamentals such as HTTP requests, routing, middleware, authentication, sessions, CSRF protection[...]
 
 ## Features
 
@@ -48,7 +50,7 @@ The project was developed using PHP with a custom MVC architecture, focusing on 
 
 ## Architecture
 
-This project was built from the ground up without using large frameworks (like Laravel or Symfony) to provide a deep, hands-on understanding of backend concepts. The custom architecture is structured as follows:
+This project was built from the ground up without using large frameworks (like Laravel or Symfony) to provide a deep, hands-on understanding of backend concepts. The custom architecture is structured [...]
 
 - **`src/controllers/`**: The orchestrator. Intercepts incoming HTTP requests, coordinates with models and entities, and returns the appropriate view or redirect.
 - **`src/models/`**: The data access layer. Responsible for direct database communication, executing queries, and data mapping.
@@ -56,7 +58,7 @@ This project was built from the ground up without using large frameworks (like L
 - **`src/views/`**: The presentation layer containing HTML/PHP templates. It is strictly separated into public pages and internal application dashboards.
 - **`src/validators/`**: Dedicated classes that validate incoming form inputs and ensure data consistency before processing.
 - **`src/config/`**: Holds core system configurations, database connection bootstrapping, routing definitions, and schema migrations.
-- **`src/public/`**: The designated web root containing the front controller (`index.php`) and static assets (CSS, JS, images). All incoming traffic is routed here to ensure sensitive backend files remain inaccessible.
+- **`src/public/`**: The designated web root containing the front controller (`index.php`) and static assets (CSS, JS, images). All incoming traffic is routed here to ensure sensitive backend files re[...]
 
 ## Running the Project
 
